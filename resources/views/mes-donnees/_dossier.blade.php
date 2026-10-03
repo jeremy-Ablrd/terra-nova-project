@@ -89,7 +89,7 @@
     <h2 id="doc-actions">{{ __('Ce que vous pouvez faire') }}</h2>
     <ul>
         <li><a href="{{ route('profile.edit') }}">{{ __('Modifier mon profil') }}</a></li>
-        <li><a href="{{ route('demandes.recapitulatif') }}">{{ __('Lire le récapitulatif de mes demandes') }}</a> — <a href="{{ route('demandes.export-csv') }}">{{ __('télécharger la version tableur (CSV)') }}</a></li>
+        <li><a href="{{ route('demandes.recapitulatif') }}">{{ __('Lire et imprimer le récapitulatif de mes demandes') }}</a> — <a href="{{ route('demandes.recapitulatif.telecharger') }}">{{ __('télécharger la version imprimable') }}</a></li>
         <li><a href="{{ route('mes-donnees.suppression') }}">{{ __('Supprimer mon compte') }}</a></li>
     </ul>
     <p>{{ __('Si vous supprimez votre compte, vos demandes ne sont pas supprimées : elles sont anonymisées. Le texte de chaque demande est remplacé, et seuls restent son numéro de référence, son service, son statut, ses dates et ses étapes, sans votre nom.') }}</p>

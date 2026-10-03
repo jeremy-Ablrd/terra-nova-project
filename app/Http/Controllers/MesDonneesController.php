@@ -8,8 +8,8 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 /**
- * F55 : mes informations personnelles. Livrable principal : « Mon dossier », un document lisible (page imprimable et
- * fichier .html autonome). Le JSON est le format informatique, en second plan. Citoyen seulement (role:citoyen).
+ * F55 : mes informations personnelles, remises sous forme d'un document lisible et imprimable, « Mon dossier » (page et
+ * fichier .html autonome). Aucune donnée brute n'est proposée en téléchargement. Citoyen seulement (role:citoyen).
  */
 class MesDonneesController extends Controller
 {
@@ -31,21 +31,6 @@ class MesDonneesController extends Controller
         return new Response($html, 200, [
             'Content-Type' => 'text/html; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="mon-dossier-nova-terra-'.now()->format('Y-m-d').'.html"',
-            'Cache-Control' => 'private, no-store',
-        ]);
-    }
-
-    /** Format informatique (JSON), pour réutiliser ses données dans un autre outil. */
-    public function exportJson(Request $request, DonneesPersonnelles $donnees): Response
-    {
-        $contenu = json_encode(
-            $donnees->export($request->user()),
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR,
-        );
-
-        return new Response($contenu."\n", 200, [
-            'Content-Type' => 'application/json; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="mes-donnees-nova-terra-'.now()->format('Y-m-d').'.json"',
             'Cache-Control' => 'private, no-store',
         ]);
     }

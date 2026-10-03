@@ -68,8 +68,6 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
     Route::get('/mes-donnees', [MesDonneesController::class, 'index'])->name('mes-donnees.index');
     Route::get('/mes-donnees/dossier', [MesDonneesController::class, 'dossier'])->middleware('throttle:donnees-telechargement')->name('mes-donnees.dossier');
     Route::get('/mes-donnees/dossier/telecharger', [MesDonneesController::class, 'dossierTelecharger'])->middleware('throttle:donnees-telechargement')->name('mes-donnees.dossier.telecharger');
-    Route::get('/mes-donnees/export.json', [MesDonneesController::class, 'exportJson'])->middleware('throttle:donnees-telechargement')->name('mes-donnees.export');
-    Route::get('/mes-demandes/export.csv', [RecapitulatifDemandesController::class, 'csv'])->middleware('throttle:donnees-telechargement')->name('demandes.export-csv');
     Route::get('/mes-demandes/recapitulatif/telecharger', [RecapitulatifDemandesController::class, 'telecharger'])->middleware('throttle:donnees-telechargement')->name('demandes.recapitulatif.telecharger');
     Route::get('/mes-demandes/recapitulatif', [RecapitulatifDemandesController::class, 'recapitulatif'])->middleware('throttle:donnees-telechargement')->name('demandes.recapitulatif');
     // Suppression du compte en deux étapes, sans JavaScript : information, puis mot de passe et case à cocher.

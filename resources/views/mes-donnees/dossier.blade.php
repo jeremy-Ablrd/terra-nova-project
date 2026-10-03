@@ -16,7 +16,7 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-4">
             {{-- Impression : le bouton n'apparaît qu'avec JavaScript ; sans lui, la consigne écrite suffit. --}}
             <div class="no-print px-4 sm:px-0 flex flex-wrap items-center gap-4 text-sm text-gray-800">
-                <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 rounded-md font-semibold text-white hover:bg-gray-700">{{ __('Télécharger mon dossier') }}</a>
+                <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 rounded-md font-semibold text-white hover:bg-gray-700">{{ __('Télécharger mes informations (version imprimable)') }}</a>
                 <button type="button" hidden x-data x-init="$el.hidden = false" x-on:click="window.print()"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 rounded-md font-semibold text-white hover:bg-gray-700">{{ __('Imprimer') }}</button>
                 <span>{{ __('Pour imprimer sans bouton : touches Ctrl + P (⌘ + P sur Mac).') }}</span>

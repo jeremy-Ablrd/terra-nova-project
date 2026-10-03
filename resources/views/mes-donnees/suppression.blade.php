@@ -42,8 +42,8 @@
                 <h2 id="definitif" class="text-lg font-medium text-red-900">{{ __('Cette action est définitive') }}</h2>
                 <p>{{ __('Vous ne pourrez plus vous connecter avec ce compte et nous ne pourrons pas le rétablir. Vous pourrez créer un nouveau compte, mais il n\'aura aucun lien avec celui-ci.') }}</p>
                 <p>{{ __('Avant de continuer, vous pouvez télécharger vos informations et le récapitulatif de vos demandes :') }}
-                    <a href="{{ route('mes-donnees.export') }}" class="underline">{{ __('mes informations (JSON)') }}</a>,
-                    <a href="{{ route('demandes.export-csv') }}" class="underline">{{ __('mes demandes (CSV)') }}</a>.</p>
+                    <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="underline">{{ __('mes informations (version imprimable)') }}</a>,
+                    <a href="{{ route('demandes.recapitulatif.telecharger') }}" class="underline">{{ __('mes demandes (version imprimable)') }}</a>.</p>
                 <p class="flex flex-wrap items-center gap-4 pt-2">
                     <a href="{{ route('mes-donnees.suppression.confirmer') }}" class="inline-flex items-center px-4 py-2 bg-red-800 rounded-md font-semibold text-white hover:bg-red-700">{{ __('Continuer vers la confirmation') }}</a>
                     <a href="{{ route('mes-donnees.index') }}" class="underline text-gray-900">{{ __('Annuler et revenir') }}</a>

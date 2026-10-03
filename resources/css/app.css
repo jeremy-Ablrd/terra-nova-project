@@ -334,7 +334,9 @@ html.theme-contraste {
     footer,
     .no-print,
     body > div > header,
-    [role="alert"] {
+    aside,
+    [role="alert"],
+    [role="status"] {
         display: none !important;
     }
     body {

@@ -1,7 +1,7 @@
 @if ($alertes->isNotEmpty())
     {{-- Bandeau des alertes en cours : le niveau est écrit en toutes lettres, la mise en forme s'y ajoute sans le remplacer.
          role="alert" seulement pour l'urgent (annoncé tout de suite), role="status" sinon. --}}
-    <aside aria-label="{{ __('Alertes en cours') }}" class="bg-white border-b border-gray-200">
+    <aside aria-label="{{ __('Alertes en cours') }}" class="no-print bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 space-y-3">
             @foreach ($alertes->take(3) as $alerte)
                 <section role="{{ $alerte->niveau->role() }}" aria-labelledby="alerte-{{ $alerte->id }}"
