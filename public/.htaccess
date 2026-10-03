@@ -23,3 +23,23 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# --- Sobriété (éco-conception, F57 à F60). Chaque directive est dans un <IfModule> : un module absent chez
+# l'hébergeur désactive simplement la règle, sans jamais provoquer d'erreur 500. ---
+
+# Compression des textes (HTML, CSS, JS, JSON, SVG) quand mod_deflate est disponible.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Cache long et immuable pour les fichiers de public/build (leur nom change à chaque build).
+# <If> demande Apache 2.4 : le bloc est ignoré sur une version plus ancienne ou sans mod_version.
+<IfModule mod_version.c>
+    <IfVersion >= 2.4>
+        <IfModule mod_headers.c>
+            <If "%{REQUEST_URI} =~ m#^/build/#">
+                Header set Cache-Control "public, max-age=31536000, immutable"
+            </If>
+        </IfModule>
+    </IfVersion>
+</IfModule>

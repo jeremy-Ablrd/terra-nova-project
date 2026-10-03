@@ -12,6 +12,7 @@ use App\Http\Controllers\AccessibiliteController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EcoConceptionController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\PreferenceAffichageController;
 use App\Http\Controllers\ProfileController;
@@ -34,6 +35,9 @@ Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name
 // Accessibilité : page publique (lien dans le pied de page) et réglages d'affichage (taille du texte, thème),
 // ouverts à tous les visiteurs : cookie, et compte si l'utilisateur est connecté.
 Route::get('/accessibilite', [AccessibiliteController::class, 'index'])->name('accessibilite');
+
+// Éco-conception (F57 à F60) : mesures de poids et choix de sobriété, page publique.
+Route::get('/eco-conception', [EcoConceptionController::class, 'index'])->name('eco-conception');
 Route::post('/preferences/affichage', [PreferenceAffichageController::class, 'update'])->middleware('throttle:60,1')->name('preferences.affichage');
 
 // Hôpitaux et services d'urgence : une seule page publique (F46).

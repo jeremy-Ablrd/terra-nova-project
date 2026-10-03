@@ -1,0 +1,919 @@
+{
+    "avant": {
+        "date": "2026-10-03T18:58:31.799Z",
+        "environnement": {
+            "navigateur": "Edg/154.0.4258.53",
+            "node": "v26.3.0",
+            "php": "8.4.26",
+            "application": "production (APP_ENV=production, APP_DEBUG=false), build de public/build, base SQLite jetable remplie par les seeders + 25 demandes",
+            "reseau": {
+                "profil": "3G lent",
+                "debit_descendant_kbit_s": 400,
+                "debit_montant_kbit_s": 400,
+                "latence_ms": 400
+            },
+            "cache_navigateur": "désactivé (chargement à froid)",
+            "chargements_par_page": 3,
+            "regles_serveur": "aucune (état d'origine : ni compression ni cache long)"
+        },
+        "pages": [
+            {
+                "chemin": "/",
+                "role": "invité",
+                "transfere_octets": 116264,
+                "decompresse_octets": 114669,
+                "requetes": 4,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 12359,
+                        "decompresse": 11237
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49253,
+                        "decompresse": 49094
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 2852,
+                "chargement_ms": 2949
+            },
+            {
+                "chemin": "/services",
+                "role": "invité",
+                "transfere_octets": 170211,
+                "decompresse_octets": 168520,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 28742,
+                        "decompresse": 27620
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50338,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36479,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 3040,
+                "chargement_ms": 4207
+            },
+            {
+                "chemin": "/urgences",
+                "role": "invité",
+                "transfere_octets": 165119,
+                "decompresse_octets": 163430,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 23652,
+                        "decompresse": 22530
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50337,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36478,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 2912,
+                "chargement_ms": 4080
+            },
+            {
+                "chemin": "/alertes",
+                "role": "invité",
+                "transfere_octets": 154655,
+                "decompresse_octets": 152966,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 13188,
+                        "decompresse": 12066
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50337,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36478,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 2892,
+                "chargement_ms": 4047
+            },
+            {
+                "chemin": "/login",
+                "role": "invité",
+                "transfere_octets": 154770,
+                "decompresse_octets": 153082,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 13304,
+                        "decompresse": 12182
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50336,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36478,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 2884,
+                "chargement_ms": 4059
+            },
+            {
+                "chemin": "/espace",
+                "role": "citoyen",
+                "transfere_octets": 171639,
+                "decompresse_octets": 169950,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 30172,
+                        "decompresse": 29050
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50337,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36478,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 3056,
+                "chargement_ms": 4206
+            },
+            {
+                "chemin": "/mes-demandes",
+                "role": "citoyen",
+                "transfere_octets": 187623,
+                "decompresse_octets": 185934,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 46156,
+                        "decompresse": 45034
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50337,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36478,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 3384,
+                "chargement_ms": 4541
+            },
+            {
+                "chemin": "/agent/demandes",
+                "role": "agent",
+                "transfere_octets": 193117,
+                "decompresse_octets": 191427,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 51649,
+                        "decompresse": 50527
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50337,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36479,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 3496,
+                "chargement_ms": 4649
+            },
+            {
+                "chemin": "/agent",
+                "role": "agent",
+                "transfere_octets": 168299,
+                "decompresse_octets": 166610,
+                "requetes": 8,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 26832,
+                        "decompresse": 25710
+                    },
+                    "css": {
+                        "requetes": 2,
+                        "transfere": 50337,
+                        "decompresse": 52202
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    },
+                    "polices": {
+                        "requetes": 3,
+                        "transfere": 36478,
+                        "decompresse": 34360
+                    },
+                    "autres": {
+                        "requetes": 1,
+                        "transfere": 156,
+                        "decompresse": 0
+                    }
+                },
+                "domaines_tiers": [
+                    "fonts.bunny.net"
+                ],
+                "premier_affichage_ms": 2988,
+                "chargement_ms": 4147
+            }
+        ]
+    },
+    "apres": {
+        "date": "2026-10-03T19:02:07.730Z",
+        "environnement": {
+            "navigateur": "Edg/154.0.4258.53",
+            "node": "v26.3.0",
+            "php": "8.4.26",
+            "application": "production (APP_ENV=production, APP_DEBUG=false), build de public/build, base SQLite jetable remplie par les seeders + 25 demandes",
+            "reseau": {
+                "profil": "3G lent",
+                "debit_descendant_kbit_s": 400,
+                "debit_montant_kbit_s": 400,
+                "latence_ms": 400
+            },
+            "cache_navigateur": "désactivé (chargement à froid)",
+            "chargements_par_page": 3,
+            "regles_serveur": "règles de public/.htaccess reproduites par un mandataire (gzip des textes, cache immuable sur /build)"
+        },
+        "pages": [
+            {
+                "chemin": "/",
+                "role": "invité",
+                "transfere_octets": 33643,
+                "decompresse_octets": 115903,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 4914,
+                        "decompresse": 11747
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1324,
+                "chargement_ms": 1481
+            },
+            {
+                "chemin": "/services",
+                "role": "invité",
+                "transfere_octets": 35177,
+                "decompresse_octets": 132065,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 6448,
+                        "decompresse": 27909
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1312,
+                "chargement_ms": 1449
+            },
+            {
+                "chemin": "/urgences",
+                "role": "invité",
+                "transfere_octets": 34583,
+                "decompresse_octets": 126975,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 5854,
+                        "decompresse": 22819
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1296,
+                "chargement_ms": 1454
+            },
+            {
+                "chemin": "/alertes",
+                "role": "invité",
+                "transfere_octets": 33709,
+                "decompresse_octets": 116511,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 4980,
+                        "decompresse": 12355
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1292,
+                "chargement_ms": 1450
+            },
+            {
+                "chemin": "/login",
+                "role": "invité",
+                "transfere_octets": 33907,
+                "decompresse_octets": 116627,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 5178,
+                        "decompresse": 12471
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1320,
+                "chargement_ms": 1473
+            },
+            {
+                "chemin": "/espace",
+                "role": "citoyen",
+                "transfere_octets": 36027,
+                "decompresse_octets": 133497,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 7298,
+                        "decompresse": 29341
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1316,
+                "chargement_ms": 1482
+            },
+            {
+                "chemin": "/mes-demandes",
+                "role": "citoyen",
+                "transfere_octets": 37394,
+                "decompresse_octets": 149462,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 8665,
+                        "decompresse": 45306
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1364,
+                "chargement_ms": 1480
+            },
+            {
+                "chemin": "/agent/demandes",
+                "role": "agent",
+                "transfere_octets": 37309,
+                "decompresse_octets": 154901,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 8580,
+                        "decompresse": 50745
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1296,
+                "chargement_ms": 1446
+            },
+            {
+                "chemin": "/agent",
+                "role": "agent",
+                "transfere_octets": 35932,
+                "decompresse_octets": 130155,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 7203,
+                        "decompresse": 25999
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 9533,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 19196,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 1288,
+                "chargement_ms": 1446
+            }
+        ]
+    },
+    "apres_sans_regles": {
+        "date": "2026-10-03T19:04:39.951Z",
+        "environnement": {
+            "navigateur": "Edg/154.0.4258.53",
+            "node": "v26.3.0",
+            "php": "8.4.26",
+            "application": "production (APP_ENV=production, APP_DEBUG=false), build de public/build, base SQLite jetable remplie par les seeders + 25 demandes",
+            "reseau": {
+                "profil": "3G lent",
+                "debit_descendant_kbit_s": 400,
+                "debit_montant_kbit_s": 400,
+                "latence_ms": 400
+            },
+            "cache_navigateur": "désactivé (chargement à froid)",
+            "chargements_par_page": 3,
+            "regles_serveur": "aucune (état d'origine : ni compression ni cache long)"
+        },
+        "pages": [
+            {
+                "chemin": "/",
+                "role": "invité",
+                "transfere_octets": 117359,
+                "decompresse_octets": 115903,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 12886,
+                        "decompresse": 11747
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 2916,
+                "chargement_ms": 2978
+            },
+            {
+                "chemin": "/services",
+                "role": "invité",
+                "transfere_octets": 133521,
+                "decompresse_octets": 132065,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 29048,
+                        "decompresse": 27909
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 3060,
+                "chargement_ms": 3125
+            },
+            {
+                "chemin": "/urgences",
+                "role": "invité",
+                "transfere_octets": 128431,
+                "decompresse_octets": 126975,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 23958,
+                        "decompresse": 22819
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 2940,
+                "chargement_ms": 3008
+            },
+            {
+                "chemin": "/alertes",
+                "role": "invité",
+                "transfere_octets": 117967,
+                "decompresse_octets": 116511,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 13494,
+                        "decompresse": 12355
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 2920,
+                "chargement_ms": 2975
+            },
+            {
+                "chemin": "/login",
+                "role": "invité",
+                "transfere_octets": 118083,
+                "decompresse_octets": 116627,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 13610,
+                        "decompresse": 12471
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 2916,
+                "chargement_ms": 2982
+            },
+            {
+                "chemin": "/espace",
+                "role": "citoyen",
+                "transfere_octets": 134998,
+                "decompresse_octets": 133542,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 30525,
+                        "decompresse": 29386
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 3100,
+                "chargement_ms": 3161
+            },
+            {
+                "chemin": "/mes-demandes",
+                "role": "citoyen",
+                "transfere_octets": 150967,
+                "decompresse_octets": 149511,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 46494,
+                        "decompresse": 45355
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 3392,
+                "chargement_ms": 3465
+            },
+            {
+                "chemin": "/agent/demandes",
+                "role": "agent",
+                "transfere_octets": 156433,
+                "decompresse_octets": 154977,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 51960,
+                        "decompresse": 50821
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 3516,
+                "chargement_ms": 3587
+            },
+            {
+                "chemin": "/agent",
+                "role": "agent",
+                "transfere_octets": 131611,
+                "decompresse_octets": 130155,
+                "requetes": 3,
+                "echecs": 0,
+                "par_type": {
+                    "html": {
+                        "requetes": 1,
+                        "transfere": 27138,
+                        "decompresse": 25999
+                    },
+                    "css": {
+                        "requetes": 1,
+                        "transfere": 49977,
+                        "decompresse": 49818
+                    },
+                    "js": {
+                        "requetes": 1,
+                        "transfere": 54496,
+                        "decompresse": 54338
+                    }
+                },
+                "domaines_tiers": [],
+                "premier_affichage_ms": 3060,
+                "chargement_ms": 3104
+            }
+        ]
+    }
+}

@@ -7,7 +7,7 @@
 
         <title>{{ config('app.name', 'Nova Terra') }}</title>
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <x-tete-assets />
     </head>
     <body class="font-sans antialiased bg-gray-100 text-gray-900 min-h-screen flex flex-col">
         {{-- Premier élément focusable de la page : saute l'en-tête. --}}
