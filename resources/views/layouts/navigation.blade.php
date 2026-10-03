@@ -50,6 +50,7 @@
                         </x-nav-link>
                         <x-nav-link :href="route('demandes.index')" :active="request()->routeIs('demandes.*')">
                             Mes demandes
+                            <x-compteur-changements :nombre="$changementsNonVus" />
                         </x-nav-link>
                         <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
                             {{ __('Services') }}
@@ -154,6 +155,7 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('demandes.index')" :active="request()->routeIs('demandes.*')">
                     Mes demandes
+                    <x-compteur-changements :nombre="$changementsNonVus" />
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
                     {{ __('Services') }}

@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Enums\Statut;
 use App\Models\Service;
 use App\Models\User;
+use App\Services\TransitionDemande;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -54,21 +55,27 @@ class DatabaseSeeder extends Seeder
 
         // Demandes de démonstration pour le citoyen (une seule fois).
         $citoyen = User::where('email', 'citoyen@novaterra.test')->first();
-        $agentId = User::where('email', 'agent@novaterra.test')->value('id');
+        $agent = User::where('email', 'agent@novaterra.test')->first();
         if ($citoyen->demandes()->doesntExist()) {
             $demos = [
-                ['voirie-proprete', 'Lampadaire en panne', 'Le lampadaire du 12 rue des Lilas ne fonctionne plus depuis une semaine.', Statut::Nouvelle, []],
-                ['transports', 'Arrêt de bus déplacé', 'Pouvez-vous m\'indiquer le nouvel emplacement de l\'arrêt de la ligne 4 ?', Statut::EnCours, ['agent_id' => $agentId]],
-                ['culture-loisirs', 'Inscription à la bibliothèque', 'Merci de confirmer mon inscription pour la rentrée.', Statut::Traitee, ['agent_id' => $agentId, 'traitee_at' => now()->subDays(2)]],
+                ['voirie-proprete', 'Lampadaire en panne', 'Le lampadaire du 12 rue des Lilas ne fonctionne plus depuis une semaine.', Statut::Nouvelle],
+                ['transports', 'Arrêt de bus déplacé', 'Pouvez-vous m\'indiquer le nouvel emplacement de l\'arrêt de la ligne 4 ?', Statut::EnCours],
+                ['culture-loisirs', 'Inscription à la bibliothèque', 'Merci de confirmer mon inscription pour la rentrée.', Statut::Traitee],
             ];
 
-            foreach ($demos as [$slug, $objet, $message, $statut, $extra]) {
-                $citoyen->demandes()->create([
+            // Les statuts avancent par le service de transition (étapes d'historique et journal compris).
+            $transition = app(TransitionDemande::class);
+
+            foreach ($demos as [$slug, $objet, $message, $statut]) {
+                $demande = $citoyen->demandes()->create([
                     'objet' => $objet,
                     'message' => $message,
                     'service_id' => Service::where('slug', $slug)->value('id'),
-                ])
-                    ->forceFill(['statut' => $statut] + $extra)->save();
+                ])->refresh();
+
+                while ($demande->statut !== $statut) {
+                    $demande = $transition->passer($demande, $demande->statut, $agent);
+                }
             }
         }
     }

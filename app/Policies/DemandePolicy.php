@@ -25,6 +25,12 @@ class DemandePolicy
         return $demande->user_id !== null && $demande->user_id === $user->id;
     }
 
+    /** F49 : seul l'habitant propriétaire acquitte un changement d'état (comparaison stricte, jamais pour user_id null). */
+    public function acquitter(User $user, Demande $demande): bool
+    {
+        return $demande->user_id !== null && $demande->user_id === $user->id;
+    }
+
     /** Seul l'agent peut modifier le statut d'une demande. */
     public function updateStatus(User $user, Demande $demande): bool
     {

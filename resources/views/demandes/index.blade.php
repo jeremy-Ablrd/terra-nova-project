@@ -9,7 +9,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+            <x-notifications-demandes />
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 @if ($demandes->isEmpty())
                     <p class="p-6 text-sm text-gray-600">Vous n'avez encore aucune demande.</p>

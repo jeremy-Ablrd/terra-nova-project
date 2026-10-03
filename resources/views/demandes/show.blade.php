@@ -15,6 +15,12 @@
                 <p class="mt-1 text-sm text-gray-500">Déposée le {{ \App\Support\DateLocale::format($demande->created_at) }}</p>
                 <p class="mt-4 text-sm text-gray-800 whitespace-pre-line">{{ $demande->message }}</p>
             </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Suivi de votre demande') }}</h2>
+                <p class="text-sm text-gray-700 mb-3">{{ __('État actuel : :statut', ['statut' => $demande->statut->label()]) }}</p>
+                <x-frise-demande :demande="$demande" />
+            </div>
         </div>
     </div>
 </x-app-layout>

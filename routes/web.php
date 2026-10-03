@@ -53,6 +53,9 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
 Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
     Route::get('/', [AgentController::class, 'index'])->name('agent.index');
     Route::get('/demandes', [AgentDemandeController::class, 'index'])->name('agent.demandes.index');
+    Route::get('/demandes/{demande}', [AgentDemandeController::class, 'show'])->name('agent.demandes.show');
+    // Seul le changement de statut (via TransitionDemande) : jamais de statut libre.
+    Route::patch('/demandes/{demande}/statut', [AgentDemandeController::class, 'updateStatut'])->name('agent.demandes.statut');
     // Journal d'activité : lecture seule (aucune route d'écriture, de modification ni de suppression).
     Route::get('/journal', [JournalController::class, 'index'])->name('agent.journal.index');
 });
@@ -81,6 +84,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mes-demandes', [DemandeController::class, 'index'])->name('demandes.index');
     Route::get('/mes-demandes/{demande}', [DemandeController::class, 'show'])->name('demandes.show');
+    Route::post('/mes-demandes/etapes/{etape}/vu', [DemandeController::class, 'acquitter'])->name('demandes.etapes.vu');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

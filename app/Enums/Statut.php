@@ -17,6 +17,16 @@ enum Statut: string
         };
     }
 
+    /** Le seul statut atteignable depuis celui-ci (pas de retour en arrière, pas de saut) ; null si terminé. */
+    public function suivant(): ?self
+    {
+        return match ($this) {
+            self::Nouvelle => self::EnCours,
+            self::EnCours => self::Traitee,
+            self::Traitee => null,
+        };
+    }
+
     /** Classes Tailwind du badge (réutilisées côté citoyen et côté agent). */
     public function badgeClasses(): string
     {

@@ -71,7 +71,7 @@
                                     @endphp
                                     <tr class="{{ $classe }}">
                                         <td class="px-6 py-3 whitespace-nowrap">
-                                            {{ $demande->reference }}
+                                            <a href="{{ route('agent.demandes.show', $demande) }}" class="underline font-medium">{{ $demande->reference }}</a>
                                             @if ($repere)
                                                 <span class="block text-xs font-semibold text-gray-700">{{ $repere }}</span>
                                             @endif

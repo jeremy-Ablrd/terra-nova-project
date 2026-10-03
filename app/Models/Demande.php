@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // user_id, statut, type, agent_id, traitee_at, request_code et demandeur_nom sont fixés côté serveur, jamais depuis un formulaire.
 #[Fillable(['objet', 'message', 'service_id'])]
@@ -27,6 +28,13 @@ class Demande extends Model
                     'reference' => sprintf('NT-%s-%05d', $demande->created_at->format('Y'), $demande->id),
                 ])->saveQuietly();
             }
+
+            // Historique (D11/F26) : toute demande, importée ou non, commence par une étape « nouvelle ».
+            $etape = new DemandeEtape;
+            $etape->demande_id = $demande->id;
+            $etape->statut = Statut::Nouvelle;
+            $etape->created_at = $demande->created_at;
+            $etape->save();
         });
     }
 
@@ -72,6 +80,12 @@ class Demande extends Model
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
+    }
+
+    /** Étapes de l'historique, de la plus ancienne à la plus récente. */
+    public function etapes(): HasMany
+    {
+        return $this->hasMany(DemandeEtape::class)->orderBy('created_at')->orderBy('id');
     }
 
     /** L'agent qui prend en charge la demande. */
