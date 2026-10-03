@@ -6,10 +6,12 @@ use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SynchronisationController;
 use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
+use App\Http\Controllers\AccessibiliteController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DemandeController;
+use App\Http\Controllers\PreferenceAffichageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UrgenceController;
@@ -26,6 +28,11 @@ Route::get('/alertes/{alerte}', [AlerteController::class, 'show'])->name('alerte
 // Catalogue des services municipaux : pages publiques (visibles sans connexion).
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
+
+// Accessibilité : page publique (lien dans le pied de page) et réglages d'affichage (taille du texte, thème),
+// ouverts à tous les visiteurs : cookie, et compte si l'utilisateur est connecté.
+Route::get('/accessibilite', [AccessibiliteController::class, 'index'])->name('accessibilite');
+Route::post('/preferences/affichage', [PreferenceAffichageController::class, 'update'])->middleware('throttle:60,1')->name('preferences.affichage');
 
 // Hôpitaux et services d'urgence : une seule page publique (F46).
 Route::get('/urgences', [UrgenceController::class, 'index'])->name('urgences.index');

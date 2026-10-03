@@ -564,14 +564,14 @@ class ServicesCatalogueTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
         $this->seed(ServiceSeeder::class);
-        $this->assertSame(8, Service::count());
+        $this->assertSame(10, Service::count()); // 8 du catalogue + hôpital et urgences (UrgenceSeeder, via DatabaseSeeder)
 
         Carbon::setTestNow(now()->addMonth());
         $this->assertTrue(Service::where('disponibilite', 'interrompu')->firstOrFail()->retour_estime_at->isPast());
 
         $this->seed(ServiceSeeder::class);
 
-        $this->assertSame(8, Service::count());
+        $this->assertSame(10, Service::count());
         $this->assertTrue(Service::where('disponibilite', 'interrompu')->firstOrFail()->retour_estime_at->isFuture());
     }
 
