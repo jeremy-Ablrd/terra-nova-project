@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Services municipaux — Nova Terra</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/terra-nova/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0}
+:root,[data-theme="jour"]{--surface:#f6f1ea;--surface-raised:#fffdf9;--surface-sunken:#ebe3d8;--ink:#1c1713;--ink-muted:#5a4f45;--border-strong:#756859;--border-subtle:#d6cbbd;--brand:#d6a85f;--on-brand:#1c1713;--brand-text:#7a5218;--accent:#1f5fa8;--on-accent:#ffffff;--focus:#1f5fa8;--info-bg:#e4eefa;--info-border:#1f5fa8;--info-text:#174a85;--warn-bg:#fbefd2;--warn-border:#8a5a00;--warn-text:#6b4500;--danger-bg:#fbe4e1;--danger-border:#b3261e;--danger-text:#8f1d17;--success-bg:#d9f0ea;--success-border:#0b6b5c;--success-text:#0a5247;--disabled-bg:#6b7280;--on-disabled:#ffffff;--shadow-card:0 1px 2px rgba(28,23,19,0.12);--shadow-overlay:0 12px 32px rgba(0,0,0,0.35)}
+[data-theme="nuit"]{--surface:#0f151b;--surface-raised:#172029;--surface-sunken:#0a0f14;--ink:#eef2f5;--ink-muted:#a9b6c2;--border-strong:#7f8f9e;--border-subtle:#2a3744;--brand:#d6a85f;--on-brand:#1a1206;--brand-text:#e3bd7a;--accent:#7fb2f0;--on-accent:#07131f;--focus:#9cc4f5;--info-bg:#13263d;--info-border:#7fb2f0;--info-text:#a9cdf7;--warn-bg:#33260a;--warn-border:#e0a73a;--warn-text:#f0c571;--danger-bg:#3a1613;--danger-border:#f0827a;--danger-text:#f7a8a2;--success-bg:#0e2f2a;--success-border:#4fc4ac;--success-text:#86dcc9;--disabled-bg:#3b4753;--on-disabled:#d5dde4;--shadow-card:none}
+:root{--space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;--space-5:1.5rem;--space-6:2rem;--space-8:3rem;--space-12:4.5rem;--radius-sm:0.25rem;--radius-md:0.5rem;--radius-lg:0.875rem;--radius-pill:999px;--font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--font-sans:"IBM Plex Sans",system-ui,sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,monospace}
+a{color:inherit}
+.nav-link:hover{text-decoration:underline}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="min-height: 100vh; display: flex; flex-direction: column; background: var(--surface); color: var(--ink); font-family: var(--font-sans); font-size: 1rem; line-height: 1.5rem">
+
+<!-- En-tête -->
+<header style="background: var(--surface); border-bottom: 0.0625rem solid var(--border-subtle)">
+<nav aria-label="Navigation principale" style="max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 0.75rem 1.5rem; min-height: 4.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font: 700 1.25rem/1.75rem var(--font-display)">
+<span aria-hidden="true" style="width: 2rem; height: 2rem; box-sizing: border-box; border: 0.125rem dashed var(--border-strong); border-radius: var(--radius-sm); flex: none"></span>
+Nova Terra
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem">
+<a href="Services.dc.html" aria-current="page" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.75rem; text-decoration: none; font-weight: 600; box-shadow: inset 0 -0.1875rem 0 var(--brand-text)">Services</a>
+<a href="Urgences.dc.html" class="nav-link" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.75rem; text-decoration: none; font-weight: 500">Urgences</a>
+<a href="Alertes.dc.html" class="nav-link" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.75rem; text-decoration: none; font-weight: 500">Alertes en cours</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem">
+<div role="group" aria-label="Taille du texte" style="display: flex; align-items: center; gap: 0.25rem">
+<button type="button" aria-pressed="true" aria-label="Taille du texte : normal" class="tn-btn tn-btn--secondary" style="min-width: 2.75rem; justify-content: center; padding: 0; font-size: 0.875rem; box-shadow: inset 0 0 0 0.125rem var(--brand-text)">A</button>
+<button type="button" aria-pressed="false" aria-label="Taille du texte : grand" class="tn-btn tn-btn--secondary" style="min-width: 2.75rem; justify-content: center; padding: 0; font-size: 1.125rem">A</button>
+<button type="button" aria-pressed="false" aria-label="Taille du texte : très grand" class="tn-btn tn-btn--secondary" style="min-width: 2.75rem; justify-content: center; padding: 0; font-size: 1.375rem">A</button>
+</div>
+<div style="display: flex; align-items: center; gap: 0.25rem">
+<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: {{sunColor}}"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+<button type="button" role="switch" aria-checked="{{nuitChecked}}" aria-label="Thème nuit" onClick="{{toggleTheme}}" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.25rem; background: transparent; border: 0; cursor: pointer">
+<span aria-hidden="true" style="position: relative; display: block; width: 3rem; height: 1.75rem; box-sizing: border-box; border: 0.125rem solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface-raised)"><span style="{{knobStyle}}"></span></span>
+</button>
+<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: {{moonColor}}"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+<a href="Connexion.dc.html" class="tn-btn tn-btn--secondary">Se connecter</a>
+<a href="#inscription" class="tn-btn tn-btn--primary">Créer mon compte</a>
+</div>
+</div>
+</nav>
+</header>
+
+<main id="contenu" tabindex="-1" style="flex: 1 1 auto; width: 100%; max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 1.5rem 1.5rem 3rem; display: flex; flex-direction: column; gap: 2rem">
+
+<!-- Fil d'Ariane -->
+<nav aria-label="Fil d'Ariane" style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem">
+<li><a href="Main.dc.html" style="text-decoration: underline">Accueil</a></li>
+<li aria-hidden="true">/</li>
+<li aria-current="page" style="color: var(--ink); font-weight: 600">Services municipaux</li>
+</ol>
+</nav>
+
+<!-- Titre et résumé -->
+<section aria-labelledby="titre-services" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 3rem">
+<div style="flex: 1 1 28rem; display: flex; flex-direction: column; gap: 0.75rem">
+<h1 id="titre-services" style="margin: 0; font: 700 2.25rem/2.5rem var(--font-display)">Services municipaux</h1>
+<p style="margin: 0; max-width: 40rem; color: var(--ink-muted)">Retrouvez les principaux services de Nova Terra, leurs horaires et leur disponibilité avant de commencer une démarche.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+<span class="tn-badge tn-badge--success"><span aria-hidden="true">✓</span>9 disponibles</span>
+<span class="tn-badge tn-badge--warn"><span aria-hidden="true">▲</span>1 interrompu</span>
+</div>
+</section>
+
+<!-- Filtre par catégorie -->
+<nav aria-label="Filtrer par catégorie" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; background: var(--surface-sunken); border-radius: var(--radius-lg); padding: 0.5rem">
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="5">
+<li><button type="button" aria-pressed="{{tab.pressed}}" onClick="{{tab.pick}}" style="{{tab.style}}">{{tab.mark}}{{tab.label}} <span class="tn-code" style="color: inherit">({{tab.count}})</span></button></li>
+</sc-for>
+</ul>
+<p aria-live="polite" style="margin: 0 0.5rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">{{resultLabel}}</p>
+</nav>
+
+<!-- Catalogue -->
+<ul style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr)); gap: 1.5rem">
+<sc-for list="{{services}}" as="item" hint-placeholder-count="6">
+<li style="position: relative; display: flex; min-height: 17rem; overflow: hidden; border-radius: var(--radius-lg); border: 0.0625rem solid var(--border-subtle); background: var(--surface-sunken); box-shadow: var(--shadow-card)">
+<!-- Image du service : moitié droite, à fournir -->
+<div aria-hidden="true" style="position: absolute; top: 0; right: 0; bottom: 0; width: 60%; display: flex; align-items: flex-end; justify-content: flex-end; padding: 0.75rem">
+<span class="tn-code" style="border: 0.125rem dashed var(--border-strong); border-radius: var(--radius-sm); padding: 0.125rem 0.5rem; background: var(--surface-raised)">[IMAGE]</span>
+</div>
+<!-- Fondu : le texte reste sur un fond plein, l'image apparaît vers la droite -->
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(90deg, var(--surface-raised) 0%, var(--surface-raised) 42%, transparent 100%)"></div>
+<article aria-labelledby="{{item.id}}" style="position: relative; width: 62%; box-sizing: border-box; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem">
+<div style="display: flex; flex-direction: column; gap: 0.5rem">
+<h2 id="{{item.id}}" style="margin: 0; font: 600 1.5rem/2rem var(--font-display)">{{item.nom}}</h2>
+<p style="margin: 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">{{item.categorie}}<sc-if value="{{ item.prioritaire }}" hint-placeholder-val="{{ false }}"> · <strong style="color: var(--brand-text)"><span aria-hidden="true">◆ </span>Service prioritaire</strong></sc-if></p>
+<p style="margin: 0">{{item.resume}}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start">
+<dl style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.875rem; line-height: 1.25rem">
+<div style="display: flex; gap: 0.5rem"><dt style="color: var(--ink-muted); flex: none">Horaires</dt><dd style="margin: 0">{{item.horaires}}</dd></div>
+<sc-if value="{{ item.hasAdresse }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 0.5rem"><dt style="color: var(--ink-muted); flex: none">Adresse</dt><dd style="margin: 0">{{item.adresse}}</dd></div>
+</sc-if>
+</dl>
+<sc-if value="{{ item.disponible }}" hint-placeholder-val="{{ true }}">
+<span class="tn-badge tn-badge--success"><span aria-hidden="true">✓</span>Disponible</span>
+</sc-if>
+<sc-if value="{{ item.interrompu }}" hint-placeholder-val="{{ false }}">
+<div class="tn-banner tn-banner--warn" style="max-width: none; font-size: 0.875rem; line-height: 1.25rem">
+<span aria-hidden="true" style="font-weight: 700">▲</span>
+<div><strong>Service interrompu</strong>Retour estimé : [JJ/MM/AAAA HH:MM]</div>
+</div>
+</sc-if>
+<a href="#fiche" class="tn-btn tn-btn--primary">Voir la fiche<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)"> du service {{item.nom}}</span></a>
+</div>
+</article>
+</li>
+</sc-for>
+</ul>
+
+<!-- Aide : urgence -->
+<section id="urgences" aria-labelledby="t-aide" class="tn-banner tn-banner--info" style="max-width: none; align-items: center; flex-wrap: wrap">
+<span aria-hidden="true" style="font-weight: 700">◆</span>
+<div style="flex: 1 1 20rem"><strong id="t-aide">Une urgence médicale ?</strong>En cas de détresse vitale, appelez le 15 avant de vous déplacer.</div>
+<a href="Urgences.dc.html" class="tn-btn tn-btn--secondary">Où aller en urgence</a>
+</section>
+
+</main>
+
+<footer style="margin-top: auto; border-top: 0.0625rem solid var(--border-subtle); background: var(--surface-raised)">
+<div style="max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1.5rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">
+<p style="margin: 0">Nova Terra</p>
+<nav aria-label="Liens du pied de page"><a href="#accessibilite" style="text-decoration: underline">Accessibilité</a></nav>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["jour","nuit"],"default":"jour","section":"Affichage"},"$preview":{"width":1440,"height":2400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { theme: null, cat: 'tous' };
+  }
+  renderVals() {
+    const base = this.props.theme === 'nuit' ? 'nuit' : 'jour';
+    const theme = this.state.theme || base;
+    const nuit = theme === 'nuit';
+    const cat = this.state.cat;
+
+    const all = [
+      { nom: 'État civil', cat: 'administratif', prioritaire: true, resume: "Actes de naissance, mariage, décès et pièces d'identité.", horaires: 'Du lundi au vendredi, 8h30 - 17h00' },
+      { nom: 'Centre de santé municipal', cat: 'sante', prioritaire: true, resume: "Consultations de médecine générale, soins infirmiers et orientation vers un spécialiste.", horaires: 'Du lundi au samedi, 8h00 - 19h00' },
+      { nom: 'Urbanisme', cat: 'administratif', resume: "Permis de construire, déclarations de travaux et plan local d'urbanisme.", horaires: 'Du lundi au jeudi, 9h00 - 12h00 et 14h00 - 17h00' },
+      { nom: 'Voirie et propreté', cat: 'autre', resume: "Entretien des routes, éclairage public, collecte des déchets et encombrants.", horaires: 'Du lundi au vendredi, 7h30 - 16h30' },
+      { nom: 'Transports', cat: 'transport', interrompu: true, resume: "Bus, stationnement, pistes cyclables et mobilité douce.", horaires: 'Du lundi au samedi, 8h00 - 18h00' },
+      { nom: 'Culture et loisirs', cat: 'autre', resume: "Bibliothèque, équipements sportifs, associations et événements.", horaires: 'Du mardi au samedi, 10h00 - 18h00' },
+      { nom: 'Aides sociales', cat: 'autre', resume: "Accompagnement des familles, aides financières et solidarité.", horaires: 'Du lundi au vendredi, 9h00 - 12h00 et 13h30 - 17h00' },
+      { nom: 'Prévention et vaccination', cat: 'sante', resume: "Vaccinations, dépistages et conseils de prévention pour toute la famille.", horaires: 'Du mardi au vendredi, 9h00 - 16h00' },
+      { nom: 'Hôpital de Nova Terra', cat: 'sante', resume: "Hôpital général : consultations spécialisées, hospitalisation, maternité et imagerie médicale.", horaires: 'Accueil 24h/24 ; consultations de 8h00 à 18h00', adresse: "45 boulevard de l'Hôpital — Quartier sud" },
+      { nom: 'Urgences de Nova Terra', cat: 'sante', resume: "Accueil des urgences médicales et chirurgicales, jour et nuit.", horaires: 'Ouvert 24h/24, 7j/7', adresse: '8 avenue des Alizés — Quartier est' }
+    ];
+    const labels = { sante: 'Santé', administratif: 'Administratif', transport: 'Transport', autre: 'Autre' };
+
+    const ring = 'box-shadow: inset 0 0 0 0.125rem var(--brand-text);';
+    const base1 = 'display: inline-flex; align-items: center; gap: 0.25rem; min-height: 2.75rem; padding: 0 1rem; border: 0; border-radius: 0.5rem; font: 500 0.875rem/1.25rem var(--font-sans); color: var(--ink); cursor: pointer; ';
+    const defs = [['tous', 'Tous', all.length]].concat(Object.keys(labels).map(k => [k, labels[k], all.filter(s => s.cat === k).length]));
+    const tabs = defs.map(([k, label, count]) => {
+      const on = cat === k;
+      return {
+        label, count,
+        pressed: on ? 'true' : 'false',
+        mark: on ? '✓ ' : '',
+        style: base1 + (on ? 'background: var(--surface-raised); font-weight: 600; ' + ring : 'background: transparent;'),
+        pick: () => this.setState({ cat: k })
+      };
+    });
+
+    const shown = all.filter(s => cat === 'tous' || s.cat === cat);
+    const services = shown.map((s, i) => ({
+      id: 'service-' + (all.indexOf(s) + 1),
+      nom: s.nom,
+      initiale: s.nom.charAt(0),
+      categorie: labels[s.cat],
+      prioritaire: !!s.prioritaire,
+      resume: s.resume,
+      horaires: s.horaires,
+      hasAdresse: !!s.adresse,
+      adresse: s.adresse || '',
+      interrompu: !!s.interrompu,
+      disponible: !s.interrompu
+    }));
+
+    return {
+      theme,
+      nuitChecked: nuit ? 'true' : 'false',
+      sunColor: nuit ? 'var(--ink-muted)' : 'var(--ink)',
+      moonColor: nuit ? 'var(--ink)' : 'var(--ink-muted)',
+      knobStyle: 'position: absolute; top: 0.125rem; width: 1.125rem; height: 1.125rem; border-radius: 999px; background: var(--brand); ' + (nuit ? 'right: 0.125rem' : 'left: 0.125rem'),
+      toggleTheme: () => this.setState({ theme: nuit ? 'jour' : 'nuit' }),
+      tabs,
+      services,
+      resultLabel: shown.length + (shown.length > 1 ? ' services affichés' : ' service affiché')
+    };
+  }
+}
+</script>
+</body>
+</html>

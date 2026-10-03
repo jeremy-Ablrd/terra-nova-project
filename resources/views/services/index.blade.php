@@ -71,6 +71,9 @@
                             <article aria-labelledby="service-{{ $service->id }}" class="flex flex-col gap-3">
                                 <div>
                                     <h2 id="service-{{ $service->id }}" class="text-lg font-semibold text-gray-900">{{ $service->nom }}</h2>
+                                    @if ($service->organisme)
+                                        <p class="mt-1 text-xs font-semibold text-gray-900">{{ $service->organisme }}</p>
+                                    @endif
                                     <p class="mt-1 text-xs text-gray-600">
                                         {{ $service->categorie->label() }}
                                         @if ($service->prioritaire) · <span class="font-semibold text-gray-900">{{ __('Service prioritaire') }}</span> @endif
@@ -79,6 +82,13 @@
                                 <p class="text-sm text-gray-800">{{ $service->resume }}</p>
                                 @if ($service->adresse || $service->quartier)
                                     <p class="text-sm text-gray-700">{{ collect([$service->adresse, $service->quartier])->filter()->implode(' — ') }}</p>
+                                @elseif ($service->lieu)
+                                    <p class="text-sm text-gray-700">{{ $service->lieu }}</p>
+                                @endif
+                                @if ($service->aHorairesStructures())
+                                    <x-ouverture-service :service="$service" />
+                                @elseif ($service->horaires)
+                                    <p class="text-sm text-gray-700">{{ __('Horaires :') }} {{ $service->horaires }}</p>
                                 @endif
                                 <x-disponibilite-service :service="$service" />
                                 <x-prochaine-action :service="$service" court />

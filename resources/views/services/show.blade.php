@@ -22,6 +22,9 @@
             @endif
 
             <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-5">
+                @if ($service->organisme)
+                    <p class="text-sm font-semibold text-gray-900">{{ $service->organisme }}</p>
+                @endif
                 <p class="text-sm text-gray-600">
                     {{ $service->categorie->label() }}
                     @if ($service->prioritaire) · <span class="font-semibold text-gray-900">{{ __('Service prioritaire') }}</span> @endif
@@ -33,6 +36,13 @@
                         <x-disponibilite-service :service="$service" detail class="mt-2" />
                     </section>
                 @endunless
+
+                @if ($service->aHorairesStructures())
+                    <section aria-labelledby="horaires-ouverture">
+                        <h2 id="horaires-ouverture" class="font-medium text-gray-900">{{ __('Horaires d\'ouverture') }}</h2>
+                        <x-ouverture-service :service="$service" detail class="mt-2" />
+                    </section>
+                @endif
 
                 <section aria-labelledby="description">
                     <h2 id="description" class="font-medium text-gray-900">{{ __('Description') }}</h2>

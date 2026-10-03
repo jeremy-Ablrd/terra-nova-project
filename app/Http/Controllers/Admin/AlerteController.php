@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\ActionJournal;
+use App\Enums\Emetteur;
 use App\Enums\Niveau;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAlerteRequest;
@@ -34,6 +35,7 @@ class AlerteController extends Controller
         $alerte = DB::transaction(function () use ($request) {
             $alerte = new Alerte;
             $alerte->fill($request->validated()); // seuls les champs validés et fillable
+            $alerte->emetteur ??= Emetteur::Ville;
             $alerte->user_id = $request->user()->id; // « publiée par » : fixé côté serveur
             $alerte->save();
 

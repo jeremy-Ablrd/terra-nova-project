@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Nova Terra — Accueil</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/terra-nova/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&amp;family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+:root,[data-theme="jour"]{--surface:#f6f1ea;--surface-raised:#fffdf9;--surface-sunken:#ebe3d8;--ink:#1c1713;--ink-muted:#5a4f45;--border-strong:#756859;--border-subtle:#d6cbbd;--brand:#d6a85f;--on-brand:#1c1713;--brand-text:#7a5218;--accent:#1f5fa8;--on-accent:#ffffff;--focus:#1f5fa8;--info-bg:#e4eefa;--info-border:#1f5fa8;--info-text:#174a85;--warn-bg:#fbefd2;--warn-border:#8a5a00;--warn-text:#6b4500;--danger-bg:#fbe4e1;--danger-border:#b3261e;--danger-text:#8f1d17;--success-bg:#d9f0ea;--success-border:#0b6b5c;--success-text:#0a5247;--disabled-bg:#6b7280;--on-disabled:#ffffff;--shadow-card:0 1px 2px rgba(28,23,19,0.12);--shadow-overlay:0 12px 32px rgba(0,0,0,0.35)}
+[data-theme="nuit"]{--surface:#0f151b;--surface-raised:#172029;--surface-sunken:#0a0f14;--ink:#eef2f5;--ink-muted:#a9b6c2;--border-strong:#7f8f9e;--border-subtle:#2a3744;--brand:#d6a85f;--on-brand:#1a1206;--brand-text:#e3bd7a;--accent:#7fb2f0;--on-accent:#07131f;--focus:#9cc4f5;--info-bg:#13263d;--info-border:#7fb2f0;--info-text:#a9cdf7;--warn-bg:#33260a;--warn-border:#e0a73a;--warn-text:#f0c571;--danger-bg:#3a1613;--danger-border:#f0827a;--danger-text:#f7a8a2;--success-bg:#0e2f2a;--success-border:#4fc4ac;--success-text:#86dcc9;--disabled-bg:#3b4753;--on-disabled:#d5dde4;--shadow-card:none}
+:root{--space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;--space-5:1.5rem;--space-6:2rem;--space-8:3rem;--space-12:4.5rem;--radius-sm:0.25rem;--radius-md:0.5rem;--radius-lg:0.875rem;--radius-pill:999px;--font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--font-sans:"IBM Plex Sans",system-ui,sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,monospace}
+a{color:inherit}
+.nav-link:hover,.row-link:hover{text-decoration:underline}
+.tn-service:hover h3{text-decoration:underline}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="min-height: 100vh; display: flex; flex-direction: column; background: var(--surface); color: var(--ink); font-family: var(--font-sans); font-size: 1rem; line-height: 1.5rem">
+
+<!-- En-tête -->
+<header style="background: var(--surface); border-bottom: 0.0625rem solid var(--border-subtle)">
+<nav aria-label="Navigation principale" style="max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 0.75rem 1.5rem; min-height: 4.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem">
+<a href="#contenu" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font: 700 1.25rem/1.75rem var(--font-display)">
+<span aria-hidden="true" style="width: 2rem; height: 2rem; box-sizing: border-box; border: 0.125rem dashed var(--border-strong); border-radius: var(--radius-sm); flex: none"></span>
+Nova Terra
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem">
+<a href="Services.dc.html" class="nav-link" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.75rem; text-decoration: none; font-weight: 500">Services</a>
+<a href="Urgences.dc.html" class="nav-link" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.75rem; text-decoration: none; font-weight: 500">Urgences</a>
+<a href="Alertes.dc.html" class="nav-link" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.75rem; text-decoration: none; font-weight: 500">Alertes en cours</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem">
+<div role="group" aria-label="Taille du texte" style="display: flex; align-items: center; gap: 0.25rem">
+<button type="button" aria-pressed="true" aria-label="Taille du texte : normal" class="tn-btn tn-btn--secondary" style="min-width: 2.75rem; justify-content: center; padding: 0; font-size: 0.875rem; box-shadow: inset 0 0 0 0.125rem var(--brand-text)">A</button>
+<button type="button" aria-pressed="false" aria-label="Taille du texte : grand" class="tn-btn tn-btn--secondary" style="min-width: 2.75rem; justify-content: center; padding: 0; font-size: 1.125rem">A</button>
+<button type="button" aria-pressed="false" aria-label="Taille du texte : très grand" class="tn-btn tn-btn--secondary" style="min-width: 2.75rem; justify-content: center; padding: 0; font-size: 1.375rem">A</button>
+</div>
+<div style="display: flex; align-items: center; gap: 0.25rem">
+<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: {{sunColor}}"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+<button type="button" role="switch" aria-checked="{{nuitChecked}}" aria-label="Thème nuit" onClick="{{toggleTheme}}" style="display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.25rem; background: transparent; border: 0; cursor: pointer">
+<span aria-hidden="true" style="position: relative; display: block; width: 3rem; height: 1.75rem; box-sizing: border-box; border: 0.125rem solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface-raised)"><span style="{{knobStyle}}"></span></span>
+</button>
+<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: {{moonColor}}"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+<a href="Connexion.dc.html" class="tn-btn tn-btn--secondary">Se connecter</a>
+<a href="#inscription" class="tn-btn tn-btn--primary">Créer mon compte</a>
+</div>
+</div>
+</nav>
+</header>
+
+<main id="contenu" tabindex="-1" style="flex: 1 1 auto; width: 100%; display: flex; flex-direction: column">
+
+<!-- Hero : image de fond en pleine largeur, texte centré et 4 encarts au-dessus -->
+<section aria-labelledby="titre-accueil" style="position: relative; width: 100%; background: var(--surface-sunken); border-bottom: 0.0625rem solid var(--border-subtle)">
+<div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: flex-end; padding: 1rem; pointer-events: none">
+<span class="tn-code" style="border: 0.125rem dashed var(--border-strong); border-radius: var(--radius-sm); padding: 0.25rem 0.75rem; background: var(--surface-raised)">[IMAGE DE FOND · pleine largeur]</span>
+</div>
+<div style="position: relative; max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 2rem 1.5rem 3rem; display: flex; flex-wrap: wrap; align-items: stretch; gap: 1.5rem">
+
+<div style="flex: 1 1 20rem; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem">
+
+<section id="meteo" class="tn-card" aria-labelledby="t-meteo" style="display: flex; flex-direction: column; gap: 1rem">
+<h2 id="t-meteo" style="margin: 0; font: 600 1.125rem/1.5rem var(--font-sans)">Météo actuelle à Nova Terra</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 0.0625rem solid var(--border-subtle)">
+<div style="padding: 0.75rem 0; display: flex; flex-direction: column; gap: 0.25rem">
+<span style="display: flex; align-items: baseline; gap: 0.25rem"><span style="font: 700 2.25rem/2.5rem var(--font-display)">[--]</span><span class="tn-code">°C</span></span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">Température</span>
+</div>
+<div style="padding: 0.75rem 0 0.75rem 1rem; border-left: 0.0625rem solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.25rem">
+<span style="display: flex; align-items: baseline; gap: 0.25rem"><span style="font: 700 2.25rem/2.5rem var(--font-display)">[--]</span><span class="tn-code">km/h</span></span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">Vent</span>
+</div>
+<div style="padding: 0.75rem 0; border-top: 0.0625rem solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.25rem">
+<span style="display: flex; align-items: baseline; gap: 0.25rem"><span style="font: 700 2.25rem/2.5rem var(--font-display)">[--]</span><span class="tn-code">%</span></span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">Humidité</span>
+</div>
+<div style="padding: 0.75rem 0 0.75rem 1rem; border-top: 0.0625rem solid var(--border-subtle); border-left: 0.0625rem solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.25rem">
+<span style="display: flex; align-items: baseline; gap: 0.25rem"><span style="font: 700 2.25rem/2.5rem var(--font-display)">[--]</span><span class="tn-code">°C</span></span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">Ressenti</span>
+</div>
+</div>
+<p style="margin: 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">Mise à jour : [HH:MM]</p>
+</section>
+
+<section id="alertes" class="tn-card" aria-labelledby="t-alertes" style="display: flex; flex-direction: column; gap: 1rem">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem">
+<h2 id="t-alertes" style="margin: 0; font: 600 1.125rem/1.5rem var(--font-sans)">Alertes en cours</h2>
+<span class="tn-badge tn-badge--danger"><span aria-hidden="true">!</span>2 actives</span>
+</div>
+<div class="tn-banner tn-banner--danger" style="max-width: none; flex-direction: column; gap: 0.25rem">
+<span class="tn-badge tn-badge--danger" style="background: transparent"><span aria-hidden="true">!</span>Urgent</span>
+<strong style="font-size: 1rem">Montée du niveau de l'eau dans le quartier sud</strong>
+<span style="font-size: 0.875rem; line-height: 1.25rem">Quartier sud · Depuis le 03/10/2026 21:34</span>
+<a href="#alerte-1" style="font-size: 0.875rem; font-weight: 600">Voir le détail</a>
+</div>
+<div class="tn-banner tn-banner--warn" style="max-width: none; flex-direction: column; gap: 0.25rem">
+<span class="tn-badge tn-badge--warn" style="background: transparent"><span aria-hidden="true">▲</span>Vigilance</span>
+<strong style="font-size: 1rem">Vague de chaleur extrême</strong>
+<span style="font-size: 0.875rem; line-height: 1.25rem">Plusieurs secteurs de la ville · Depuis le 03/10/2026 17:34</span>
+<a href="#alerte-2" style="font-size: 0.875rem; font-weight: 600">Voir le détail</a>
+</div>
+<a href="Alertes.dc.html" class="tn-btn tn-btn--secondary" style="justify-content: center">Toutes les alertes en cours</a>
+</section>
+
+</div>
+
+<div style="flex: 2 1 28rem; min-width: 0; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; padding: 3rem 1rem; text-align: center">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 1rem">
+<span class="tn-badge tn-badge--info"><span aria-hidden="true">◆</span>Services numériques de la ville</span>
+<h1 id="titre-accueil" style="margin: 0; max-width: 14ch; font: 700 3rem/3.25rem var(--font-display); letter-spacing: -0.01em">Bienvenue à Nova Terra</h1>
+<p style="margin: 0; max-width: 32rem; font-size: 1.125rem; line-height: 1.75rem; color: var(--ink-muted)">Les services numériques de la ville, accessibles à chaque habitant depuis son espace personnel.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.75rem 1rem; margin-top: 0.5rem">
+<a href="#inscription" class="tn-btn tn-btn--primary">Créer mon compte habitant</a>
+<a href="Connexion.dc.html" class="tn-btn tn-btn--secondary">Se connecter</a>
+</div>
+</div>
+<div class="tn-card" style="position: relative; width: 100%; max-width: 34rem; box-sizing: border-box; padding: 1rem 0; display: flex; flex-wrap: wrap">
+<div style="flex: 1 1 8rem; padding: 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem">
+<span style="font: 700 2.25rem/2.5rem var(--font-display)">10</span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">services municipaux</span>
+</div>
+<div style="flex: 1 1 8rem; padding: 0 1rem; border-left: 0.0625rem solid var(--border-subtle); display: flex; flex-direction: column; align-items: center; gap: 0.25rem">
+<span style="font: 700 2.25rem/2.5rem var(--font-display)">2</span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">alertes en cours</span>
+</div>
+<div style="flex: 1 1 8rem; padding: 0 1rem; border-left: 0.0625rem solid var(--border-subtle); display: flex; flex-direction: column; align-items: center; gap: 0.25rem">
+<span style="font: 700 2.25rem/2.5rem var(--font-display)">2</span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">lieux d'urgence</span>
+</div>
+</div>
+</div>
+
+<div style="flex: 1 1 20rem; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem">
+
+<section class="tn-card" aria-labelledby="t-dispo" style="display: flex; flex-direction: column; gap: 1rem">
+<h2 id="t-dispo" style="margin: 0; font: 600 1.125rem/1.5rem var(--font-sans)">Disponibilité des services</h2>
+<div style="position: relative; align-self: center; width: 100%; max-width: 15rem">
+<svg role="img" aria-label="9 services sur 10 sont disponibles" viewBox="0 0 200 112" style="display: block; width: 100%; height: auto">
+<path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke-width="14" stroke-linecap="round" style="stroke: var(--border-subtle)"></path>
+<path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke-width="14" stroke-linecap="round" stroke-dasharray="226.2 251.3" style="stroke: var(--success-border)"></path>
+</svg>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center">
+<span style="font: 700 2.25rem/2.5rem var(--font-display)">9/10</span>
+<span style="font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">services disponibles</span>
+</div>
+</div>
+<div class="tn-banner tn-banner--warn" style="max-width: none; font-size: 0.875rem; line-height: 1.25rem">
+<span aria-hidden="true" style="font-weight: 700">▲</span>
+<div><strong>Transports : interrompu</strong>Maintenance du réseau de bus : les lignes 4 et 6 sont à l'arrêt.</div>
+</div>
+</section>
+
+<section id="urgences" class="tn-card" aria-labelledby="t-urgences" style="display: flex; flex-direction: column; gap: 1rem">
+<h2 id="t-urgences" style="margin: 0; font: 600 1.125rem/1.5rem var(--font-sans)">Urgences</h2>
+<p style="margin: 0; font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">En cas de détresse vitale, appelez le 15 avant de vous déplacer.</p>
+<div style="display: flex; align-items: baseline; gap: 0.75rem">
+<span style="font: 700 3rem/3.25rem var(--font-display)">15</span>
+<span class="tn-code">numéro d'urgence</span>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem; line-height: 1.25rem">
+<li style="border-top: 0.0625rem solid var(--border-subtle); padding-top: 0.75rem"><strong>Urgences de Nova Terra</strong><br><span style="color: var(--ink-muted)">Quartier est · Ouvert 24h/24, 7j/7</span></li>
+<li style="border-top: 0.0625rem solid var(--border-subtle); padding-top: 0.75rem"><strong>Hôpital de Nova Terra</strong><br><span style="color: var(--ink-muted)">Quartier sud · Accueil 24h/24</span></li>
+</ul>
+<a href="Urgences.dc.html" class="tn-btn tn-btn--secondary" style="justify-content: center">Où aller en urgence</a>
+</section>
+
+</div>
+
+</div>
+</section>
+
+<div style="width: 100%; max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 3rem 1.5rem; display: flex; flex-direction: column; gap: 3rem">
+
+<!-- Services à la une : section distincte du hero -->
+<section id="services" aria-labelledby="t-services" style="display: flex; flex-direction: column; gap: 1.5rem">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem">
+<h2 id="t-services" style="margin: 0; font: 600 1.5rem/2rem var(--font-display)">Services à la une</h2>
+<a href="Services.dc.html" class="tn-btn tn-btn--secondary">Tout le catalogue</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.5rem">
+<a href="#etat-civil" class="tn-card tn-service" style="max-width: none">
+<span class="tn-service__icon" aria-hidden="true">É</span>
+<span style="font-size: 0.875rem; font-weight: 600; color: var(--brand-text)"><span aria-hidden="true">◆ </span>Prioritaire</span>
+<h3>État civil</h3>
+<p>Actes de naissance, mariage, décès et pièces d'identité.</p>
+<p>Du lundi au vendredi, 8h30 - 17h00</p>
+<span class="tn-badge tn-badge--success" style="justify-self: start"><span aria-hidden="true">✓</span>Disponible</span>
+</a>
+<a href="#centre-sante" class="tn-card tn-service" style="max-width: none">
+<span class="tn-service__icon" aria-hidden="true">S</span>
+<span style="font-size: 0.875rem; font-weight: 600; color: var(--brand-text)"><span aria-hidden="true">◆ </span>Prioritaire</span>
+<h3>Centre de santé municipal</h3>
+<p>Consultations de médecine générale, soins infirmiers et orientation vers un spécialiste.</p>
+<p>Du lundi au samedi, 8h00 - 19h00</p>
+<span class="tn-badge tn-badge--success" style="justify-self: start"><span aria-hidden="true">✓</span>Disponible</span>
+</a>
+<a href="#transports" class="tn-card tn-service" style="max-width: none">
+<span class="tn-service__icon" aria-hidden="true">T</span>
+<span style="font-size: 0.875rem; line-height: 1.25rem">&nbsp;</span>
+<h3>Transports</h3>
+<p>Bus, stationnement, pistes cyclables et mobilité douce.</p>
+<p>Du lundi au samedi, 8h00 - 18h00</p>
+<span class="tn-badge tn-badge--warn" style="justify-self: start"><span aria-hidden="true">▲</span>Interrompu</span>
+</a>
+<a href="#aides-sociales" class="tn-card tn-service" style="max-width: none">
+<span class="tn-service__icon" aria-hidden="true">A</span>
+<span style="font-size: 0.875rem; line-height: 1.25rem">&nbsp;</span>
+<h3>Aides sociales</h3>
+<p>Accompagnement des familles, aides financières et solidarité.</p>
+<p>Du lundi au vendredi, 9h00 - 12h00 et 13h30 - 17h00</p>
+<span class="tn-badge tn-badge--success" style="justify-self: start"><span aria-hidden="true">✓</span>Disponible</span>
+</a>
+</div>
+</section>
+
+<!-- Espace habitant -->
+<section aria-labelledby="t-espace" class="tn-card" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 3rem; padding: 2rem; background: var(--surface-sunken)">
+<div style="flex: 1 1 22rem; display: flex; flex-direction: column; gap: 0.75rem">
+<h2 id="t-espace" style="margin: 0; font: 600 1.5rem/2rem var(--font-display)">Votre espace habitant</h2>
+<p style="margin: 0; color: var(--ink-muted)">Contactez la mairie depuis votre compte : vous recevez un numéro de référence, puis vous suivez l'avancement de chaque demande.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+<span class="tn-badge tn-badge--info"><span aria-hidden="true">◆</span>Nouvelle</span>
+<span class="tn-badge tn-badge--warn"><span aria-hidden="true">▲</span>En cours</span>
+<span class="tn-badge tn-badge--success"><span aria-hidden="true">✓</span>Traitée</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem">
+<a href="#inscription" class="tn-btn tn-btn--primary">Créer mon compte habitant</a>
+<a href="Connexion.dc.html" class="tn-btn tn-btn--secondary">Se connecter</a>
+</div>
+</section>
+
+</div>
+
+</main>
+
+<footer style="margin-top: auto; border-top: 0.0625rem solid var(--border-subtle); background: var(--surface-raised)">
+<div style="max-width: 90rem; margin: 0 auto; box-sizing: border-box; padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1.5rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--ink-muted)">
+<p style="margin: 0">Nova Terra</p>
+<nav aria-label="Liens du pied de page"><a href="#accessibilite" style="text-decoration: underline">Accessibilité</a></nav>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["jour","nuit"],"default":"jour","section":"Affichage"},"$preview":{"width":1440,"height":2000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { theme: null };
+  }
+  renderVals() {
+    const base = this.props.theme === 'nuit' ? 'nuit' : 'jour';
+    const theme = this.state.theme || base;
+    const nuit = theme === 'nuit';
+    return {
+      theme,
+      nuitChecked: nuit ? 'true' : 'false',
+      sunColor: nuit ? 'var(--ink-muted)' : 'var(--ink)',
+      moonColor: nuit ? 'var(--ink)' : 'var(--ink-muted)',
+      knobStyle: 'position: absolute; top: 0.125rem; width: 1.125rem; height: 1.125rem; border-radius: 999px; background: var(--brand); ' + (nuit ? 'right: 0.125rem' : 'left: 0.125rem'),
+      toggleTheme: () => this.setState({ theme: nuit ? 'jour' : 'nuit' })
+    };
+  }
+}
+</script>
+</body>
+</html>

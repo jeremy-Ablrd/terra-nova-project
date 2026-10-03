@@ -45,6 +45,16 @@
                             <x-input-error id="niveau_erreur" :messages="$errors->get('niveau')" class="mt-2" role="alert" />
                         </div>
                         <div>
+                            <x-input-label for="emetteur" :value="__('Émetteur du message officiel').' *'" />
+                            <select id="emetteur" name="emetteur" class="{{ $champ }}" required aria-required="true"
+                                    @if ($errors->has('emetteur')) aria-invalid="true" aria-describedby="emetteur_erreur" @endif>
+                                @foreach (\App\Enums\Emetteur::cases() as $emetteur)
+                                    <option value="{{ $emetteur->value }}" @selected(old('emetteur', 'haut_conseil') === $emetteur->value)>{{ $emetteur->label() }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error id="emetteur_erreur" :messages="$errors->get('emetteur')" class="mt-2" role="alert" />
+                        </div>
+                        <div>
                             <x-input-label for="secteur" :value="__('Secteur')" />
                             <x-text-input id="secteur" name="secteur" class="block mt-1 w-full" type="text" :value="old('secteur')" maxlength="100"
                                           aria-describedby="secteur_aide{{ $errors->has('secteur') ? ' secteur_erreur' : '' }}" />

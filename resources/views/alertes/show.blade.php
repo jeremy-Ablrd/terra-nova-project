@@ -22,6 +22,7 @@
             <article class="alerte {{ $alerte->niveau->classe() }} bg-white shadow-sm p-6 space-y-5">
                 <div>
                     <p class="text-sm font-semibold uppercase tracking-wide text-gray-900">{{ $alerte->niveau->label() }}</p>
+                    <p class="mt-1 text-sm font-semibold text-gray-900">{{ ($alerte->emetteur ?? \App\Enums\Emetteur::Ville)->phrase() }}</p>
                     <p class="mt-1 text-sm text-gray-600">
                         @if ($alerte->secteur){{ __('Secteur :') }} {{ $alerte->secteur }} · @endif
                         {{ __('Depuis le') }} {{ \App\Support\DateLocale::format($alerte->starts_at) }}

@@ -1,0 +1,56 @@
+/* Terra Nova — component classes (tn-*). Plain CSS over the tokens; Blade/Tailwind projects can reuse them as-is or map them with @apply. All sizes in rem. */
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:1rem;line-height:1.5rem}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:0.1875rem solid var(--focus);outline-offset:0.125rem}
+.tn-btn{display:inline-flex;align-items:center;gap:var(--space-2);min-height:2.75rem;padding:0 var(--space-4);border-radius:var(--radius-md);border:0.125rem solid transparent;font:600 0.875rem/1.25rem var(--font-sans);cursor:pointer;text-decoration:none}
+.tn-btn--primary{background:var(--brand);color:var(--on-brand)}
+.tn-btn--secondary{background:var(--surface-raised);color:var(--ink);border-color:var(--border-strong)}
+.tn-btn--danger{background:var(--danger-bg);color:var(--danger-text);border-color:var(--danger-border)}
+.tn-btn[disabled]{background:var(--disabled-bg);color:var(--on-disabled);cursor:not-allowed}
+.tn-field{display:grid;gap:var(--space-1);max-width:24rem}
+.tn-field label{font:600 0.875rem/1.25rem var(--font-sans)}
+.tn-field input,.tn-field select,.tn-field textarea{min-height:2.75rem;padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);border:0.125rem solid var(--border-strong);background:var(--surface-raised);color:var(--ink);font:400 1rem/1.5rem var(--font-sans)}
+.tn-field .tn-hint{font-size:0.875rem;line-height:1.25rem;color:var(--ink-muted)}
+.tn-field--error input{border-color:var(--danger-border)}
+.tn-field .tn-error{font:600 0.875rem/1.25rem var(--font-sans);color:var(--danger-text)}
+.tn-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:0 var(--space-2);border-radius:var(--radius-pill);border:0.0625rem solid;font:600 0.875rem/1.5rem var(--font-sans)}
+.tn-badge--info{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}
+.tn-badge--warn{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-text)}
+.tn-badge--danger{background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger-text)}
+.tn-badge--success{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}
+.tn-card{background:var(--surface-raised);border:0.0625rem solid var(--border-subtle);border-radius:var(--radius-lg);padding:var(--space-4);box-shadow:var(--shadow-card)}
+.tn-code{font:500 0.875rem/1.25rem var(--font-mono);color:var(--ink-muted)}
+.tn-req{display:grid;gap:var(--space-3);max-width:28rem}
+.tn-req__head{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3)}
+.tn-req h3{margin:0;font:600 1.125rem/1.5rem var(--font-sans)}
+.tn-req p{margin:0}
+.tn-req__meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);font-size:0.875rem;line-height:1.25rem;color:var(--ink-muted)}
+.tn-diff{display:inline-flex;gap:0.25rem;align-items:center}
+.tn-diff i{width:0.75rem;height:0.5rem;border-radius:var(--radius-pill);border:0.0625rem solid var(--border-strong);background:transparent}
+.tn-diff i.on{background:var(--brand-text);border-color:var(--brand-text)}
+.tn-xp{font:500 0.875rem/1.25rem var(--font-mono);color:var(--brand-text)}
+.tn-banner{display:flex;gap:var(--space-3);align-items:flex-start;padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);border:0.125rem solid;max-width:40rem}
+.tn-banner strong{display:block}
+.tn-banner--info{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}
+.tn-banner--warn{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-text)}
+.tn-banner--danger{background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger-text)}
+.tn-banner--success{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}
+.tn-banner .tn-btn{margin-left:auto;min-height:2.25rem}
+.tn-service{display:grid;gap:var(--space-2);max-width:14rem;text-decoration:none;color:inherit}
+.tn-service__icon{width:2.5rem;height:2.5rem;border-radius:var(--radius-md);background:var(--surface-sunken);display:grid;place-items:center;color:var(--brand-text);font:700 1.125rem var(--font-display)}
+.tn-service h3{margin:0;font:600 1.125rem/1.5rem var(--font-sans)}
+.tn-service p{margin:0;font-size:0.875rem;line-height:1.25rem;color:var(--ink-muted)}
+.tn-shell{display:grid;grid-template-columns:14rem 1fr;min-height:22rem;border:0.0625rem solid var(--border-subtle);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface)}
+.tn-nav{background:var(--surface-sunken);padding:var(--space-4);display:grid;align-content:start;gap:var(--space-1)}
+.tn-nav__brand{display:flex;align-items:center;gap:var(--space-2);font:700 1.25rem/1.75rem var(--font-display);margin-bottom:var(--space-3)}
+.tn-nav__brand img{width:2rem;height:2rem}
+.tn-nav a{display:flex;align-items:center;justify-content:space-between;min-height:2.75rem;padding:0 var(--space-3);border-radius:var(--radius-md);color:var(--ink);text-decoration:none;font:500 1rem var(--font-sans)}
+.tn-nav a[aria-current=page]{background:var(--surface-raised);box-shadow:inset 0 0 0 0.125rem var(--brand-text);font-weight:600}
+.tn-main{padding:var(--space-5);display:grid;gap:var(--space-4);align-content:start}
+.tn-main h1{margin:0;font:700 2.25rem/2.5rem var(--font-display)}
+.tn-tabbar{display:none}
+@media (max-width:40rem){.tn-shell{grid-template-columns:1fr}.tn-nav{display:none}.tn-tabbar{display:flex;border-top:0.0625rem solid var(--border-subtle);background:var(--surface-sunken)}.tn-tabbar a{flex:1;min-height:3.5rem;display:grid;place-items:center;color:var(--ink);text-decoration:none;font:600 0.875rem var(--font-sans)}.tn-tabbar a[aria-current=page]{box-shadow:inset 0 0.25rem 0 var(--brand-text)}}
+.tn-state{display:grid;justify-items:start;gap:var(--space-3);max-width:24rem}
+.tn-state h3{margin:0;font:600 1.125rem/1.5rem var(--font-sans)}
+.tn-state p{margin:0;color:var(--ink-muted)}
+.tn-skel{height:1rem;border-radius:var(--radius-sm);background:var(--surface-sunken);border:0.0625rem solid var(--border-subtle)}

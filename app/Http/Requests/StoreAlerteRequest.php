@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Emetteur;
 use App\Enums\Niveau;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,6 +32,7 @@ class StoreAlerteRequest extends FormRequest
             'ce_quil_faut_faire' => ['required', 'string', 'max:1000'],
             'secteur' => ['nullable', 'string', 'max:100'],
             'niveau' => ['required', Rule::enum(Niveau::class)],
+            'emetteur' => ['nullable', Rule::enum(Emetteur::class)],
             'consignes_vulnerables' => ['nullable', 'string', 'max:1000'],
             'starts_at' => ['required', 'date'],
             'ends_at' => ['nullable', 'date', 'after:starts_at'],

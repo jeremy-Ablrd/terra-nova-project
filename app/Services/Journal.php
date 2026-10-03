@@ -34,6 +34,8 @@ class Journal
         'repere' => 'repère',
         'telephone' => 'téléphone',
         'urgence' => 'urgence',
+        'horaires_semaine' => 'horaires d\'ouverture',
+        'organisme' => 'organisme',
     ];
 
     /**

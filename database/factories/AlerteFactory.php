@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Emetteur;
 use App\Enums\Niveau;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class AlerteFactory extends Factory
             'ce_quil_faut_faire' => fake()->sentence(10),
             'secteur' => null,
             'niveau' => Niveau::Info,
+            'emetteur' => Emetteur::Ville,
             'consignes_vulnerables' => null,
             'starts_at' => now()->subHour(),
             'ends_at' => null,

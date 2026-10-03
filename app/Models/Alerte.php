@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Emetteur;
 use App\Enums\Niveau;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 // user_id (publiée par) est fixé côté serveur, jamais depuis un formulaire.
-#[Fillable(['titre', 'ce_qui_se_passe', 'ce_quil_faut_faire', 'secteur', 'niveau', 'consignes_vulnerables', 'starts_at', 'ends_at'])]
+#[Fillable(['titre', 'ce_qui_se_passe', 'ce_quil_faut_faire', 'secteur', 'niveau', 'emetteur', 'consignes_vulnerables', 'starts_at', 'ends_at'])]
 class Alerte extends Model
 {
     /** @use HasFactory<\Database\Factories\AlerteFactory> */
@@ -43,6 +44,7 @@ class Alerte extends Model
     {
         return [
             'niveau' => Niveau::class,
+            'emetteur' => Emetteur::class,
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
         ];

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\CategorieService;
 use App\Enums\Disponibilite;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable([
     'nom', 'slug', 'resume', 'description', 'horaires', 'lieu', 'contact', 'icone', 'ordre', 'actif',
     'categorie', 'prioritaire', 'disponibilite', 'motif_interruption', 'retour_estime_at', 'alternative',
-    'adresse', 'quartier', 'repere', 'telephone', 'urgence',
+    'adresse', 'quartier', 'repere', 'telephone', 'urgence', 'organisme', 'horaires_semaine',
 ])]
 class Service extends Model
 {
@@ -34,6 +35,7 @@ class Service extends Model
             'disponibilite' => Disponibilite::class,
             'retour_estime_at' => 'datetime',
             'desactive_at' => 'datetime',
+            'horaires_semaine' => 'array',
         ];
     }
 
@@ -130,6 +132,14 @@ class Service extends Model
             $this->{$champ} = $donnees[$champ] ?? null;
         }
 
+        // F74 : horaires d'ouverture et organisme, seulement si le formulaire les envoie (la coupure d'urgence n'y touche pas).
+        if (array_key_exists('organisme', $donnees)) {
+            $this->organisme = filled($donnees['organisme']) ? $donnees['organisme'] : null;
+        }
+        if (array_key_exists('horaires', $donnees)) {
+            $this->horaires_semaine = self::normaliserHoraires((array) $donnees['horaires']);
+        }
+
         if ($this->estInterrompu()) {
             $this->motif_interruption = $donnees['motif_interruption'];
             $this->retour_estime_at = $donnees['retour_estime_at'] ?? null;
@@ -166,6 +176,117 @@ class Service extends Model
         $this->save();
 
         return $changements;
+    }
+
+    /** Jours de la semaine, dans l'ordre ISO (lundi = 1). */
+    public const JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+
+    /**
+     * Horaires saisis dans le formulaire → donnée stockée : 7 jours, au plus 2 plages complètes par jour, triées.
+     * Aucune plage du tout : null (le texte `horaires` d'origine sert alors de repli).
+     *
+     * @param  array<string, mixed>  $saisie
+     * @return array<string, list<array{0: string, 1: string}>>|null
+     */
+    public static function normaliserHoraires(array $saisie): ?array
+    {
+        $semaine = [];
+        foreach (self::JOURS as $jour) {
+            $plages = [];
+            foreach (array_slice((array) ($saisie[$jour] ?? []), 0, 2) as $plage) {
+                $ouverture = $plage['ouverture'] ?? null;
+                $fermeture = $plage['fermeture'] ?? null;
+                if (filled($ouverture) && filled($fermeture)) {
+                    $plages[] = [(string) $ouverture, (string) $fermeture];
+                }
+            }
+            usort($plages, fn ($a, $b) => strcmp($a[0], $b[0]));
+            $semaine[$jour] = $plages;
+        }
+
+        return collect($semaine)->flatten()->isEmpty() ? null : $semaine;
+    }
+
+    /** @return list<array{0: string, 1: string}> plages d'ouverture d'un jour ISO (1 = lundi) */
+    public function plagesDuJour(int $jourIso): array
+    {
+        return $this->horaires_semaine[self::JOURS[$jourIso - 1]] ?? [];
+    }
+
+    public function aHorairesStructures(): bool
+    {
+        return is_array($this->horaires_semaine);
+    }
+
+    /**
+     * État « ouvert / fermé » à un instant donné (par défaut : maintenant, dans le fuseau de l'application), en texte.
+     * Calculé à chaque appel, jamais mis en cache. Null sans horaires structurés.
+     *
+     * @return array{ouvert: bool, texte: string}|null
+     */
+    public function etatOuverture(?CarbonInterface $maintenant = null): ?array
+    {
+        if (! $this->aHorairesStructures()) {
+            return null;
+        }
+
+        $maintenant = ($maintenant ?? now())->copy()->timezone(config('app.timezone'));
+        $heure = $maintenant->format('H:i');
+        $plages = $this->plagesDuJour($maintenant->dayOfWeekIso);
+
+        foreach ($plages as [$ouverture, $fermeture]) {
+            if ($heure >= $ouverture && $heure < $fermeture) {
+                return ['ouvert' => true, 'texte' => __('ouverture_service.etat.ouvert', ['heure' => $fermeture])];
+            }
+        }
+
+        // Plus tard aujourd'hui : avant la première plage, ou pendant la pause entre deux plages.
+        foreach ($plages as $rang => [$ouverture]) {
+            if ($ouverture > $heure) {
+                return ['ouvert' => false, 'texte' => __($rang === 0 ? 'ouverture_service.etat.ouvre_aujourdhui' : 'ouverture_service.etat.pause', ['heure' => $ouverture])];
+            }
+        }
+
+        // Prochain jour d'ouverture, dans les 7 jours qui suivent.
+        for ($decalage = 1; $decalage <= 7; $decalage++) {
+            $jour = $maintenant->copy()->addDays($decalage);
+            $suivantes = $this->plagesDuJour($jour->dayOfWeekIso);
+            if ($suivantes === []) {
+                continue;
+            }
+
+            $heureOuverture = $suivantes[0][0];
+            if ($decalage === 1) {
+                $cle = $plages === [] ? 'ferme_aujourdhui_demain' : 'rouvre_demain';
+
+                return ['ouvert' => false, 'texte' => __('ouverture_service.etat.'.$cle, ['heure' => $heureOuverture])];
+            }
+
+            return ['ouvert' => false, 'texte' => __('ouverture_service.etat.'.($plages === [] ? 'ferme_aujourdhui_jour' : 'rouvre_jour'),
+                ['jour' => __('ouverture_service.jours.'.self::JOURS[$jour->dayOfWeekIso - 1]), 'heure' => $heureOuverture])];
+        }
+
+        return ['ouvert' => false, 'texte' => __('ouverture_service.etat.jamais')];
+    }
+
+    /**
+     * Les 7 lignes du tableau des horaires (le jour courant est marqué en texte, jamais par la couleur seule).
+     *
+     * @return list<array{jour: string, horaires: string, aujourdhui: bool}>
+     */
+    public function lignesHoraires(?CarbonInterface $maintenant = null): array
+    {
+        $aujourdhui = ($maintenant ?? now())->copy()->timezone(config('app.timezone'))->dayOfWeekIso;
+
+        return collect(self::JOURS)->map(function (string $jour, int $i) use ($aujourdhui) {
+            $plages = $this->plagesDuJour($i + 1);
+
+            return [
+                'jour' => __('ouverture_service.jours_titre.'.$jour),
+                'horaires' => $plages === [] ? __('ouverture_service.ferme') : collect($plages)->map(fn ($p) => $p[0].' – '.$p[1])->implode(', '),
+                'aujourdhui' => $i + 1 === $aujourdhui,
+            ];
+        })->all();
     }
 
     /**

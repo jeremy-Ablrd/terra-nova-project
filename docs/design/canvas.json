@@ -1,0 +1,123 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 2000,
+      "is_interactive": true,
+      "title": "Accueil",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Services.dc.html": {
+      "expand": "fill",
+      "h": 2400,
+      "is_interactive": true,
+      "title": "Services",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Urgences.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "is_interactive": true,
+      "title": "Urgences",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Alertes.dc.html": {
+      "expand": "fill",
+      "h": 1200,
+      "is_interactive": true,
+      "title": "Alertes en cours",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "Connexion.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "Connexion",
+      "w": 1440,
+      "x": 0,
+      "y": 2520
+    },
+    "Inscription.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "Inscription",
+      "w": 1440,
+      "x": 1520,
+      "y": 2520
+    },
+    "EspaceHabitant.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "title": "Espace habitant",
+      "w": 1440,
+      "x": 0,
+      "y": 3760
+    },
+    "EspaceAgent.dc.html": {
+      "expand": "fill",
+      "h": 800,
+      "is_interactive": true,
+      "title": "Espace agent",
+      "w": 1440,
+      "x": 1520,
+      "y": 3760
+    },
+    "EspaceAdmin.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "Espace administration",
+      "w": 1440,
+      "x": 3040,
+      "y": 3760
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-03T19:40:00Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/code/artifact/c0ccbefd-5888-43c9-9282-65e0ddd8edbe",
+      "copiedAt": "2026-10-03T19:40:00Z",
+      "namespace": "terra-nova",
+      "title": "Terra Nova",
+      "version": "1791054540-d295"
+    }
+  ],
+  "launch": {
+    "file": "Main.dc.html",
+    "view": "focused"
+  },
+  "notes": {},
+  "order": [
+    "Main.dc.html",
+    "Services.dc.html",
+    "Urgences.dc.html",
+    "Alertes.dc.html",
+    "Connexion.dc.html",
+    "Inscription.dc.html",
+    "EspaceHabitant.dc.html",
+    "EspaceAgent.dc.html",
+    "EspaceAdmin.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Page 1"
+    }
+  ],
+  "title": "Nova Terra — Accueil"
+}

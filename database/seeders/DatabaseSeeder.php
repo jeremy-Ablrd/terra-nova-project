@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ServiceSeeder::class);
         $this->call(UrgenceSeeder::class);
+        $this->call(HorairesServicesSeeder::class); // après ServiceSeeder et UrgenceSeeder : installations neuves seulement
 
         // Comptes de démonstration, relançable sans doublon. Les mots de passe ne sont jamais dans le code :
         // ils viennent du .env (SEED_*_PASSWORD) ; si la variable est vide, un mot de passe aléatoire est généré et affiché.

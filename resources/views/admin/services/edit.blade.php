@@ -67,6 +67,50 @@
                     </div>
 
                     <div>
+                        <x-input-label for="organisme" :value="__('Organisme')" />
+                        <x-text-input id="organisme" name="organisme" class="block mt-1 w-full" type="text" :value="old('organisme', $service->organisme)" maxlength="100"
+                                      aria-describedby="organisme_aide{{ $errors->has('organisme') ? ' organisme_erreur' : '' }}" />
+                        <p id="organisme_aide" class="mt-1 text-xs text-gray-500">{{ __('Facultatif : par exemple « Association partenaire de la ville ». Affiché sous le nom du service.') }}</p>
+                        <x-input-error id="organisme_erreur" :messages="$errors->get('organisme')" class="mt-2" role="alert" />
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h2 class="font-medium text-gray-900">{{ __('Horaires d\'ouverture') }}</h2>
+                            <p id="horaires_aide" class="mt-1 text-xs text-gray-500">
+                                {{ __('Deux plages au plus par jour, en heures et minutes (heure de La Réunion). Une plage ne peut pas passer minuit : pour fermer à minuit, saisissez 23:59. Laissez les heures vides pour un jour fermé ou une seule plage. L\'état « ouvert / fermé » affiché au public est calculé à chaque visite.') }}
+                            </p>
+                            <x-input-error :messages="$errors->get('horaires')" class="mt-2" role="alert" />
+                        </div>
+                        @foreach (\App\Models\Service::JOURS as $jour)
+                            <fieldset class="border border-gray-300 rounded-md p-3">
+                                <legend class="px-1 text-sm font-medium text-gray-900">{{ __('ouverture_service.jours_titre.'.$jour) }}</legend>
+                                @if ($errors->has("horaires.$jour"))
+                                    <x-input-error :messages="$errors->get('horaires.'.$jour)" class="mb-2" role="alert" />
+                                @endif
+                                <div class="grid gap-4 sm:grid-cols-2">
+                                    @foreach ([0, 1] as $rang)
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <label for="horaires-{{ $jour }}-{{ $rang }}-ouverture" class="block text-xs text-gray-700">{{ __('Plage :n : ouverture', ['n' => $rang + 1]) }}</label>
+                                                <input id="horaires-{{ $jour }}-{{ $rang }}-ouverture" name="horaires[{{ $jour }}][{{ $rang }}][ouverture]" type="time"
+                                                       value="{{ old("horaires.$jour.$rang.ouverture", data_get($service->horaires_semaine, "$jour.$rang.0")) }}"
+                                                       aria-describedby="horaires_aide" class="mt-1 block w-full {{ $champ }}">
+                                            </div>
+                                            <div>
+                                                <label for="horaires-{{ $jour }}-{{ $rang }}-fermeture" class="block text-xs text-gray-700">{{ __('Plage :n : fermeture', ['n' => $rang + 1]) }}</label>
+                                                <input id="horaires-{{ $jour }}-{{ $rang }}-fermeture" name="horaires[{{ $jour }}][{{ $rang }}][fermeture]" type="time"
+                                                       value="{{ old("horaires.$jour.$rang.fermeture", data_get($service->horaires_semaine, "$jour.$rang.1")) }}"
+                                                       aria-describedby="horaires_aide" class="mt-1 block w-full {{ $champ }}">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </fieldset>
+                        @endforeach
+                    </div>
+
+                    <div>
                         <x-input-label for="adresse" :value="__('Adresse')" />
                         <x-text-input id="adresse" name="adresse" class="block mt-1 w-full" type="text" :value="old('adresse', $service->adresse)" maxlength="255"
                                       aria-describedby="adresse_aide{{ $errors->has('adresse') ? ' adresse_erreur' : '' }}" :aria-invalid="$errors->has('adresse') ? 'true' : 'false'" />
