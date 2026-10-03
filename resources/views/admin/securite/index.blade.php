@@ -49,6 +49,10 @@
                 @endif
                 <p>{{ $limiteIp ? __('Limite de connexion par adresse IP : activée.') : __('Limite de connexion par adresse IP : désactivée.') }}</p>
                 <p>{{ __('Mode de la politique de sécurité du contenu (CSP) : :mode.', ['mode' => $modeCsp]) }}</p>
+                <p>{{ __('Adresse du site (APP_URL), utilisée pour les liens des documents téléchargés : :url', ['url' => $appUrl]) }}</p>
+                @if ($appUrlLocale)
+                    <p role="alert" class="rounded border-2 border-red-800 p-2 font-medium text-red-900">{{ __('APP_URL pointe vers une adresse locale alors que le site est en production : les liens des documents téléchargés seraient inutilisables. Corrigez APP_URL dans le .env.') }}</p>
+                @endif
             </section>
 
             <nav aria-label="{{ __('Filtrer par type d\'événement') }}" class="px-4 sm:px-0">

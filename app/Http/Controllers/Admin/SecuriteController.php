@@ -44,6 +44,9 @@ class SecuriteController extends Controller
             'enTeteRelais' => $request->headers->has('X-Forwarded-For'),
             'limiteIp' => (bool) config('securite.limite_ip'),
             'modeCsp' => config('securite.csp_mode'),
+            // Les liens des documents téléchargés partent de APP_URL : « localhost » en production serait une erreur de configuration.
+            'appUrl' => config('app.url'),
+            'appUrlLocale' => app()->environment('production') && in_array(parse_url((string) config('app.url'), PHP_URL_HOST), ['localhost', '127.0.0.1', '::1'], true),
         ]);
     }
 }

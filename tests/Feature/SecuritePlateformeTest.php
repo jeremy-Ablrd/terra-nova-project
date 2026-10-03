@@ -260,4 +260,22 @@ class SecuritePlateformeTest extends TestCase
         config(['securite.limite_ip' => true]);
         $this->actingAs($admin)->get('/admin/securite')->assertSee('Limite de connexion par adresse IP : activée.');
     }
+
+    public function test_the_admin_page_shows_app_url_and_warns_about_a_local_address_in_production(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        config(['app.url' => 'https://nova-terra.example']);
+        $this->actingAs($admin)->get('/admin/securite')->assertOk()
+            ->assertSee('Adresse du site (APP_URL)')->assertSee('https://nova-terra.example')
+            ->assertDontSee('APP_URL pointe vers une adresse locale');
+
+        // En développement, une adresse locale est normale : pas d'alerte.
+        config(['app.url' => 'http://localhost:8000']);
+        $this->actingAs($admin)->get('/admin/securite')->assertDontSee('APP_URL pointe vers une adresse locale');
+
+        // En production, localhost est une erreur de configuration : alerte.
+        $this->app->detectEnvironment(fn () => 'production');
+        $this->actingAs($admin)->get('/admin/securite')->assertSee('APP_URL pointe vers une adresse locale');
+    }
 }
