@@ -12,6 +12,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UrgenceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,9 @@ Route::get('/alertes/{alerte}', [AlerteController::class, 'show'])->name('alerte
 // Catalogue des services municipaux : pages publiques (visibles sans connexion).
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
+
+// Hôpitaux et services d'urgence : une seule page publique (F46).
+Route::get('/urgences', [UrgenceController::class, 'index'])->name('urgences.index');
 
 Route::get('/espace', function () {
     return view('dashboard');

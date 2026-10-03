@@ -25,6 +25,11 @@ class ServiceFactory extends Factory
             'lieu' => null,
             'contact' => null,
             'icone' => null,
+            'adresse' => null,
+            'quartier' => null,
+            'repere' => null,
+            'telephone' => null,
+            'urgence' => false,
             'categorie' => CategorieService::Autre,
             'prioritaire' => false,
             'disponibilite' => Disponibilite::Disponible,
@@ -39,6 +44,17 @@ class ServiceFactory extends Factory
     public function categorie(CategorieService $categorie): static
     {
         return $this->state(fn () => ['categorie' => $categorie]);
+    }
+
+    /** Service d'urgence, avec une localisation complète. */
+    public function urgence(): static
+    {
+        return $this->state(fn () => ['urgence' => true])->localise();
+    }
+
+    public function localise(string $adresse = '12 rue des Tests', string $quartier = 'Quartier test', string $repere = 'Près de la fontaine', string $telephone = '0262 12 34 56'): static
+    {
+        return $this->state(fn () => ['adresse' => $adresse, 'quartier' => $quartier, 'repere' => $repere, 'telephone' => $telephone]);
     }
 
     public function prioritaire(): static

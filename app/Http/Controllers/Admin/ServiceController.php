@@ -34,7 +34,7 @@ class ServiceController extends Controller
     public function update(UpdateServiceRequest $request, Service $service): RedirectResponse
     {
         // L'autorisation est vérifiée par la requête (ServicePolicy) ; la règle métier est dans le modèle.
-        $service->mettreAJourDisponibilite($request->validated());
+        $service->mettreAJour($request->validated());
 
         return redirect()->route('admin.services.index')
             ->with('success', __('Le service « :nom » est mis à jour.', ['nom' => $service->nom]));

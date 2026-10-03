@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(ServiceSeeder::class);
+        $this->call(UrgenceSeeder::class);
 
         // Comptes de démonstration, relançable sans doublon. Les mots de passe ne sont jamais dans le code :
         // ils viennent du .env (SEED_*_PASSWORD) ; si la variable est vide, un mot de passe aléatoire est généré et affiché.

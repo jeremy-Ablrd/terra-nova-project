@@ -20,6 +20,7 @@
 
                 <div class="flex items-center gap-3 text-sm">
                     <a href="{{ route('services.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Services') }}</a>
+                    <a href="{{ route('urgences.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Urgences') }}</a>
                     <a href="{{ route('alertes.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Alertes en cours') }}</a>
                     @auth
                         <a href="{{ Auth::user()->homeUrl() }}" class="px-4 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700">Mon espace</a>

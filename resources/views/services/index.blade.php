@@ -53,6 +53,9 @@
                                     </p>
                                 </div>
                                 <p class="text-sm text-gray-800">{{ $service->resume }}</p>
+                                @if ($service->adresse || $service->quartier)
+                                    <p class="text-sm text-gray-700">{{ collect([$service->adresse, $service->quartier])->filter()->implode(' — ') }}</p>
+                                @endif
                                 <x-disponibilite-service :service="$service" />
                                 <p class="text-sm">
                                     <a href="{{ route('services.show', $service) }}" class="underline font-medium text-gray-900">{{ __('Voir la fiche') }}<span class="sr-only"> {{ __('du service') }} {{ $service->nom }}</span></a>

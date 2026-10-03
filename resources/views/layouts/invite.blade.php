@@ -8,6 +8,7 @@
 
         <div class="flex items-center gap-3 text-sm">
             <a href="{{ route('services.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Services') }}</a>
+            <a href="{{ route('urgences.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Urgences') }}</a>
             <a href="{{ route('alertes.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Alertes en cours') }}</a>
             <a href="{{ route('login') }}" class="px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">{{ __('Se connecter') }}</a>
             <a href="{{ route('register') }}" class="px-3 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700">{{ __('Créer mon compte') }}</a>

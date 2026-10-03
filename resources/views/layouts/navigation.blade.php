@@ -48,6 +48,9 @@
                         <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
                             {{ __('Services') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('urgences.index')" :active="request()->routeIs('urgences.*')">
+                            {{ __('Urgences') }}
+                        </x-nav-link>
                     @endif
                     @if (Auth::user()->isCitoyen())
                         <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
@@ -142,6 +145,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
                     {{ __('Services') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('urgences.index')" :active="request()->routeIs('urgences.*')">
+                    {{ __('Urgences') }}
                 </x-responsive-nav-link>
             @endif
             @if (Auth::user()->isCitoyen())

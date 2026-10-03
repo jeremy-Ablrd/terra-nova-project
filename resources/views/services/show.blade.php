@@ -44,6 +44,30 @@
                             <dt class="text-gray-500">{{ __('Contact') }}</dt>
                             <dd class="mt-1 text-gray-900">{{ $service->contact ?? __('Non précisé') }}</dd>
                         </div>
+                        @if ($service->adresse)
+                            <div>
+                                <dt class="text-gray-500">{{ __('Adresse') }}</dt>
+                                <dd class="mt-1 text-gray-900">{{ $service->adresse }}</dd>
+                            </div>
+                        @endif
+                        @if ($service->quartier)
+                            <div>
+                                <dt class="text-gray-500">{{ __('Quartier') }}</dt>
+                                <dd class="mt-1 text-gray-900">{{ $service->quartier }}</dd>
+                            </div>
+                        @endif
+                        @if ($service->repere)
+                            <div>
+                                <dt class="text-gray-500">{{ __('Repère') }}</dt>
+                                <dd class="mt-1 text-gray-900">{{ $service->repere }}</dd>
+                            </div>
+                        @endif
+                        @if ($service->telephoneHref())
+                            <div>
+                                <dt class="text-gray-500">{{ __('Téléphone') }}</dt>
+                                <dd class="mt-1 text-gray-900"><x-telephone-lien :service="$service" /></dd>
+                            </div>
+                        @endif
                     </dl>
                 </section>
             </div>

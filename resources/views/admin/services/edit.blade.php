@@ -67,6 +67,38 @@
                     </div>
 
                     <div>
+                        <x-input-label for="adresse" :value="__('Adresse')" />
+                        <x-text-input id="adresse" name="adresse" class="block mt-1 w-full" type="text" :value="old('adresse', $service->adresse)" maxlength="255"
+                                      aria-describedby="adresse_aide{{ $errors->has('adresse') ? ' adresse_erreur' : '' }}" :aria-invalid="$errors->has('adresse') ? 'true' : 'false'" />
+                        <p id="adresse_aide" class="mt-1 text-xs text-gray-500">{{ __('Facultatif. 255 caractères maximum.') }}</p>
+                        <x-input-error id="adresse_erreur" :messages="$errors->get('adresse')" class="mt-2" role="alert" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="quartier" :value="__('Quartier')" />
+                        <x-text-input id="quartier" name="quartier" class="block mt-1 w-full" type="text" :value="old('quartier', $service->quartier)" maxlength="100"
+                                      aria-describedby="quartier_aide{{ $errors->has('quartier') ? ' quartier_erreur' : '' }}" :aria-invalid="$errors->has('quartier') ? 'true' : 'false'" />
+                        <p id="quartier_aide" class="mt-1 text-xs text-gray-500">{{ __('Facultatif, par exemple « Quartier sud ». 100 caractères maximum.') }}</p>
+                        <x-input-error id="quartier_erreur" :messages="$errors->get('quartier')" class="mt-2" role="alert" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="repere" :value="__('Repère')" />
+                        <x-text-input id="repere" name="repere" class="block mt-1 w-full" type="text" :value="old('repere', $service->repere)" maxlength="150"
+                                      aria-describedby="repere_aide{{ $errors->has('repere') ? ' repere_erreur' : '' }}" :aria-invalid="$errors->has('repere') ? 'true' : 'false'" />
+                        <p id="repere_aide" class="mt-1 text-xs text-gray-500">{{ __('Facultatif : un point de repère court pour s\'orienter. 150 caractères maximum.') }}</p>
+                        <x-input-error id="repere_erreur" :messages="$errors->get('repere')" class="mt-2" role="alert" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="telephone" :value="__('Téléphone')" />
+                        <x-text-input id="telephone" name="telephone" class="block mt-1 w-full" type="tel" :value="old('telephone', $service->telephone)" maxlength="30"
+                                      aria-describedby="telephone_aide{{ $errors->has('telephone') ? ' telephone_erreur' : '' }}" :aria-invalid="$errors->has('telephone') ? 'true' : 'false'" />
+                        <p id="telephone_aide" class="mt-1 text-xs text-gray-500">{{ __('Facultatif. Chiffres, espaces, points, tirets, parenthèses ; « + » au début possible.') }}</p>
+                        <x-input-error id="telephone_erreur" :messages="$errors->get('telephone')" class="mt-2" role="alert" />
+                    </div>
+
+                    <div>
                         <label for="prioritaire" class="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
                             <input type="hidden" name="prioritaire" value="0">
                             <input id="prioritaire" type="checkbox" name="prioritaire" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
@@ -74,6 +106,16 @@
                             {{ __('Service prioritaire') }}
                         </label>
                         <p id="prioritaire_aide" class="mt-1 text-xs text-gray-500">{{ __('Les services prioritaires sont mis en avant en tête du catalogue.') }}</p>
+                    </div>
+
+                    <div>
+                        <label for="urgence" class="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
+                            <input type="hidden" name="urgence" value="0">
+                            <input id="urgence" type="checkbox" name="urgence" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                   @checked((bool) old('urgence', $service->urgence)) aria-describedby="urgence_aide">
+                            {{ __('Service d\'urgence') }}
+                        </label>
+                        <p id="urgence_aide" class="mt-1 text-xs text-gray-500">{{ __('Affiché sur la page « Urgences et hôpitaux », comme tous les services de santé.') }}</p>
                     </div>
 
                     <div class="flex items-center justify-end gap-4">
