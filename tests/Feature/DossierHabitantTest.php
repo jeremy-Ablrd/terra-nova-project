@@ -115,7 +115,7 @@ class DossierHabitantTest extends TestCase
             ->assertSee('Document généré le 04/10/2026 12:00.')
             ->assertSee('Ce document ne contient que vos données.')
             ->assertSee('anonymisées')
-            ->assertSee(route('profile.edit'))->assertSee(route('demandes.export-csv'))->assertSee(route('mes-donnees.suppression'))
+            ->assertSee(route('profile.edit'))->assertSee(route('demandes.recapitulatif.telecharger'))->assertSee(route('mes-donnees.suppression'))
             ->getContent();
 
         $this->assertSame(1, substr_count($page, '<h1'));
@@ -124,7 +124,7 @@ class DossierHabitantTest extends TestCase
         $this->assertStringContainsString('scope="col"', $page);
         $this->assertStringContainsString('scope="row"', $page);
         $this->assertStringContainsString('Fil d&#039;Ariane', $page);
-        $this->assertStringContainsString('Télécharger mon dossier', $page);
+        $this->assertStringContainsString('Télécharger mes informations (version imprimable)', $page);
         $this->assertStringContainsString('Ctrl + P', $page);
         $this->assertMatchesRegularExpression('/<button[^>]*\bhidden\b[^>]*>\s*Imprimer/', $page);
     }
@@ -359,66 +359,15 @@ class DossierHabitantTest extends TestCase
         $this->assertStringNotContainsString('Demande de Victor', $reponse->getContent());
     }
 
-    // --- Version tableur (CSV) ---
+    // --- Page « Mes données », feuille de style, accès, requêtes ---
 
-    public function test_the_spreadsheet_version_has_the_readable_columns_and_still_neutralises_formulas(): void
-    {
-        $this->jeuDeDemandes();
-
-        $reponse = $this->actingAs($this->camille)->get('/mes-demandes/export.csv')->assertOk();
-        $csv = $reponse->getContent();
-        $this->assertStringStartsWith("\xEF\xBB\xBF", $csv);
-        $this->assertStringContainsString('no-store', $reponse->headers->get('Cache-Control'));
-
-        $lignes = array_values(array_filter(preg_split('/\R/', substr($csv, 3))));
-        $this->assertSame([
-            'Référence', 'Objet', 'Service', 'Statut', 'Créée le', 'Dernière mise à jour', 'Traitée le',
-            'Âge (jours)', 'Délai de traitement (jours)', 'Étape actuelle', 'Ce que cela signifie',
-        ], str_getcsv($lignes[0], ';', '"', ''));
-        $this->assertCount(6, $lignes); // en-tête + mes 5 demandes
-
-        $lignes = array_map(fn ($l) => str_getcsv($l, ';', '"', ''), array_slice($lignes, 1));
-        $parObjet = collect($lignes)->keyBy(1);
-
-        $this->assertSame(['Traitée', '10/09/2026 10:00', '12/09/2026 10:00', '12/09/2026 10:00', '24', '2,0', 'Traitée', 'Le dossier est clos.'], array_slice($parObjet['Inscription bibliothèque'], 3));
-        $this->assertSame('4,0', $parObjet['Carte de transport'][8]);
-        $this->assertSame(['Nouvelle', '14', '', 'Enregistrée', 'Votre demande est enregistrée, aucun agent ne l\'a encore prise en charge.'],
-            [$parObjet['Lampadaire en panne'][3], $parObjet['Lampadaire en panne'][7], $parObjet['Lampadaire en panne'][8], $parObjet['Lampadaire en panne'][9], $parObjet['Lampadaire en panne'][10]]);
-        $this->assertSame(['En cours', 'Prise en charge', 'Un agent s\'en occupe.'], [$parObjet['Arrêt déplacé'][3], $parObjet['Arrêt déplacé'][9], $parObjet['Arrêt déplacé'][10]]);
-
-        // Injection de formules : l'objet « =1+1 » est préfixé d'une apostrophe, jamais interprété par un tableur.
-        $this->assertStringContainsString("'=1+1", $csv);
-        $this->assertStringNotContainsString(';=1+1', $csv);
-
-        foreach (['Agent Secret', 'Demande de Victor', 'Demande importée', 'Victor'] as $interdit) {
-            $this->assertStringNotContainsString($interdit, $csv, $interdit);
-        }
-    }
-
-    // --- Format informatique (JSON) et page « Mes données » ---
-
-    public function test_the_json_stays_as_the_computer_format_with_a_french_description(): void
-    {
-        $this->jeuDeDemandes();
-
-        $json = json_decode($this->actingAs($this->camille)->get('/mes-donnees/export.json')->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
-        $this->assertSame('description', array_key_first($json));
-        $this->assertStringContainsString('Format informatique', $json['description']['objet']);
-        $this->assertStringContainsString('Mon dossier', $json['description']['objet']);
-        $this->assertCount(6, $json['description']['champs']);
-        $this->assertCount(5, $json['demandes']);
-        $this->assertStringNotContainsString('Agent Secret', json_encode($json, JSON_UNESCAPED_UNICODE));
-    }
-
-    public function test_my_data_page_presents_the_two_documents_first_then_the_other_formats(): void
+    public function test_my_data_page_presents_the_two_printable_documents_and_no_raw_format(): void
     {
         $page = $this->actingAs($this->camille)->get('/mes-donnees')->assertOk()
-            ->assertSeeInOrder(['Vos deux documents', 'Mon dossier', 'Récapitulatif de mes demandes', 'Autres formats', 'Version tableur (CSV)', 'Format informatique (JSON)', 'Gérer mes données'])
-            ->assertSee('réutiliser leurs données dans un autre outil')
+            ->assertSeeInOrder(['Vos deux documents', 'Mes informations', 'Télécharger mes informations (version imprimable)', 'Récapitulatif de mes demandes', 'Télécharger le récapitulatif de mes demandes (version imprimable)', 'Gérer mes données'])
+            ->assertDontSee('JSON')->assertDontSee('CSV')->assertDontSee('tableur')
             ->assertSee(route('mes-donnees.dossier'))->assertSee(route('mes-donnees.dossier.telecharger'))
             ->assertSee(route('demandes.recapitulatif'))->assertSee(route('demandes.recapitulatif.telecharger'))
-            ->assertSee(route('demandes.export-csv'))->assertSee(route('mes-donnees.export'))
             ->assertSee(route('mes-donnees.suppression'))
             ->getContent();
 
@@ -438,7 +387,7 @@ class DossierHabitantTest extends TestCase
 
     public function test_roles_and_guests_on_every_new_route(): void
     {
-        $routes = ['/mes-donnees/dossier', '/mes-donnees/dossier/telecharger', '/mes-demandes/recapitulatif', '/mes-demandes/recapitulatif/telecharger', '/mes-demandes/export.csv'];
+        $routes = ['/mes-donnees/dossier', '/mes-donnees/dossier/telecharger', '/mes-demandes/recapitulatif', '/mes-demandes/recapitulatif/telecharger'];
 
         foreach ([User::factory()->agent()->create(), User::factory()->admin()->create()] as $autre) {
             foreach ($routes as $url) {
@@ -466,7 +415,7 @@ class DossierHabitantTest extends TestCase
     public function test_the_documents_run_a_constant_number_of_queries(): void
     {
         $this->jeuDeDemandes();
-        $urls = ['/mes-donnees/dossier', '/mes-donnees/dossier/telecharger', '/mes-demandes/recapitulatif', '/mes-demandes/recapitulatif/telecharger', '/mes-demandes/export.csv'];
+        $urls = ['/mes-donnees/dossier', '/mes-donnees/dossier/telecharger', '/mes-demandes/recapitulatif', '/mes-demandes/recapitulatif/telecharger'];
 
         $compter = function (string $url): int {
             DB::flushQueryLog();
