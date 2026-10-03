@@ -20,6 +20,16 @@ class DemandeFactory extends Factory
         ];
     }
 
+    /** Demande importée de l'API : sans compte utilisateur. */
+    public function importee(?string $code = null, string $nom = 'Citoyenne anonyme'): static
+    {
+        return $this->state(fn () => [
+            'user_id' => null,
+            'request_code' => $code ?? 'X'.fake()->unique()->numerify('####'),
+            'demandeur_nom' => $nom,
+        ]);
+    }
+
     public function statut(Statut $statut): static
     {
         return $this->state(fn () => ['statut' => $statut]);

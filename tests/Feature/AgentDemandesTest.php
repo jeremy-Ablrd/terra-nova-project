@@ -45,7 +45,7 @@ class AgentDemandesTest extends TestCase
 
         $this->actingAs(User::factory()->agent()->create())->get('/agent/demandes')
             ->assertOk()
-            ->assertSee('Demandes des habitants')
+            ->assertSee('Centre technique municipal')
             ->assertSee($a->fresh()->reference)
             ->assertSee($b->fresh()->reference)
             ->assertSee('Lampadaire en panne')
@@ -66,6 +66,25 @@ class AgentDemandesTest extends TestCase
             ->assertSee('<time datetime="', false)
             ->assertSee('title="'.now()->subDays(2)->format('d/m/Y H:i').'"', false)
             ->assertSee('il y a 2 jours');
+    }
+
+    public function test_page_is_named_centre_technique_municipal_in_h1_and_title(): void
+    {
+        $response = $this->actingAs(User::factory()->agent()->create())->get('/agent/demandes')->assertOk();
+
+        $response->assertSee('>Centre technique municipal</h1>', false);
+        $response->assertSee('<title>Centre technique municipal – '.config('app.name').'</title>', false);
+    }
+
+    public function test_citizen_and_admin_do_not_see_the_centre_technique_municipal_label_in_navigation(): void
+    {
+        $this->actingAs(User::factory()->create())->get('/espace')
+            ->assertOk()
+            ->assertDontSee('Centre technique municipal');
+
+        $this->actingAs(User::factory()->admin()->create())->get('/admin')
+            ->assertOk()
+            ->assertDontSee('Centre technique municipal');
     }
 
     public function test_breadcrumb_is_shown_with_links(): void

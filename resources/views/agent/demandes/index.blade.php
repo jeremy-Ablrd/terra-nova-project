@@ -1,14 +1,14 @@
-<x-app-layout>
+<x-app-layout :title="__('Centre technique municipal')">
     <x-slot name="breadcrumb">
         <x-breadcrumb :items="[
             ['label' => __('Accueil'), 'url' => url('/')],
             ['label' => __('Espace agent'), 'url' => route('agent.index')],
-            ['label' => __('Demandes')],
+            ['label' => __('Centre technique municipal')],
         ]" />
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Demandes des habitants') }}</h1>
+        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Centre technique municipal') }}</h1>
     </x-slot>
 
     <div class="py-12">
@@ -77,8 +77,8 @@
                                             @endif
                                         </td>
                                         <td class="px-6 py-3">{{ $demande->objet }}</td>
-                                        <td class="px-6 py-3">{{ $demande->user->name }}</td>
-                                        <td class="px-6 py-3">{{ $demande->service?->nom ?? __('À orienter') }}</td>
+                                        <td class="px-6 py-3">{{ $demande->nom_demandeur }}</td>
+                                        <td class="px-6 py-3">{{ $demande->service?->nom ?? ($demande->estImportee() ? __('Non précisé') : __('À orienter')) }}</td>
                                         <td class="px-6 py-3"><x-statut-badge :statut="$demande->statut" /></td>
                                         <td class="px-6 py-3 whitespace-nowrap">
                                             <time datetime="{{ $demande->created_at->toIso8601String() }}"

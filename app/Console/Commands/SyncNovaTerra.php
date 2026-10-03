@@ -32,6 +32,7 @@ class SyncNovaTerra extends Command
         }
 
         $this->info("{$result['received']} demandes reçues, {$result['new']} nouvelles.");
+        $this->info(trans_choice(NovaTerraApi::IMPORT_MESSAGE, $result['imported']));
 
         return self::SUCCESS;
     }

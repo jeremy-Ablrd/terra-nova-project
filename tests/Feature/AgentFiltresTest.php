@@ -159,9 +159,9 @@ class AgentFiltresTest extends TestCase
         $this->actingAs($this->agent)->get('/agent')
             ->assertOk()
             ->assertSee('Charge de travail')
-            ->assertSee('Voir les demandes en attente')
+            ->assertSee('Centre technique municipal : demandes en attente')
             ->assertSee('statut=nouvelle', false)
-            ->assertSee('Voir toutes les demandes');
+            ->assertSee('Centre technique municipal : toutes les demandes');
     }
 
     public function test_nav_counter_is_absent_for_citizen_and_admin_and_runs_no_query_for_them(): void

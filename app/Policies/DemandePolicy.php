@@ -16,7 +16,8 @@ class DemandePolicy
     /** Le citoyen ne voit que ses demandes ; l'agent voit toutes les demandes ; l'admin n'a aucun accès aux demandes des habitants. */
     public function view(User $user, Demande $demande): bool
     {
-        return $user->isAgent() || $demande->user_id === $user->id;
+        // user_id null (demande importée de l'API) ne correspond jamais à un utilisateur : comparaison stricte.
+        return $user->isAgent() || ($demande->user_id !== null && $demande->user_id === $user->id);
     }
 
     /** Seul l'agent peut modifier le statut d'une demande. */

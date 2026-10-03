@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Enums\Statut;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-// user_id, statut, agent_id et traitee_at sont fixés côté serveur, jamais depuis un formulaire.
+// user_id, statut, agent_id, traitee_at, request_code et demandeur_nom sont fixés côté serveur, jamais depuis un formulaire.
 #[Fillable(['objet', 'message', 'service_id'])]
 class Demande extends Model
 {
@@ -32,6 +33,18 @@ class Demande extends Model
     public function scopeEnAttente(Builder $query): Builder
     {
         return $query->where('statut', Statut::Nouvelle->value);
+    }
+
+    /** Demande importée de l'API : aucun compte utilisateur associé (user_id null). */
+    public function estImportee(): bool
+    {
+        return $this->user_id === null;
+    }
+
+    /** Nom du demandeur : le compte s'il existe, sinon le nom donné par l'API, sinon « Non précisé ». */
+    protected function nomDemandeur(): Attribute
+    {
+        return Attribute::get(fn () => $this->user?->name ?? $this->demandeur_nom ?? __('Non précisé'));
     }
 
     protected function casts(): array

@@ -7,6 +7,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class NovaTerraApi
@@ -25,6 +26,11 @@ class NovaTerraApi
     public const LOCK_SECONDS = 120;
 
     private const CHUNK_SIZE = 200;
+
+    /** Message (singulier/pluriel) du nombre de demandes citoyennes importées dans `demandes`. */
+    public const IMPORT_MESSAGE = '{0} Aucune nouvelle demande citoyenne importée|{1} :count demande citoyenne importée|[2,*] :count demandes citoyennes importées';
+
+    public function __construct(private readonly ImporteDemandesApi $importeur) {}
 
     /** Message mémorisé (et affiché) pour toute erreur qui n'est pas une erreur de l'API. */
     public static function unexpectedErrorMessage(): string
@@ -75,15 +81,43 @@ class NovaTerraApi
     }
 
     /**
-     * Synchronise les demandes de l'API, sous verrou.
+     * Synchronise les demandes de l'API puis importe les demandes « Citoyen » dans `demandes`, le tout sous verrou.
+     * L'import part de la base locale : il a lieu même si la synchro échoue (réseau, 403…). L'erreur de la synchro
+     * est alors relancée après l'import, et mémorisée dans last_error.
      *
-     * @return array{busy: bool, received: int, new: int}
+     * @return array{busy: bool, received: int, new: int, imported: int}
      *
      * @throws Throwable
      */
     public function sync(): array
     {
-        return $this->withLock(fn () => $this->fetchAndStore());
+        return $this->withLock(function () {
+            $erreur = null;
+            $result = ['received' => 0, 'new' => 0];
+
+            try {
+                $result = $this->fetchAndStore();
+            } catch (Throwable $e) {
+                $erreur = $e;
+            }
+
+            $importees = 0;
+            try {
+                $importees = $this->importeur->import();
+            } catch (Throwable $e) {
+                if ($erreur === null) {
+                    $erreur = $e;
+                } else {
+                    Log::error('Import des demandes échoué après un échec de synchro : '.$e->getMessage());
+                }
+            }
+
+            if ($erreur !== null) {
+                throw $erreur;
+            }
+
+            return $result + ['imported' => $importees];
+        });
     }
 
     /**
@@ -94,8 +128,8 @@ class NovaTerraApi
      * - toute exception (API ou autre) est mémorisée dans le cache `last_error`, puis relancée ;
      * - le verrou est toujours libéré (finally).
      *
-     * @param  callable(): array{received: int, new: int}  $work
-     * @return array{busy: bool, received: int, new: int}
+     * @param  callable(): array<string, mixed>  $work
+     * @return array<string, mixed> $work fusionné avec `busy` ; verrou pris : busy = true, received/new/imported = 0
      *
      * @throws Throwable
      */
@@ -104,7 +138,7 @@ class NovaTerraApi
         $lock = Cache::lock(self::LOCK_KEY, self::LOCK_SECONDS);
 
         if (! $lock->get()) {
-            return ['busy' => true, 'received' => 0, 'new' => 0];
+            return ['busy' => true, 'received' => 0, 'new' => 0, 'imported' => 0];
         }
 
         try {

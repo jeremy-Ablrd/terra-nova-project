@@ -27,7 +27,7 @@
                             Espace agent
                         </x-nav-link>
                         <x-nav-link :href="route('agent.demandes.index')" :active="request()->routeIs('agent.demandes.*')">
-                            {{ __('Demandes') }}
+                            {{ __('Centre technique municipal') }}
                             @if ($demandesEnAttente !== null)
                                 <x-compteur-en-attente :nombre="$demandesEnAttente" />
                             @endif
@@ -113,7 +113,7 @@
                     Espace agent
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('agent.demandes.index')" :active="request()->routeIs('agent.demandes.*')">
-                    {{ __('Demandes') }}
+                    {{ __('Centre technique municipal') }}
                     @if ($demandesEnAttente !== null)
                         <x-compteur-en-attente :nombre="$demandesEnAttente" />
                     @endif

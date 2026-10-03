@@ -15,8 +15,8 @@
                     <x-compteur-en-attente :nombre="$enAttente" visible />
                 </p>
                 <p class="mt-4 flex flex-wrap items-center gap-4 text-sm">
-                    <a href="{{ route('agent.demandes.index', ['statut' => \App\Enums\Statut::Nouvelle->value]) }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir les demandes en attente') }}</a>
-                    <a href="{{ route('agent.demandes.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir toutes les demandes') }}</a>
+                    <a href="{{ route('agent.demandes.index', ['statut' => \App\Enums\Statut::Nouvelle->value]) }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Centre technique municipal : demandes en attente') }}</a>
+                    <a href="{{ route('agent.demandes.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Centre technique municipal : toutes les demandes') }}</a>
                 </p>
             </section>
         </div>

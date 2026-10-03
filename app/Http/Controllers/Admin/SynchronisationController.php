@@ -37,7 +37,7 @@ class SynchronisationController extends Controller
             $result = $api->sync();
             $resultat = $result['busy']
                 ? ['ok' => null, 'message' => __('Une synchronisation est déjà en cours. Réessayez dans quelques instants.')]
-                : ['ok' => true, 'message' => __(':received demandes reçues, :new nouvelles.', ['received' => $result['received'], 'new' => $result['new']])];
+                : ['ok' => true, 'message' => __(':received demandes reçues, :new nouvelles.', ['received' => $result['received'], 'new' => $result['new']]).' '.trans_choice(NovaTerraApi::IMPORT_MESSAGE, $result['imported'])];
         } catch (NovaTerraApiException $e) {
             $resultat = ['ok' => false, 'message' => $e->getMessage()];
         } catch (Throwable $e) {
