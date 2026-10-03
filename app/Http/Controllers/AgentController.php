@@ -34,6 +34,11 @@ class AgentController extends Controller
 
         $plusAncienne = $agregat->plus_ancienne ? Carbon::parse($agregat->plus_ancienne) : null;
 
+        // Services interrompus et désactivés : UNE requête groupée.
+        $servicesParEtat = Service::actifs()
+            ->whereIn('disponibilite', [Disponibilite::Interrompu->value, Disponibilite::Desactive->value])
+            ->toBase()->selectRaw('disponibilite, count(*) as total')->groupBy('disponibilite')->pluck('total', 'disponibilite');
+
         $lastSync = Cache::get(NovaTerraApi::CACHE_LAST_SYNC);
         $session = Cache::get(NovaTerraApi::CACHE_SESSION);
 
@@ -44,7 +49,8 @@ class AgentController extends Controller
             'recentes' => (int) $agregat->recentes,
             'ancienneteJours' => $plusAncienne ? (int) floor($plusAncienne->diffInDays(now(), true)) : null,
             'alertesActives' => Alerte::active()->count(),
-            'servicesInterrompus' => Service::actifs()->where('disponibilite', Disponibilite::Interrompu->value)->count(),
+            'servicesInterrompus' => (int) ($servicesParEtat[Disponibilite::Interrompu->value] ?? 0),
+            'servicesDesactives' => (int) ($servicesParEtat[Disponibilite::Desactive->value] ?? 0),
             'comptesCitoyens' => User::where('role', Role::Citoyen->value)->count(),
             'entrees' => JournalActivite::query()->orderByDesc('created_at')->orderByDesc('id')->limit(5)->get(),
             // Valeurs du cache à la dernière synchro : affichées telles quelles, jamais recalculées.

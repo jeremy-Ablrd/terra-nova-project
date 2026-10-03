@@ -31,6 +31,7 @@
 
                                 {{-- Disponibilité d'abord, avec motif, retour et alternative si le service est interrompu. --}}
                                 <x-disponibilite-service :service="$service" detail />
+                                <x-prochaine-action :service="$service" />
 
                                 <dl class="grid gap-3 text-sm sm:grid-cols-2">
                                     <div>

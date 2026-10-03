@@ -52,7 +52,7 @@
 
             <section aria-labelledby="plateforme">
                 <h2 id="plateforme" class="font-medium text-gray-900 mb-2 px-4 sm:px-0">{{ __('Plateforme') }}</h2>
-                <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     <li><a href="{{ route('alertes.index') }}" class="{{ $carte }}">
                         <span class="text-2xl font-bold">{{ $alertesActives }}</span>
                         <span class="block text-sm text-gray-800">{{ trans_choice('{0} Aucune alerte active|{1} :count alerte active|[2,*] :count alertes actives', $alertesActives) }}</span>
@@ -61,6 +61,10 @@
                     <li><div class="{{ $carte }} hover:border-gray-200">
                         <span class="text-2xl font-bold">{{ $servicesInterrompus }}</span>
                         <span class="block text-sm text-gray-800">{{ trans_choice('{0} Aucun service interrompu|{1} :count service interrompu|[2,*] :count services interrompus', $servicesInterrompus) }}</span>
+                    </div></li>
+                    <li><div class="{{ $carte }} hover:border-gray-200">
+                        <span class="text-2xl font-bold">{{ $servicesDesactives }}</span>
+                        <span class="block text-sm text-gray-800">{{ trans_choice('{0} Aucun service désactivé|{1} :count service désactivé|[2,*] :count services désactivés', $servicesDesactives) }}</span>
                     </div></li>
                     <li><div class="{{ $carte }} hover:border-gray-200">
                         <span class="text-2xl font-bold">{{ $comptesCitoyens }}</span>

@@ -13,16 +13,26 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            @if ($service->estIndisponible())
+                {{-- En tête, avant tout bouton : l'état, le motif et la prochaine action. --}}
+                <div role="status" class="space-y-3">
+                    <x-disponibilite-service :service="$service" detail sans-role />
+                    <x-prochaine-action :service="$service" :avec-lien-demande="false" class="px-3" />
+                </div>
+            @endif
+
             <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-5">
                 <p class="text-sm text-gray-600">
                     {{ $service->categorie->label() }}
                     @if ($service->prioritaire) · <span class="font-semibold text-gray-900">{{ __('Service prioritaire') }}</span> @endif
                 </p>
 
-                <section aria-labelledby="disponibilite">
-                    <h2 id="disponibilite" class="font-medium text-gray-900">{{ __('Disponibilité') }}</h2>
-                    <x-disponibilite-service :service="$service" detail class="mt-2" />
-                </section>
+                @unless ($service->estIndisponible())
+                    <section aria-labelledby="disponibilite">
+                        <h2 id="disponibilite" class="font-medium text-gray-900">{{ __('Disponibilité') }}</h2>
+                        <x-disponibilite-service :service="$service" detail class="mt-2" />
+                    </section>
+                @endunless
 
                 <section aria-labelledby="description">
                     <h2 id="description" class="font-medium text-gray-900">{{ __('Description') }}</h2>
@@ -74,11 +84,13 @@
 
             <p class="flex flex-wrap items-center gap-4 text-sm">
                 @auth
-                    @if (Auth::user()->isCitoyen())
+                    @if (Auth::user()->isCitoyen() && ! $service->estDesactive())
                         <x-primary-link href="{{ route('contact.create', ['service_id' => $service->id]) }}">{{ __('Faire une demande à ce service') }}</x-primary-link>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Se connecter pour faire une demande') }}</a>
+                    @unless ($service->estDesactive())
+                        <a href="{{ route('login') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Se connecter pour faire une demande') }}</a>
+                    @endunless
                 @endauth
                 <a href="{{ route('services.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Retour aux services') }}</a>
             </p>

@@ -33,6 +33,7 @@ class Service extends Model
             'categorie' => CategorieService::class,
             'disponibilite' => Disponibilite::class,
             'retour_estime_at' => 'datetime',
+            'desactive_at' => 'datetime',
         ];
     }
 
@@ -58,9 +59,35 @@ class Service extends Model
             ->orderBy('nom');
     }
 
+    /** Liste publique : prioritaires en tête (tri d'origine), puis les services désactivés et interrompus avant les disponibles. */
+    public function scopeParPrioriteEtEtat(Builder $query): Builder
+    {
+        return $query->orderByDesc('prioritaire')
+            ->orderByRaw("case disponibilite when 'desactive' then 0 when 'interrompu' then 1 else 2 end")
+            ->orderBy('ordre')
+            ->orderBy('nom');
+    }
+
+    /** Services qu'on peut choisir dans /contact : tout sauf les services désactivés (coupure d'urgence). */
+    public function scopeChoisissables(Builder $query): Builder
+    {
+        return $query->where('disponibilite', '!=', Disponibilite::Desactive->value);
+    }
+
     public function estInterrompu(): bool
     {
         return $this->disponibilite === Disponibilite::Interrompu;
+    }
+
+    public function estDesactive(): bool
+    {
+        return $this->disponibilite === Disponibilite::Desactive;
+    }
+
+    /** Vrai pour « interrompu » et « désactivé » : un motif (et une alternative) ont alors un sens. */
+    public function estIndisponible(): bool
+    {
+        return $this->disponibilite !== Disponibilite::Disponible;
     }
 
     /** Adresse à afficher : l'adresse renseignée, à défaut le « lieu » historique du service. */
@@ -107,10 +134,21 @@ class Service extends Model
             $this->motif_interruption = $donnees['motif_interruption'];
             $this->retour_estime_at = $donnees['retour_estime_at'] ?? null;
             $this->alternative = $donnees['alternative'] ?? null;
+        } elseif ($this->estDesactive()) {
+            $this->motif_interruption = $donnees['motif_interruption'];
+            $this->retour_estime_at = null;
+            $this->alternative = $donnees['alternative'] ?? null;
         } else {
             $this->motif_interruption = null;
             $this->retour_estime_at = null;
             $this->alternative = null;
+        }
+
+        // Date de la coupure : posée au passage à « désactivé », conservée tant que le service le reste, effacée sinon.
+        if ($this->estDesactive()) {
+            $this->desactive_at ??= now();
+        } else {
+            $this->desactive_at = null;
         }
 
         $changements = [];
@@ -120,7 +158,7 @@ class Service extends Model
         if ($avantPriorite !== (bool) $this->prioritaire) {
             $changements['prioritaire'] = [$avantPriorite, (bool) $this->prioritaire];
         }
-        $autres = array_values(array_diff(array_keys($this->getDirty()), ['disponibilite', 'prioritaire', 'updated_at']));
+        $autres = array_values(array_diff(array_keys($this->getDirty()), ['disponibilite', 'prioritaire', 'desactive_at', 'updated_at']));
         if ($autres !== []) {
             $changements['champs'] = $autres;
         }
@@ -128,6 +166,33 @@ class Service extends Model
         $this->save();
 
         return $changements;
+    }
+
+    /**
+     * Coupure d'urgence (F63) : le service ne peut plus être choisi dans /contact. Motif obligatoire, alternative facultative.
+     * Même résultat que mettreAJour() : ce qui a réellement changé, pour le journal.
+     *
+     * @return array<string, mixed>
+     */
+    public function desactiver(string $motif, ?string $alternative = null): array
+    {
+        return $this->mettreAJour([
+            'disponibilite' => Disponibilite::Desactive->value,
+            'motif_interruption' => $motif,
+            'alternative' => $alternative,
+            'prioritaire' => $this->prioritaire,
+            'urgence' => $this->urgence,
+        ] + collect(self::CHAMPS_LOCALISATION)->mapWithKeys(fn ($champ) => [$champ => $this->{$champ}])->all());
+    }
+
+    /** Remise en service : efface motif, retour estimé et alternative, comme la remise en service existante. */
+    public function reactiver(): array
+    {
+        return $this->mettreAJour([
+            'disponibilite' => Disponibilite::Disponible->value,
+            'prioritaire' => $this->prioritaire,
+            'urgence' => $this->urgence,
+        ] + collect(self::CHAMPS_LOCALISATION)->mapWithKeys(fn ($champ) => [$champ => $this->{$champ}])->all());
     }
 
     public function demandes(): HasMany

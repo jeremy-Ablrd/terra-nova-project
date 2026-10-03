@@ -72,4 +72,15 @@ class ServiceFactory extends Factory
             'alternative' => $alternative,
         ]);
     }
+
+    /** Service désactivé (coupure d'urgence), avec motif et alternative. */
+    public function desactive(?string $motif = 'Panne du guichet en ligne.', ?string $alternative = 'Présentez-vous à l\'accueil de la mairie.'): static
+    {
+        return $this->state(fn () => [
+            'disponibilite' => Disponibilite::Desactive,
+            'motif_interruption' => $motif,
+            'alternative' => $alternative,
+            'desactive_at' => now(),
+        ]);
+    }
 }

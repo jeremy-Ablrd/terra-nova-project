@@ -33,7 +33,8 @@
                         <x-input-label for="service_id" :value="__('Service concerné')" />
                         @php
                             $interrompus = $services->filter->estInterrompu();
-                            $decrit = trim(($interrompus->isNotEmpty() ? 'services_interrompus ' : '').($errors->has('service_id') ? 'service_id_erreur' : ''));
+                            $desactives = $services->filter->estDesactive();
+                            $decrit = trim(($interrompus->isNotEmpty() ? 'services_interrompus ' : '').($desactives->isNotEmpty() ? 'services_desactives ' : '').($errors->has('service_id') ? 'service_id_erreur' : ''));
                         @endphp
                         <select id="service_id" name="service_id"
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
@@ -41,7 +42,7 @@
                                 @if ($decrit !== '') aria-describedby="{{ $decrit }}" @endif>
                             <option value="">{{ __('Je ne sais pas, laissez la mairie orienter ma demande') }}</option>
                             @foreach ($services as $service)
-                                <option value="{{ $service->id }}" @selected((string) old('service_id', request()->query('service_id')) === (string) $service->id)>{{ $service->nom }}@if ($service->estInterrompu()) — {{ __('service interrompu') }}@endif</option>
+                                <option value="{{ $service->id }}" @selected(! $service->estDesactive() && (string) old('service_id', request()->query('service_id')) === (string) $service->id)@disabled($service->estDesactive())>{{ $service->nom }}@if ($service->estInterrompu()) — {{ __('service interrompu') }}@elseif ($service->estDesactive()) — {{ __('service désactivé') }}@endif</option>
                             @endforeach
                         </select>
                         @if ($interrompus->isNotEmpty())
@@ -55,6 +56,21 @@
                                             @if ($service->motif_interruption) {{ $service->motif_interruption }} @endif
                                             {{ __('Retour estimé :') }} {{ $service->retour_estime_at ? \App\Support\DateLocale::format($service->retour_estime_at) : __('non communiqué') }}.
                                             @if ($service->alternative) {{ __('À faire en attendant :') }} {{ $service->alternative }} @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if ($desactives->isNotEmpty())
+                            <div id="services_desactives" class="service-desactive mt-2 p-3 text-sm text-gray-900">
+                                <p class="font-semibold">{{ __('Services actuellement désactivés') }}</p>
+                                <p class="mt-1">{{ __('Ces services ne peuvent pas être choisis pour le moment. Choisissez un autre service, ou « Je ne sais pas » : la mairie orientera votre demande.') }}</p>
+                                <ul class="mt-2 space-y-2">
+                                    @foreach ($desactives as $service)
+                                        <li>
+                                            <span class="font-medium">{{ $service->nom }}</span> — {{ __('service désactivé') }}.
+                                            @if ($service->motif_interruption) {{ $service->motif_interruption }} @endif
+                                            @if ($service->alternative) {{ __('À faire à la place :') }} {{ $service->alternative }} @endif
                                         </li>
                                     @endforeach
                                 </ul>

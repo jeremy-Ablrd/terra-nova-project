@@ -1,8 +1,19 @@
-@props(['service', 'detail' => false])
+@props(['service', 'detail' => false, 'sansRole' => false])
 
-{{-- Disponibilité d'un service, toujours en texte (jamais la couleur seule). $detail : motif et alternative en plus (fiche). --}}
-@if ($service->estInterrompu())
-    <div {{ $attributes->merge(['class' => 'service-interrompu p-3 text-sm text-gray-900']) }} @if ($detail) role="status" @endif>
+{{-- État d'un service, toujours en texte (jamais la couleur seule) : disponible, interrompu (information) ou désactivé
+     (coupure d'urgence). $detail : motif, retour estimé et alternative en plus (fiche, urgences). --}}
+@if ($service->estDesactive())
+    <div {{ $attributes->merge(['class' => 'service-desactive p-3 text-sm text-gray-900']) }} @if ($detail && ! $sansRole) role="status" @endif>
+        <p class="font-semibold">{{ __('Service désactivé') }}</p>
+        @if ($detail && $service->motif_interruption)
+            <p class="mt-1"><span class="font-medium">{{ __('Motif :') }}</span> {{ $service->motif_interruption }}</p>
+        @endif
+        @if ($detail && $service->alternative)
+            <p class="mt-1"><span class="font-medium">{{ __('À faire à la place :') }}</span> {{ $service->alternative }}</p>
+        @endif
+    </div>
+@elseif ($service->estInterrompu())
+    <div {{ $attributes->merge(['class' => 'service-interrompu p-3 text-sm text-gray-900']) }} @if ($detail && ! $sansRole) role="status" @endif>
         <p class="font-semibold">{{ __('Service interrompu') }}</p>
         @if ($detail && $service->motif_interruption)
             <p class="mt-1"><span class="font-medium">{{ __('Motif :') }}</span> {{ $service->motif_interruption }}</p>

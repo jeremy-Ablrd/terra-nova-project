@@ -144,12 +144,22 @@ class ServicesCatalogueTest extends TestCase
     {
         Service::factory()->create();
 
+        // Deux filtres, chacun dans son propre repère de navigation au nom accessible distinct : un seul lien actif par filtre.
+        $groupe = function (string $html, string $nom): string {
+            $this->assertSame(1, preg_match('~<nav aria-label="'.preg_quote($nom, '~').'">(.*?)</nav>~s', $html, $m), "repère « {$nom} » introuvable ou en double");
+
+            return $m[1];
+        };
+
         $all = $this->get('/services')->getContent();
-        $this->assertSame(1, substr_count($all, 'aria-current="true"'));
+        $this->assertNotSame('Filtrer par catégorie', 'Filtrer par état'); // noms accessibles différents
+        $this->assertSame(1, substr_count($groupe($all, 'Filtrer par catégorie'), 'aria-current="true"'));
+        $this->assertSame(1, substr_count($groupe($all, 'Filtrer par état'), 'aria-current="true"'));
         $this->assertMatchesRegularExpression('/class="[^"]*filtre-actif[^"]*"\s+aria-current="true"\s*>\s*Tous/', $all);
 
         $sante = $this->get('/services?categorie=sante')->getContent();
-        $this->assertSame(1, substr_count($sante, 'aria-current="true"'));
+        $this->assertSame(1, substr_count($groupe($sante, 'Filtrer par catégorie'), 'aria-current="true"'));
+        $this->assertSame(1, substr_count($groupe($sante, 'Filtrer par état'), 'aria-current="true"'));
         $this->assertMatchesRegularExpression('/class="[^"]*filtre-actif[^"]*"\s+aria-current="true"\s*>\s*Santé/', $sante);
     }
 

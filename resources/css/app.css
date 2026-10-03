@@ -40,6 +40,8 @@
     --alerte-info-bord: #1d4ed8;
     --service-interrompu-bg: #fff7ed;
     --service-interrompu-bord: #c2410c;
+    --service-desactive-bg: #f3f4f6;
+    --service-desactive-bord: #111827;
 }
 
 /* --- Taille du texte : la taille racine change, tout le reste (rem) suit. ----------------------------------- */
@@ -209,6 +211,13 @@ button[aria-disabled="true"] {
     border-left: 0.5rem dashed var(--service-interrompu-bord);
 }
 
+/* Service désactivé (coupure d'urgence) : le texte « Service désactivé » est toujours présent ; la bordure pleine et épaisse
+   s'y ajoute (celle de l'interruption est en tirets) : jamais la couleur seule. */
+.service-desactive {
+    background-color: var(--service-desactive-bg);
+    border-left: 0.5rem solid var(--service-desactive-bord);
+}
+
 /* ========================================================================================================
  * Thème « Contraste renforcé » : texte noir sur blanc (21:1), bordures noires, focus épais, liens soulignés.
  * Les variables changent ; les classes Tailwind de gris, de teintes et de bordures sont ramenées au noir et blanc.
@@ -238,6 +247,8 @@ html.theme-contraste {
     --alerte-info-bord: #000000;
     --service-interrompu-bg: #ffffff;
     --service-interrompu-bord: #000000;
+    --service-desactive-bg: #ffffff;
+    --service-desactive-bord: #000000;
 }
 .theme-contraste body,
 .theme-contraste .bg-gray-50,

@@ -107,6 +107,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
     Route::get('/services/{service}/modifier', [AdminServiceController::class, 'edit'])->name('admin.services.edit');
     Route::put('/services/{service}', [AdminServiceController::class, 'update'])->name('admin.services.update');
+    // Coupure d'urgence (F63) : désactiver / réactiver depuis la liste, sans JavaScript, avec limite de débit.
+    Route::post('/services/{service}/desactiver', [AdminServiceController::class, 'desactiver'])->middleware('throttle:20,1')->name('admin.services.desactiver');
+    Route::post('/services/{service}/reactiver', [AdminServiceController::class, 'reactiver'])->middleware('throttle:20,1')->name('admin.services.reactiver');
 
     // Publication des alertes : admin seul (role:admin du groupe).
     Route::get('/alertes', [AdminAlerteController::class, 'index'])->name('admin.alertes.index');
