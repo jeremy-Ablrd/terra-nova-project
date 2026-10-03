@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -41,6 +42,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        // Le rôle n'est jamais lu depuis la requête : tout nouvel inscrit est citoyen.
+        $user->role = Role::Citoyen;
+        $user->save();
 
         event(new Registered($user));
 

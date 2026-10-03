@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,5 +29,37 @@ class RegistrationTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertRedirect(route('dashboard', absolute: false));
+    }
+
+    public function test_role_cannot_be_chosen_at_registration(): void
+    {
+        $this->post('/register', [
+            'name' => 'Pirate',
+            'email' => 'pirate@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'role' => 'admin',
+        ]);
+
+        $this->assertSame(Role::Citoyen, User::where('email', 'pirate@example.com')->first()->role);
+    }
+
+    public function test_new_citizen_lands_on_personal_space(): void
+    {
+        $this->post('/register', [
+            'name' => 'Camille',
+            'email' => 'camille@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $this->get('/espace')
+            ->assertOk()
+            ->assertSee('Mon espace citoyen')
+            ->assertSee('Bienvenue, Camille')
+            ->assertSee('Mes informations')
+            ->assertSee('camille@example.com')
+            ->assertSee(now()->translatedFormat('j F Y'))
+            ->assertSee('Citoyen');
     }
 }
