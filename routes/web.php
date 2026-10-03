@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AlerteController as AdminAlerteController;
 use App\Http\Controllers\Admin\CompteController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SynchronisationController;
 use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
 use App\Http\Controllers\AgentController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +21,10 @@ Route::get('/', function () {
 // Alertes en cours : pages publiques (visibles sans connexion).
 Route::get('/alertes', [AlerteController::class, 'index'])->name('alertes.index');
 Route::get('/alertes/{alerte}', [AlerteController::class, 'show'])->name('alertes.show');
+
+// Catalogue des services municipaux : pages publiques (visibles sans connexion).
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
 
 Route::get('/espace', function () {
     return view('dashboard');
@@ -44,6 +50,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/comptes/{user}/role', [CompteController::class, 'updateRole'])->name('admin.comptes.role');
     Route::get('/synchronisation', [SynchronisationController::class, 'index'])->name('admin.synchronisation.index');
     Route::post('/synchronisation', [SynchronisationController::class, 'store'])->middleware('throttle:6,1')->name('admin.synchronisation.run');
+
+    // Catalogue : disponibilité et mise en avant des services (admin seul : role:admin + ServicePolicy).
+    Route::get('/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
+    Route::get('/services/{service}/modifier', [AdminServiceController::class, 'edit'])->name('admin.services.edit');
+    Route::put('/services/{service}', [AdminServiceController::class, 'update'])->name('admin.services.update');
 
     // Publication des alertes : admin seul (role:admin du groupe).
     Route::get('/alertes', [AdminAlerteController::class, 'index'])->name('admin.alertes.index');

@@ -31,14 +31,35 @@
 
                     <div>
                         <x-input-label for="service_id" :value="__('Service concerné')" />
+                        @php
+                            $interrompus = $services->filter->estInterrompu();
+                            $decrit = trim(($interrompus->isNotEmpty() ? 'services_interrompus ' : '').($errors->has('service_id') ? 'service_id_erreur' : ''));
+                        @endphp
                         <select id="service_id" name="service_id"
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                @if ($errors->has('service_id')) aria-invalid="true" aria-describedby="service_id_erreur" @endif>
+                                @if ($errors->has('service_id')) aria-invalid="true" @endif
+                                @if ($decrit !== '') aria-describedby="{{ $decrit }}" @endif>
                             <option value="">{{ __('Je ne sais pas, laissez la mairie orienter ma demande') }}</option>
                             @foreach ($services as $service)
-                                <option value="{{ $service->id }}" @selected((string) old('service_id') === (string) $service->id)>{{ $service->nom }}</option>
+                                <option value="{{ $service->id }}" @selected((string) old('service_id', request()->query('service_id')) === (string) $service->id)>{{ $service->nom }}@if ($service->estInterrompu()) — {{ __('service interrompu') }}@endif</option>
                             @endforeach
                         </select>
+                        @if ($interrompus->isNotEmpty())
+                            <div id="services_interrompus" class="service-interrompu mt-2 p-3 text-sm text-gray-900">
+                                <p class="font-semibold">{{ __('Services actuellement interrompus') }}</p>
+                                <p class="mt-1">{{ __('Vous pouvez quand même envoyer votre demande : elle sera traitée dès le retour du service.') }}</p>
+                                <ul class="mt-2 space-y-2">
+                                    @foreach ($interrompus as $service)
+                                        <li>
+                                            <span class="font-medium">{{ $service->nom }}</span> — {{ __('service interrompu') }}.
+                                            @if ($service->motif_interruption) {{ $service->motif_interruption }} @endif
+                                            {{ __('Retour estimé :') }} {{ $service->retour_estime_at ? \App\Support\DateLocale::format($service->retour_estime_at) : __('non communiqué') }}.
+                                            @if ($service->alternative) {{ __('À faire en attendant :') }} {{ $service->alternative }} @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <x-input-error id="service_id_erreur" :messages="$errors->get('service_id')" class="mt-2" role="alert" />
                     </div>
 

@@ -19,6 +19,9 @@
                         <x-nav-link :href="route('admin.comptes.index')" :active="request()->routeIs('admin.comptes.*')">
                             {{ __('Comptes') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.services.index')" :active="request()->routeIs('admin.services.*')">
+                            {{ __('Services') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.synchronisation.index')" :active="request()->routeIs('admin.synchronisation.*')">
                             {{ __('Synchronisation') }}
                         </x-nav-link>
@@ -41,6 +44,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('demandes.index')" :active="request()->routeIs('demandes.*')">
                             Mes demandes
+                        </x-nav-link>
+                        <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
+                            {{ __('Services') }}
                         </x-nav-link>
                     @endif
                     @if (Auth::user()->isCitoyen())
@@ -108,6 +114,9 @@
                 <x-responsive-nav-link :href="route('admin.comptes.index')" :active="request()->routeIs('admin.comptes.*')">
                     {{ __('Comptes') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.services.index')" :active="request()->routeIs('admin.services.*')">
+                    {{ __('Services') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.synchronisation.index')" :active="request()->routeIs('admin.synchronisation.*')">
                     {{ __('Synchronisation') }}
                 </x-responsive-nav-link>
@@ -130,6 +139,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('demandes.index')" :active="request()->routeIs('demandes.*')">
                     Mes demandes
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
+                    {{ __('Services') }}
                 </x-responsive-nav-link>
             @endif
             @if (Auth::user()->isCitoyen())

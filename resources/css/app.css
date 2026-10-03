@@ -15,6 +15,8 @@
     --alerte-vigilance-bord: #b45309;
     --alerte-info-bg: #eff6ff;
     --alerte-info-bord: #1d4ed8;
+    --service-interrompu-bg: #fff7ed;
+    --service-interrompu-bord: #c2410c;
 }
 
 /* Demandes à suivre : fond + bordure (pleine = nouvelle, pointillée = en cours) + texte dans la ligne. */
@@ -51,4 +53,9 @@
 .alerte-info {
     background-color: var(--alerte-info-bg);
     border-left: 0.5rem dotted var(--alerte-info-bord);
+}
+/* Service interrompu : le texte « Service interrompu » est toujours présent ; la bordure en tirets s'y ajoute. */
+.service-interrompu {
+    background-color: var(--service-interrompu-bg);
+    border-left: 0.5rem dashed var(--service-interrompu-bord);
 }

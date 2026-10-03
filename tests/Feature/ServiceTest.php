@@ -64,12 +64,12 @@ class ServiceTest extends TestCase
         $this->assertSame(Statut::Nouvelle, $demande->statut);
     }
 
-    public function test_service_seeder_creates_six_unique_services_and_is_rerunnable(): void
+    public function test_service_seeder_creates_eight_unique_services_and_is_rerunnable(): void
     {
         $this->seed(ServiceSeeder::class);
         $this->seed(ServiceSeeder::class);
 
-        $this->assertSame(6, Service::count());
-        $this->assertSame(6, Service::pluck('slug')->unique()->count());
+        $this->assertSame(8, Service::count());
+        $this->assertSame(8, Service::pluck('slug')->unique()->count());
     }
 }

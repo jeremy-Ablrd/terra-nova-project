@@ -2,11 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Enums\CategorieService;
+use App\Enums\Disponibilite;
 use App\Models\Service;
 use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
+    /**
+     * Catalogue de démonstration : 8 services dont 2 de santé et 2 prioritaires, avec un service interrompu.
+     * Les dates sont RELATIVES à maintenant (le retour estimé reste dans le futur à chaque passage).
+     * Relançable sans doublon (clé : le slug) ; relancer remet aussi l'état de démonstration des services.
+     */
     public function run(): void
     {
         $services = [
@@ -19,6 +26,8 @@ class ServiceSeeder extends Seeder
                 'lieu' => 'Hôtel de ville, 1 place de la République',
                 'contact' => 'etat-civil@novaterra.test',
                 'icone' => 'identification',
+                'categorie' => CategorieService::Administratif,
+                'prioritaire' => true,
             ],
             [
                 'nom' => 'Urbanisme',
@@ -29,6 +38,7 @@ class ServiceSeeder extends Seeder
                 'lieu' => 'Maison de l\'aménagement, 14 avenue des Bâtisseurs',
                 'contact' => 'urbanisme@novaterra.test',
                 'icone' => 'building',
+                'categorie' => CategorieService::Administratif,
             ],
             [
                 'nom' => 'Voirie et propreté',
@@ -39,6 +49,7 @@ class ServiceSeeder extends Seeder
                 'lieu' => 'Centre technique municipal, 8 rue des Ateliers',
                 'contact' => 'voirie@novaterra.test',
                 'icone' => 'truck',
+                'categorie' => CategorieService::Autre,
             ],
             [
                 'nom' => 'Transports',
@@ -49,6 +60,12 @@ class ServiceSeeder extends Seeder
                 'lieu' => 'Maison de la mobilité, 3 boulevard du Port',
                 'contact' => 'transports@novaterra.test',
                 'icone' => 'bus',
+                'categorie' => CategorieService::Transport,
+                // Démonstration de F38 : interruption pour maintenance, retour estimé dans un jour.
+                'disponibilite' => Disponibilite::Interrompu,
+                'motif_interruption' => 'Maintenance du réseau de bus : les lignes 4 et 6 sont à l\'arrêt.',
+                'retour_estime_at' => now()->addDay(),
+                'alternative' => 'Utilisez les lignes 2 et 8, ou renseignez-vous à la Maison de la mobilité, 3 boulevard du Port.',
             ],
             [
                 'nom' => 'Culture et loisirs',
@@ -59,6 +76,7 @@ class ServiceSeeder extends Seeder
                 'lieu' => 'Médiathèque Nova, 20 rue des Arts',
                 'contact' => 'culture@novaterra.test',
                 'icone' => 'book',
+                'categorie' => CategorieService::Autre,
             ],
             [
                 'nom' => 'Aides sociales',
@@ -69,11 +87,45 @@ class ServiceSeeder extends Seeder
                 'lieu' => 'Centre d\'action sociale, 5 rue de la Solidarité',
                 'contact' => 'social@novaterra.test',
                 'icone' => 'heart',
+                'categorie' => CategorieService::Autre,
+            ],
+            [
+                'nom' => 'Centre de santé municipal',
+                'slug' => 'centre-sante-municipal',
+                'resume' => 'Consultations de médecine générale, soins infirmiers et orientation vers un spécialiste.',
+                'description' => 'Le centre de santé municipal propose des consultations de médecine générale sans dépassement d\'honoraires, des soins infirmiers, le suivi des maladies chroniques et l\'orientation vers les spécialistes et l\'hôpital.',
+                'horaires' => 'Du lundi au samedi, 8h00 - 19h00',
+                'lieu' => 'Centre de santé, 12 avenue de la Santé',
+                'contact' => 'sante@novaterra.test',
+                'icone' => 'heart',
+                'categorie' => CategorieService::Sante,
+                'prioritaire' => true,
+            ],
+            [
+                'nom' => 'Prévention et vaccination',
+                'slug' => 'prevention-vaccination',
+                'resume' => 'Vaccinations, dépistages et conseils de prévention pour toute la famille.',
+                'description' => 'Ce service organise les campagnes de vaccination et de dépistage, délivre les carnets de santé et informe sur la prévention : canicule, maladies saisonnières, santé des enfants et des seniors.',
+                'horaires' => 'Du mardi au vendredi, 9h00 - 16h00',
+                'lieu' => 'Centre de santé, 12 avenue de la Santé (aile est)',
+                'contact' => 'prevention@novaterra.test',
+                'icone' => 'shield',
+                'categorie' => CategorieService::Sante,
             ],
         ];
 
-        foreach ($services as $ordre => $service) {
-            Service::updateOrCreate(['slug' => $service['slug']], $service + ['ordre' => $ordre + 1, 'actif' => true]);
+        foreach ($services as $ordre => $donnees) {
+            $service = Service::firstOrNew(['slug' => $donnees['slug']]);
+            $service->fill($donnees + [
+                'ordre' => $ordre + 1,
+                'actif' => true,
+                'prioritaire' => false,
+                'disponibilite' => Disponibilite::Disponible,
+                'motif_interruption' => null,
+                'retour_estime_at' => null,
+                'alternative' => null,
+            ]);
+            $service->save();
         }
     }
 }
