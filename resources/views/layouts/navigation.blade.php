@@ -41,6 +41,9 @@
                                 <x-compteur-en-attente :nombre="$demandesEnAttente" />
                             @endif
                         </x-nav-link>
+                        <x-nav-link :href="route('agent.journal.index')" :active="request()->routeIs('agent.journal.*')">
+                            {{ __('Journal d\'activité') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
@@ -141,6 +144,9 @@
                     @if ($demandesEnAttente !== null)
                         <x-compteur-en-attente :nombre="$demandesEnAttente" />
                     @endif
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('agent.journal.index')" :active="request()->routeIs('agent.journal.*')">
+                    {{ __('Journal d\'activité') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

@@ -19,6 +19,14 @@
                     <a href="{{ route('agent.demandes.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Centre technique municipal : toutes les demandes') }}</a>
                 </p>
             </section>
+
+            <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6" aria-labelledby="suivi-activite">
+                <h2 id="suivi-activite" class="font-medium text-gray-900">{{ __('Suivi de l\'activité') }}</h2>
+                <p class="mt-2 text-sm text-gray-600">{{ __('Qui a modifié quoi dans l\'administration, et quand.') }}</p>
+                <p class="mt-4 text-sm">
+                    <a href="{{ route('agent.journal.index') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Journal d\'activité') }}</a>
+                </p>
+            </section>
         </div>
     </div>
 </x-app-layout>

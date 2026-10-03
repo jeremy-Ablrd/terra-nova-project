@@ -87,9 +87,14 @@ class Service extends Model
      * que pendant une interruption.
      *
      * @param  array<string, mixed>  $donnees
+     * @return array{disponibilite?: array{0: Disponibilite, 1: Disponibilite}, prioritaire?: array{0: bool, 1: bool}, champs?: list<string>}
+     *                                                                                                       ce qui a réellement changé (vide si rien) : avant → après pour la disponibilité et la priorité, noms pour le reste
      */
-    public function mettreAJour(array $donnees): void
+    public function mettreAJour(array $donnees): array
     {
+        $avantDisponibilite = $this->disponibilite;
+        $avantPriorite = (bool) $this->prioritaire;
+
         $this->prioritaire = (bool) ($donnees['prioritaire'] ?? false);
         $this->urgence = (bool) ($donnees['urgence'] ?? false);
         $this->disponibilite = Disponibilite::from($donnees['disponibilite']);
@@ -108,7 +113,21 @@ class Service extends Model
             $this->alternative = null;
         }
 
+        $changements = [];
+        if ($avantDisponibilite !== $this->disponibilite) {
+            $changements['disponibilite'] = [$avantDisponibilite, $this->disponibilite];
+        }
+        if ($avantPriorite !== (bool) $this->prioritaire) {
+            $changements['prioritaire'] = [$avantPriorite, (bool) $this->prioritaire];
+        }
+        $autres = array_values(array_diff(array_keys($this->getDirty()), ['disponibilite', 'prioritaire', 'updated_at']));
+        if ($autres !== []) {
+            $changements['champs'] = $autres;
+        }
+
         $this->save();
+
+        return $changements;
     }
 
     public function demandes(): HasMany

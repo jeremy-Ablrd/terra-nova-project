@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SynchronisationController;
 use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
+use App\Http\Controllers\Agent\JournalController;
 use App\Http\Controllers\AccessibiliteController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
@@ -52,6 +53,8 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
 Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
     Route::get('/', [AgentController::class, 'index'])->name('agent.index');
     Route::get('/demandes', [AgentDemandeController::class, 'index'])->name('agent.demandes.index');
+    // Journal d'activité : lecture seule (aucune route d'écriture, de modification ni de suppression).
+    Route::get('/journal', [JournalController::class, 'index'])->name('agent.journal.index');
 });
 
 // Administration : admin uniquement.
