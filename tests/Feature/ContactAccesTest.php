@@ -61,10 +61,15 @@ class ContactAccesTest extends TestCase
     {
         $url = route('contact.create');
 
-        foreach (['/espace', '/mes-demandes'] as $page) {
+        foreach (['/espace'] as $page) {
             $this->actingAs(User::factory()->create())->get($page)->assertSee('Nouvelle demande');
             $this->actingAs(User::factory()->agent()->create())->get($page)->assertOk()->assertDontSee($url);
             $this->actingAs(User::factory()->admin()->create())->get($page)->assertOk()->assertDontSee($url);
         }
+
+        // /mes-demandes est réservé au citoyen (role:citoyen) : agent et admin reçoivent un 403.
+        $this->actingAs(User::factory()->create())->get('/mes-demandes')->assertSee('Nouvelle demande');
+        $this->actingAs(User::factory()->agent()->create())->get('/mes-demandes')->assertForbidden();
+        $this->actingAs(User::factory()->admin()->create())->get('/mes-demandes')->assertForbidden();
     }
 }

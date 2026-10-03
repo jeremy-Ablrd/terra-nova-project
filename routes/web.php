@@ -86,7 +86,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/mes-demandes', [DemandeController::class, 'index'])->name('demandes.index');
+    // Historique : réservé au citoyen (agent et admin : 403). Le détail ci-dessous reste régi par DemandePolicy::view.
+    Route::get('/mes-demandes', [DemandeController::class, 'index'])->middleware('role:citoyen')->name('demandes.index');
     Route::get('/mes-demandes/{demande}', [DemandeController::class, 'show'])->name('demandes.show');
     Route::post('/mes-demandes/etapes/{etape}/vu', [DemandeController::class, 'acquitter'])->name('demandes.etapes.vu');
 

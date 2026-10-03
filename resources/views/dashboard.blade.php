@@ -24,38 +24,41 @@
                 </div>
             </div>
 
-            @php
-                $demandes = Auth::user()->demandes()->latest()->get();
-                $parStatut = $demandes->countBy(fn ($d) => $d->statut->value);
-            @endphp
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-medium text-gray-900">Mes demandes</h3>
-                        <a href="{{ route('demandes.index') }}" class="text-sm underline text-gray-600 hover:text-gray-900">Voir tout</a>
-                    </div>
-
-                    @if ($demandes->isEmpty())
-                        <p class="mt-4 text-sm text-gray-600">Vous n'avez encore aucune demande.</p>
-                    @else
-                        <div class="mt-4 flex flex-wrap gap-2 text-sm">
-                            @foreach (\App\Enums\Statut::cases() as $statut)
-                                <span class="inline-flex items-center gap-2 text-gray-700">
-                                    <x-statut-badge :statut="$statut" /> {{ $parStatut[$statut->value] ?? 0 }}
-                                </span>
-                            @endforeach
+            {{-- L'historique des demandes est réservé au citoyen (/mes-demandes renvoie 403 aux agents et aux admins). --}}
+            @if (Auth::user()->isCitoyen())
+                @php
+                    $demandes = Auth::user()->demandes()->latest()->get();
+                    $parStatut = $demandes->countBy(fn ($d) => $d->statut->value);
+                @endphp
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-medium text-gray-900">Mes demandes</h3>
+                            <a href="{{ route('demandes.index') }}" class="text-sm underline text-gray-600 hover:text-gray-900">Voir tout</a>
                         </div>
-                        <ul class="mt-4 divide-y divide-gray-100 text-sm">
-                            @foreach ($demandes->take(3) as $demande)
-                                <li class="py-2 flex items-center justify-between gap-4">
-                                    <a href="{{ route('demandes.show', $demande) }}" class="underline text-gray-900 hover:text-gray-600">{{ $demande->reference }} — {{ $demande->objet }}</a>
-                                    <x-statut-badge :statut="$demande->statut" />
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
+
+                        @if ($demandes->isEmpty())
+                            <p class="mt-4 text-sm text-gray-600">Vous n'avez encore aucune demande.</p>
+                        @else
+                            <div class="mt-4 flex flex-wrap gap-2 text-sm">
+                                @foreach (\App\Enums\Statut::cases() as $statut)
+                                    <span class="inline-flex items-center gap-2 text-gray-700">
+                                        <x-statut-badge :statut="$statut" /> {{ $parStatut[$statut->value] ?? 0 }}
+                                    </span>
+                                @endforeach
+                            </div>
+                            <ul class="mt-4 divide-y divide-gray-100 text-sm">
+                                @foreach ($demandes->take(3) as $demande)
+                                    <li class="py-2 flex items-center justify-between gap-4">
+                                        <a href="{{ route('demandes.show', $demande) }}" class="underline text-gray-900 hover:text-gray-600">{{ $demande->reference }} — {{ $demande->objet }}</a>
+                                        <x-statut-badge :statut="$demande->statut" />
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">

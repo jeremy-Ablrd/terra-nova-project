@@ -1,11 +1,33 @@
 <x-app-layout>
+    @php($estAgent = Auth::user()->isAgent())
+
+    <x-slot name="breadcrumb">
+        <x-breadcrumb :items="$estAgent
+            ? [
+                ['label' => __('Accueil'), 'url' => url('/')],
+                ['label' => __('Espace agent'), 'url' => route('agent.index')],
+                ['label' => __('Centre technique municipal'), 'url' => route('agent.demandes.index')],
+                ['label' => $demande->reference],
+            ]
+            : [
+                ['label' => __('Accueil'), 'url' => url('/')],
+                ['label' => __('Mon espace'), 'url' => route('dashboard')],
+                ['label' => __('Mes demandes'), 'url' => route('demandes.index')],
+                ['label' => $demande->reference],
+            ]" />
+    </x-slot>
+
     <x-slot name="header">
         <h1 class="font-semibold text-xl text-gray-800 leading-tight">Demande {{ $demande->reference }}</h1>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
-            <a href="{{ route('demandes.index') }}" class="text-sm underline text-gray-600 hover:text-gray-900">&larr; Retour à mes demandes</a>
+            @if ($estAgent)
+                <a href="{{ route('agent.demandes.index') }}" class="text-sm underline text-gray-600 hover:text-gray-900">&larr; {{ __('Retour au Centre technique municipal') }}</a>
+            @else
+                <a href="{{ route('demandes.index') }}" class="text-sm underline text-gray-600 hover:text-gray-900">&larr; {{ __('Retour à mes demandes') }}</a>
+            @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="flex items-start justify-between gap-4">
