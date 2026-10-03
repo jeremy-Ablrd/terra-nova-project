@@ -1,0 +1,19 @@
+@props(['items'])
+
+{{-- Fil d'Ariane : $items = [['label' => '…', 'url' => '…'], …] ; le dernier élément (sans url) est la page courante. --}}
+<nav aria-label="{{ __('Fil d\'Ariane') }}" class="bg-gray-100 border-b border-gray-200">
+    <ol class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center gap-x-2 text-sm text-gray-700">
+        @foreach ($items as $item)
+            <li class="flex items-center gap-x-2">
+                @if (! $loop->first)
+                    <span aria-hidden="true">&gt;</span>
+                @endif
+                @if (isset($item['url']) && ! $loop->last)
+                    <a href="{{ $item['url'] }}" class="underline hover:text-gray-900">{{ $item['label'] }}</a>
+                @else
+                    <span aria-current="page" class="font-medium text-gray-900">{{ $item['label'] }}</span>
+                @endif
+            </li>
+        @endforeach
+    </ol>
+</nav>

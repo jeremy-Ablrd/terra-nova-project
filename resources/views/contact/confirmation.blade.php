@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <dt class="text-gray-500">{{ __('Envoyée le') }}</dt>
-                        <dd class="mt-1 text-gray-900">{{ $demande->created_at->translatedFormat('j F Y \à H:i') }}</dd>
+                        <dd class="mt-1 text-gray-900">{{ \App\Support\DateLocale::format($demande->created_at) }}</dd>
                     </div>
                 </dl>
             </section>

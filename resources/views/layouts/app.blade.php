@@ -18,6 +18,11 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
+            <!-- Fil d'Ariane (optionnel) -->
+            @isset($breadcrumb)
+                {{ $breadcrumb }}
+            @endisset
+
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">

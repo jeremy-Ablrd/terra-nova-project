@@ -59,7 +59,7 @@ class RegistrationTest extends TestCase
             ->assertSee('Bienvenue, Camille')
             ->assertSee('Mes informations')
             ->assertSee('camille@example.com')
-            ->assertSee(now()->translatedFormat('j F Y'))
+            ->assertSee(now()->format('d/m/Y H:i'))
             ->assertSee('Citoyen');
     }
 }

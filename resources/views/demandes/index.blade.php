@@ -2,7 +2,9 @@
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4">
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">Mes demandes</h1>
-            <x-primary-link href="{{ route('contact.create') }}">{{ __('Nouvelle demande') }}</x-primary-link>
+            @if (Auth::user()->isCitoyen())
+                <x-primary-link href="{{ route('contact.create') }}">{{ __('Nouvelle demande') }}</x-primary-link>
+            @endif
         </div>
     </x-slot>
 
@@ -29,7 +31,7 @@
                                             <a href="{{ route('demandes.show', $demande) }}" class="underline text-gray-900 hover:text-gray-600">{{ $demande->reference }}</a>
                                         </td>
                                         <td class="px-6 py-3">{{ $demande->objet }}</td>
-                                        <td class="px-6 py-3 whitespace-nowrap">{{ $demande->created_at->translatedFormat('j F Y') }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap">{{ \App\Support\DateLocale::format($demande->created_at) }}</td>
                                         <td class="px-6 py-3"><x-statut-badge :statut="$demande->statut" /></td>
                                     </tr>
                                 @endforeach

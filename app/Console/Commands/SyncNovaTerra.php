@@ -16,12 +16,19 @@ class SyncNovaTerra extends Command
     public function handle(NovaTerraApi $api): int
     {
         try {
+            // Toute exception (API ou autre) est mémorisée dans le cache last_error par le service.
             $result = $api->sync();
         } catch (Throwable $e) {
             Log::error('novaterra:sync a échoué : '.$e->getMessage());
             $this->error($e->getMessage());
 
             return self::FAILURE;
+        }
+
+        if ($result['busy']) {
+            $this->info('Une synchronisation est déjà en cours : rien n\'a été lancé.');
+
+            return self::SUCCESS;
         }
 
         $this->info("{$result['received']} demandes reçues, {$result['new']} nouvelles.");

@@ -12,7 +12,7 @@
                     <h3 class="text-lg font-medium text-gray-900">{{ $demande->objet }}</h3>
                     <x-statut-badge :statut="$demande->statut" />
                 </div>
-                <p class="mt-1 text-sm text-gray-500">Déposée le {{ $demande->created_at->translatedFormat('j F Y à H:i') }}</p>
+                <p class="mt-1 text-sm text-gray-500">Déposée le {{ \App\Support\DateLocale::format($demande->created_at) }}</p>
                 <p class="mt-4 text-sm text-gray-800 whitespace-pre-line">{{ $demande->message }}</p>
             </div>
         </div>

@@ -153,13 +153,13 @@ class ContactTest extends TestCase
             ->assertSee('court');
     }
 
-    public function test_confirmation_of_someone_elses_demande_is_forbidden_except_for_agents(): void
+    public function test_confirmation_of_someone_elses_demande_is_forbidden(): void
     {
         $demande = Demande::factory()->create();
         $url = route('contact.confirmation', $demande);
 
         $this->actingAs(User::factory()->create())->get($url)->assertForbidden();
-        $this->actingAs(User::factory()->agent()->create())->get($url)->assertOk();
+        $this->actingAs(User::factory()->agent()->create())->get($url)->assertForbidden();
         $this->actingAs(User::factory()->admin()->create())->get($url)->assertForbidden();
     }
 

@@ -19,9 +19,18 @@
                         <x-nav-link :href="route('admin.comptes.index')" :active="request()->routeIs('admin.comptes.*')">
                             {{ __('Comptes') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.synchronisation.index')" :active="request()->routeIs('admin.synchronisation.*')">
+                            {{ __('Synchronisation') }}
+                        </x-nav-link>
                     @elseif (Auth::user()->isAgent())
-                        <x-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.*')">
+                        <x-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
                             Espace agent
+                        </x-nav-link>
+                        <x-nav-link :href="route('agent.demandes.index')" :active="request()->routeIs('agent.demandes.*')">
+                            {{ __('Demandes') }}
+                            @if ($demandesEnAttente !== null)
+                                <x-compteur-en-attente :nombre="$demandesEnAttente" />
+                            @endif
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -31,11 +40,11 @@
                             Mes demandes
                         </x-nav-link>
                     @endif
-                    @unless (Auth::user()->isAdmin())
+                    @if (Auth::user()->isCitoyen())
                         <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
                             {{ __('Contacter la mairie') }}
                         </x-nav-link>
-                    @endunless
+                    @endif
                 </div>
             </div>
 
@@ -96,9 +105,18 @@
                 <x-responsive-nav-link :href="route('admin.comptes.index')" :active="request()->routeIs('admin.comptes.*')">
                     {{ __('Comptes') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.synchronisation.index')" :active="request()->routeIs('admin.synchronisation.*')">
+                    {{ __('Synchronisation') }}
+                </x-responsive-nav-link>
             @elseif (Auth::user()->isAgent())
-                <x-responsive-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.*')">
+                <x-responsive-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
                     Espace agent
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('agent.demandes.index')" :active="request()->routeIs('agent.demandes.*')">
+                    {{ __('Demandes') }}
+                    @if ($demandesEnAttente !== null)
+                        <x-compteur-en-attente :nombre="$demandesEnAttente" />
+                    @endif
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -108,11 +126,11 @@
                     Mes demandes
                 </x-responsive-nav-link>
             @endif
-            @unless (Auth::user()->isAdmin())
+            @if (Auth::user()->isCitoyen())
                 <x-responsive-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
                     {{ __('Contacter la mairie') }}
                 </x-responsive-nav-link>
-            @endunless
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

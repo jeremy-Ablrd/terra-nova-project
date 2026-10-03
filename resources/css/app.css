@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Thème : couleurs en variables CSS (bascule « contraste élevé » possible plus tard). */
+:root {
+    --demande-nouvelle-bg: #eff6ff;
+    --demande-nouvelle-bord: #1d4ed8;
+    --demande-en-cours-bg: #fffbeb;
+    --demande-en-cours-bord: #b45309;
+    --filtre-actif-bord: #111827;
+}
+
+/* Demandes à suivre : fond + bordure (pleine = nouvelle, pointillée = en cours) + texte dans la ligne. */
+.demande-nouvelle {
+    background-color: var(--demande-nouvelle-bg);
+    font-weight: 600;
+}
+.demande-nouvelle > :first-child {
+    border-left: 0.3rem solid var(--demande-nouvelle-bord);
+}
+.demande-en-cours {
+    background-color: var(--demande-en-cours-bg);
+}
+.demande-en-cours > :first-child {
+    border-left: 0.3rem dashed var(--demande-en-cours-bord);
+}
+/* Filtre actif : gras, souligné et trait épais (jamais la couleur seule). */
+.filtre-actif {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+    border-bottom: 0.2rem solid var(--filtre-actif-bord);
+}

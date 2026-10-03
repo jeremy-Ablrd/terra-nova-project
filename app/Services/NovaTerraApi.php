@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Models\ApiRequest;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class NovaTerraApi
 {
@@ -14,6 +16,21 @@ class NovaTerraApi
     public const CACHE_LAST_SYNC = 'novaterra.last_sync_at';
 
     public const CACHE_LAST_ERROR = 'novaterra.last_error';
+
+    public const CACHE_LAST_RESULT = 'novaterra.last_result';
+
+    /** Verrou unique : une seule synchronisation à la fois (commande, planificateur et bouton admin). */
+    public const LOCK_KEY = 'novaterra.sync';
+
+    public const LOCK_SECONDS = 120;
+
+    private const CHUNK_SIZE = 200;
+
+    /** Message mémorisé (et affiché) pour toute erreur qui n'est pas une erreur de l'API. */
+    public static function unexpectedErrorMessage(): string
+    {
+        return __('Erreur inattendue pendant la synchronisation. Consultez les journaux.');
+    }
 
     /**
      * Appelle l'API et retourne la réponse décodée.
@@ -58,22 +75,64 @@ class NovaTerraApi
     }
 
     /**
-     * Récupère les demandes, les enregistre et met à jour le cache.
-     * En cas d'erreur, l'ancien contenu (base et cache) est conservé et le message est mémorisé.
+     * Synchronise les demandes de l'API, sous verrou.
+     *
+     * @return array{busy: bool, received: int, new: int}
+     *
+     * @throws Throwable
+     */
+    public function sync(): array
+    {
+        return $this->withLock(fn () => $this->fetchAndStore());
+    }
+
+    /**
+     * Point d'entrée unique du verrou : exécute $work seulement si aucune autre synchronisation ne tourne.
+     * Prévu pour englober aussi les étapes suivantes (ex. import des demandes) : les appeler DEPUIS $work.
+     *
+     * - verrou pris : rien n'est lancé, résultat `busy = true` (pas d'attente, pas d'erreur) ;
+     * - toute exception (API ou autre) est mémorisée dans le cache `last_error`, puis relancée ;
+     * - le verrou est toujours libéré (finally).
+     *
+     * @param  callable(): array{received: int, new: int}  $work
+     * @return array{busy: bool, received: int, new: int}
+     *
+     * @throws Throwable
+     */
+    public function withLock(callable $work): array
+    {
+        $lock = Cache::lock(self::LOCK_KEY, self::LOCK_SECONDS);
+
+        if (! $lock->get()) {
+            return ['busy' => true, 'received' => 0, 'new' => 0];
+        }
+
+        try {
+            return ['busy' => false] + $work();
+        } catch (NovaTerraApiException $e) {
+            Cache::forever(self::CACHE_LAST_ERROR, $e->getMessage());
+
+            throw $e;
+        } catch (Throwable $e) {
+            Cache::forever(self::CACHE_LAST_ERROR, self::unexpectedErrorMessage());
+
+            throw $e;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
+     * Récupère les demandes, les enregistre et met à jour le cache. À appeler depuis withLock().
+     * En cas d'erreur, l'ancien contenu (base et cache) est conservé.
      *
      * @return array{received: int, new: int}
      *
      * @throws NovaTerraApiException
      */
-    public function sync(): array
+    private function fetchAndStore(): array
     {
-        try {
-            $data = $this->fetch();
-        } catch (NovaTerraApiException $e) {
-            Cache::forever(self::CACHE_LAST_ERROR, $e->getMessage());
-
-            throw $e;
-        }
+        $data = $this->fetch();
 
         $result = $this->store($data['requests']);
 
@@ -81,13 +140,15 @@ class NovaTerraApi
             Cache::forever(self::CACHE_SESSION, $data['session']);
         }
         Cache::forever(self::CACHE_LAST_SYNC, now()->toIso8601String());
+        Cache::forever(self::CACHE_LAST_RESULT, $result);
         Cache::forget(self::CACHE_LAST_ERROR);
 
         return $result;
     }
 
     /**
-     * Upsert sur request_code. first_seen_at n'est écrit qu'à l'insertion (exclu des colonnes mises à jour).
+     * Upsert sur request_code, tous les lots dans UNE transaction (échec en cours de route : rien n'est écrit).
+     * first_seen_at n'est écrit qu'à l'insertion (exclu des colonnes mises à jour).
      *
      * @param  array<int, mixed>  $requests
      * @return array{received: int, new: int}
@@ -126,20 +187,24 @@ class NovaTerraApi
 
         $rows = array_values($rows);
         $codes = array_column($rows, 'request_code');
-        $known = ApiRequest::whereIn('request_code', $codes)->pluck('request_code')->all();
 
-        if ($rows !== []) {
-            $updatable = array_values(array_diff(array_keys($rows[0]), ['request_code', 'first_seen_at']));
+        return DB::transaction(function () use ($rows, $codes) {
+            // Le calcul des « nouvelles » se fait dans la transaction, donc sous le verrou de synchronisation.
+            $known = ApiRequest::whereIn('request_code', $codes)->pluck('request_code')->all();
 
-            foreach (array_chunk($rows, 200) as $chunk) {
-                ApiRequest::upsert($chunk, ['request_code'], $updatable);
+            if ($rows !== []) {
+                $updatable = array_values(array_diff(array_keys($rows[0]), ['request_code', 'first_seen_at']));
+
+                foreach (array_chunk($rows, self::CHUNK_SIZE) as $chunk) {
+                    ApiRequest::upsert($chunk, ['request_code'], $updatable);
+                }
             }
-        }
 
-        return [
-            'received' => count($rows),
-            'new' => count(array_diff($codes, $known)),
-        ];
+            return [
+                'received' => count($rows),
+                'new' => count(array_diff($codes, $known)),
+            ];
+        });
     }
 
     private function int(mixed $value): ?int

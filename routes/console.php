@@ -12,5 +12,5 @@ Artisan::command('inspire', function () {
 // Inactive tant que la clé API est vide.
 Schedule::command('novaterra:sync')
     ->everyThirtySeconds()
-    ->withoutOverlapping()
+    ->withoutOverlapping(5)
     ->when(fn () => filled(config('services.webcup.key')));

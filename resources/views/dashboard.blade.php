@@ -4,7 +4,9 @@
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">
                 Mon espace {{ Auth::user()->role === \App\Enums\Role::Citoyen ? 'citoyen' : Auth::user()->role->label() }}
             </h1>
-            <x-primary-link href="{{ route('contact.create') }}">{{ __('Nouvelle demande') }}</x-primary-link>
+            @if (Auth::user()->isCitoyen())
+                <x-primary-link href="{{ route('contact.create') }}">{{ __('Nouvelle demande') }}</x-primary-link>
+            @endif
         </div>
     </x-slot>
 
@@ -70,7 +72,7 @@
                         </div>
                         <div>
                             <dt class="text-gray-500">Habitant depuis le</dt>
-                            <dd class="mt-1 text-gray-900">{{ Auth::user()->created_at->translatedFormat('j F Y') }}</dd>
+                            <dd class="mt-1 text-gray-900">{{ \App\Support\DateLocale::format(Auth::user()->created_at) }}</dd>
                         </div>
                     </dl>
                 </div>

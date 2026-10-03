@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Statut;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,12 @@ class Demande extends Model
                 ])->saveQuietly();
             }
         });
+    }
+
+    /** D17 : une demande « en attente » n'est pas encore prise en charge (statut nouvelle). */
+    public function scopeEnAttente(Builder $query): Builder
+    {
+        return $query->where('statut', Statut::Nouvelle->value);
     }
 
     protected function casts(): array
