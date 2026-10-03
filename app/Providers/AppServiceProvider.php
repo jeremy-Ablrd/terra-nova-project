@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use App\Models\Demande;
 use App\Services\SuiviDemandes;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Limites par compte, chacune avec son propre compteur : téléchargements de données (10 par minute), suppression de compte (5 par minute).
+        RateLimiter::for('donnees-telechargement', fn (Request $request) => Limit::perMinute(10)->by('dl|'.($request->user()?->id ?? $request->ip())));
+        RateLimiter::for('suppression-compte', fn (Request $request) => Limit::perMinute(5)->by('sup|'.($request->user()?->id ?? $request->ip())));
+
         // Compteur D17 de la barre de navigation : calculé (une seule requête) uniquement pour un agent connecté.
         View::composer('layouts.navigation', function ($view) {
             $user = auth()->user();

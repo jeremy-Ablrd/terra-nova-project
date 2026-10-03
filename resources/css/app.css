@@ -319,3 +319,26 @@ html.theme-contraste {
         scroll-behavior: auto !important;
     }
 }
+
+/* --- Impression (récapitulatif des demandes) : seul le contenu de la page est imprimé. ------------------------ */
+@media print {
+    .skip-link,
+    nav,
+    footer,
+    .no-print,
+    body > div > header,
+    [role="alert"] {
+        display: none !important;
+    }
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    a {
+        color: #000000 !important;
+        text-decoration: none !important;
+    }
+    tr {
+        break-inside: avoid;
+    }
+}

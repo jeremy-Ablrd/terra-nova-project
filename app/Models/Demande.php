@@ -50,21 +50,30 @@ class Demande extends Model
         return $query->citoyennes()->where('statut', Statut::Nouvelle->value);
     }
 
-    /** Demande importée de l'API : aucun compte utilisateur associé (user_id null). */
+    /** Demande importée de l'API : reconnue à son request_code (user_id nul ne suffit pas : une demande anonymisée l'est aussi). */
     public function estImportee(): bool
     {
-        return $this->user_id === null;
+        return $this->request_code !== null;
     }
 
-    /** Nom du demandeur : le compte s'il existe, sinon le nom donné par l'API, sinon « Non précisé ». */
+    /** Demande dont l'habitant a supprimé le compte : contenu remplacé, plus aucun lien avec une personne. */
+    public function estAnonymisee(): bool
+    {
+        return $this->anonymisee_at !== null;
+    }
+
+    /** Nom du demandeur : « Demandeur supprimé » si anonymisée, sinon le compte, sinon le nom donné par l'API, sinon « Non précisé ». */
     protected function nomDemandeur(): Attribute
     {
-        return Attribute::get(fn () => $this->user?->name ?? $this->demandeur_nom ?? __('Non précisé'));
+        return Attribute::get(fn () => $this->estAnonymisee()
+            ? __('Demandeur supprimé')
+            : ($this->user?->name ?? $this->demandeur_nom ?? __('Non précisé')));
     }
 
     protected function casts(): array
     {
         return [
+            'anonymisee_at' => 'datetime',
             'statut' => Statut::class,
             'type' => TypeDemande::class,
             'traitee_at' => 'datetime',

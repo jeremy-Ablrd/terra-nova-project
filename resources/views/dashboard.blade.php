@@ -58,6 +58,14 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <h3 class="font-medium text-gray-900">{{ __('Mes données') }}</h3>
+                        <p class="mt-1 text-sm text-gray-600">{{ __('Consultez ce que la ville conserve sur vous, téléchargez vos informations et le récapitulatif de vos demandes, ou supprimez votre compte.') }}</p>
+                        <p class="mt-3 text-sm"><a href="{{ route('mes-donnees.index') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Mes données') }}</a></p>
+                    </div>
+                </div>
             @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

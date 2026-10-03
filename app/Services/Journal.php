@@ -43,15 +43,19 @@ class Journal
      */
     public static function enregistrer(User $acteur, ActionJournal $action, ?Model $objet = null, ?string $detail = null): JournalActivite
     {
-        if (! $acteur->isAgent() && ! $acteur->isAdmin()) {
+        // Seul acteur citoyen toléré : un habitant qui supprime son propre compte (désigné par son numéro, jamais par son nom).
+        $suppressionDeSoi = $action === ActionJournal::CompteSupprime
+            && $objet instanceof User && $acteur->isCitoyen() && $acteur->is($objet);
+
+        if (! $suppressionDeSoi && ! $acteur->isAgent() && ! $acteur->isAdmin()) {
             throw new InvalidArgumentException('Seules les actions des agents et des admins sont journalisées.');
         }
 
         [$type, $id, $libelle] = self::decrire($action, $objet);
 
         $entree = new JournalActivite;
-        $entree->acteur_id = $acteur->id;
-        $entree->acteur_nom = $acteur->name;         // copie : reste lisible si le compte est supprimé
+        $entree->acteur_id = $suppressionDeSoi ? null : $acteur->id;
+        $entree->acteur_nom = $suppressionDeSoi ? 'Compte n° '.$acteur->id : $acteur->name;   // copie : reste lisible si le compte est supprimé
         $entree->acteur_role = $acteur->role;
         $entree->action = $action;
         $entree->objet_type = $type;

@@ -13,10 +13,13 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EcoConceptionController;
+use App\Http\Controllers\MesDonneesController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\PreferenceAffichageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecapitulatifDemandesController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SuppressionCompteController;
 use App\Http\Controllers\UrgenceController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +56,22 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
     Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
     Route::get('/contact/confirmation/{demande}', [ContactController::class, 'confirmation'])->name('contact.confirmation');
 });
+
+// Mes données (F55, F56, F33) : réservé au citoyen (agent et admin : 403, invité : connexion). Ces routes fixes sont
+// déclarées avant /mes-demandes/{demande} pour ne pas être prises pour un identifiant de demande.
+Route::middleware(['auth', 'role:citoyen'])->group(function () {
+    Route::get('/mes-donnees', [MesDonneesController::class, 'index'])->name('mes-donnees.index');
+    Route::get('/mes-donnees/export.json', [MesDonneesController::class, 'exportJson'])->middleware('throttle:donnees-telechargement')->name('mes-donnees.export');
+    Route::get('/mes-demandes/export.csv', [RecapitulatifDemandesController::class, 'csv'])->middleware('throttle:donnees-telechargement')->name('demandes.export-csv');
+    Route::get('/mes-demandes/recapitulatif', [RecapitulatifDemandesController::class, 'recapitulatif'])->middleware('throttle:donnees-telechargement')->name('demandes.recapitulatif');
+    // Suppression du compte en deux étapes, sans JavaScript : information, puis mot de passe et case à cocher.
+    Route::get('/mes-donnees/suppression', [SuppressionCompteController::class, 'information'])->name('mes-donnees.suppression');
+    Route::get('/mes-donnees/suppression/confirmer', [SuppressionCompteController::class, 'confirmation'])->name('mes-donnees.suppression.confirmer');
+    Route::delete('/mes-donnees/suppression', [SuppressionCompteController::class, 'destroy'])->middleware('throttle:suppression-compte')->name('mes-donnees.suppression.destroy');
+});
+
+// Page publique affichée après la suppression d'un compte.
+Route::get('/compte-supprime', [SuppressionCompteController::class, 'termine'])->name('compte-supprime');
 
 // Outils réservés aux agents (l'admin n'y a pas accès).
 Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
@@ -97,7 +116,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

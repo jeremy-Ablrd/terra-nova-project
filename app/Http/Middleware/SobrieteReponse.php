@@ -17,7 +17,8 @@ class SobrieteReponse
     {
         $response = $next($request);
 
-        if ($request->user()) {
+        // Les téléchargements en « no-store » gardent leur en-tête.
+        if ($request->user() && ! $response->headers->hasCacheControlDirective('no-store')) {
             $response->headers->set('Cache-Control', 'private, no-cache');
         }
 
