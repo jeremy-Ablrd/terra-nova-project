@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AlerteController as AdminAlerteController;
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\SecuriteController as AdminSecuriteController;
 use App\Http\Controllers\Admin\SynchronisationController;
 use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
 use App\Http\Controllers\Agent\DonneesApiController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EcoConceptionController;
+use App\Http\Controllers\MesConnexionsController;
 use App\Http\Controllers\MesDonneesController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\PreferenceAffichageController;
@@ -38,6 +40,9 @@ Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name
 // Accessibilité : page publique (lien dans le pied de page) et réglages d'affichage (taille du texte, thème),
 // ouverts à tous les visiteurs : cookie, et compte si l'utilisateur est connecté.
 Route::get('/accessibilite', [AccessibiliteController::class, 'index'])->name('accessibilite');
+
+// Sécurité : ce qui protège le compte, et ce que la plateforme ne fait pas (page publique).
+Route::view('/securite', 'securite')->name('securite');
 
 // Éco-conception (F57 à F60) : mesures de poids et choix de sobriété, page publique.
 Route::get('/eco-conception', [EcoConceptionController::class, 'index'])->name('eco-conception');
@@ -92,6 +97,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/comptes', [CompteController::class, 'index'])->name('admin.comptes.index');
     Route::post('/comptes/{user}/role', [CompteController::class, 'updateRole'])->name('admin.comptes.role');
+    // Journal de sécurité (F37, F54, F70) : lecture seule, admin seul.
+    Route::get('/securite', [AdminSecuriteController::class, 'index'])->name('admin.securite');
     Route::get('/synchronisation', [SynchronisationController::class, 'index'])->name('admin.synchronisation.index');
     Route::post('/synchronisation', [SynchronisationController::class, 'store'])->middleware('throttle:6,1')->name('admin.synchronisation.run');
 
@@ -110,6 +117,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 Route::middleware('auth')->group(function () {
 
     // Historique : réservé au citoyen (agent et admin : 403). Le détail ci-dessous reste régi par DemandePolicy::view.
+    // Mes connexions (F54) : son propre compte, quel que soit le rôle.
+    Route::get('/mes-connexions', [MesConnexionsController::class, 'index'])->name('mes-connexions.index');
+    Route::post('/mes-connexions/deconnexion', [MesConnexionsController::class, 'deconnexionGlobale'])->middleware('throttle:10,1')->name('mes-connexions.deconnexion');
+    Route::delete('/mes-connexions/appareils/{appareil}', [MesConnexionsController::class, 'oublier'])->name('mes-connexions.oublier');
+    Route::post('/mes-connexions/{evenement}/vu', [MesConnexionsController::class, 'vu'])->name('mes-connexions.vu');
+    Route::post('/mes-connexions/{evenement}/pas-moi', [MesConnexionsController::class, 'pasMoi'])->middleware('throttle:10,1')->name('mes-connexions.pas-moi');
+
     Route::get('/mes-demandes', [DemandeController::class, 'index'])->middleware('role:citoyen')->name('demandes.index');
     Route::get('/mes-demandes/{demande}', [DemandeController::class, 'show'])->name('demandes.show');
     Route::post('/mes-demandes/etapes/{etape}/vu', [DemandeController::class, 'acquitter'])->name('demandes.etapes.vu');

@@ -51,6 +51,11 @@ html.taille-tres-grand {
     font-size: 150%;
 }
 
+/* Éléments masqués jusqu'à l'initialisation d'Alpine (remplace les attributs style en ligne, interdits par la CSP). */
+[x-cloak] {
+    display: none !important;
+}
+
 /* Un cadre qui défile (tableaux larges) sert de repère de position : les textes masqués (sr-only, positionnés en
    absolu) y restent coupés, au lieu de créer un défilement horizontal de toute la page. */
 .overflow-x-auto {

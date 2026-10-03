@@ -10,6 +10,8 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <x-alertes-connexion />
+
             <p class="px-4 sm:px-0 text-lg font-medium text-gray-900">Bienvenue {{ Auth::user()->name }}</p>
 
             <section aria-labelledby="charge-de-travail">

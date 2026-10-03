@@ -23,8 +23,8 @@ class RegistrationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'motdepasse-2026',
+            'password_confirmation' => 'motdepasse-2026',
         ]);
 
         $this->assertAuthenticated();
@@ -36,8 +36,8 @@ class RegistrationTest extends TestCase
         $this->post('/register', [
             'name' => 'Pirate',
             'email' => 'pirate@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'motdepasse-2026',
+            'password_confirmation' => 'motdepasse-2026',
             'role' => 'admin',
         ]);
 
@@ -49,8 +49,8 @@ class RegistrationTest extends TestCase
         $this->post('/register', [
             'name' => 'Camille',
             'email' => 'camille@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'motdepasse-2026',
+            'password_confirmation' => 'motdepasse-2026',
         ]);
 
         $this->get('/espace')

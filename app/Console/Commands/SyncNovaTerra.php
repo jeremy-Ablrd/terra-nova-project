@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\NovaTerraApi;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -14,6 +15,18 @@ class SyncNovaTerra extends Command
     protected $description = 'Récupère les demandes de l\'API Nova Terra et les enregistre en base';
 
     public function handle(NovaTerraApi $api): int
+    {
+        // Fin de la synchro, réussie ou non : purge du journal de sécurité (au plus une fois par heure, la synchro tourne toutes les 30 s).
+        try {
+            return $this->synchroniser($api);
+        } finally {
+            if (Cache::add('novaterra.securite.purge', true, 3600)) {
+                $this->callSilently('novaterra:purger-securite');
+            }
+        }
+    }
+
+    private function synchroniser(NovaTerraApi $api): int
     {
         try {
             // Toute exception (API ou autre) est mémorisée dans le cache last_error par le service.

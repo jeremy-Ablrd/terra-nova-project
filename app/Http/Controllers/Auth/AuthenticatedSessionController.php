@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\AppareilsConnus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,11 +23,13 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request, AppareilsConnus $appareils): RedirectResponse
     {
         $request->authenticate();
 
+        // Session régénérée à la connexion ; l'appareil est enregistré et, s'il est nouveau, l'alerte est créée (F54).
         $request->session()->regenerate();
+        $appareils->enregistrerConnexion($request, $request->user());
 
         return redirect()
             ->intended($request->user()->homeUrl())

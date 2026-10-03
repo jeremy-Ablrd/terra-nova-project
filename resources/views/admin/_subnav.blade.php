@@ -4,4 +4,5 @@
     <a href="{{ route('admin.services.index') }}" class="{{ request()->routeIs('admin.services.*') ? 'font-semibold text-gray-900' : 'text-gray-600 hover:text-gray-900' }}">{{ __('Services') }}</a>
     <a href="{{ route('admin.synchronisation.index') }}" class="{{ request()->routeIs('admin.synchronisation.*') ? 'font-semibold text-gray-900' : 'text-gray-600 hover:text-gray-900' }}">{{ __('Synchronisation') }}</a>
     <a href="{{ route('admin.alertes.index') }}" class="{{ request()->routeIs('admin.alertes.*') ? 'font-semibold text-gray-900' : 'text-gray-600 hover:text-gray-900' }}">{{ __('Alertes') }}</a>
+    <a href="{{ route('admin.securite') }}" class="{{ request()->routeIs('admin.securite') ? 'font-semibold text-gray-900' : 'text-gray-600 hover:text-gray-900' }}">{{ __('Sécurité') }}</a>
 </nav>

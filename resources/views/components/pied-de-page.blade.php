@@ -6,6 +6,8 @@
             <a href="{{ route('accessibilite') }}" class="underline hover:text-gray-900">{{ __('Accessibilité') }}</a>
             <span aria-hidden="true">·</span>
             <a href="{{ route('eco-conception') }}" class="underline hover:text-gray-900">{{ __('Éco-conception') }}</a>
+            <span aria-hidden="true">·</span>
+            <a href="{{ route('securite') }}" class="underline hover:text-gray-900">{{ __('Sécurité') }}</a>
         </nav>
     </div>
 </footer>

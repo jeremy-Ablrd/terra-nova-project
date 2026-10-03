@@ -31,6 +31,9 @@
                         <x-nav-link :href="route('admin.alertes.index')" :active="request()->routeIs('admin.alertes.*')">
                             {{ __('Alertes') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.securite')" :active="request()->routeIs('admin.securite')">
+                            {{ __('Sécurité') }}
+                        </x-nav-link>
                     @elseif (Auth::user()->isAgent())
                         <x-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
                             Espace agent
@@ -81,6 +84,7 @@
                                 aria-haspopup="true" x-bind:aria-expanded="open">
                             <div>{{ Auth::user()->name }}</div>
                             <span class="ms-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">{{ Auth::user()->role->label() }}</span>
+                            <x-compteur-connexions :nombre="$alertesConnexion" />
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
@@ -94,16 +98,16 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('mes-connexions.index')">
+                            {{ __('Mes connexions') }}
+                            <x-compteur-connexions :nombre="$alertesConnexion" />
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            <button type="submit" class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">{{ __('Log Out') }}</button>
                         </form>
                     </x-slot>
                 </x-dropdown>
@@ -141,6 +145,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.alertes.index')" :active="request()->routeIs('admin.alertes.*')">
                     {{ __('Alertes') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.securite')" :active="request()->routeIs('admin.securite')">
+                    {{ __('Sécurité') }}
                 </x-responsive-nav-link>
             @elseif (Auth::user()->isAgent())
                 <x-responsive-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
@@ -195,16 +202,16 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('mes-connexions.index')">
+                    {{ __('Mes connexions') }}
+                    <x-compteur-connexions :nombre="$alertesConnexion" />
+                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
+                    <button type="submit" class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out">{{ __('Log Out') }}</button>
                 </form>
             </div>
         </div>

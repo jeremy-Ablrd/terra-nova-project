@@ -5,7 +5,10 @@
 
     // Sans JavaScript (ou en mode économie), les menus repliés par Alpine restent accessibles : le menu mobile et le
     // menu du compte sont affichés, le bouton qui les ouvrait est masqué.
-    $sansScript = '#menu-mobile{display:block!important}nav [x-show]{display:block!important}button[aria-controls="menu-mobile"]{display:none!important}';
+    $sansScript = '#menu-mobile{display:block!important}nav [x-show],nav [x-cloak]{display:block!important}button[aria-controls="menu-mobile"]{display:none!important}';
+
+    // Jeton de la Content-Security-Policy : seules les balises style portant ce jeton sont autorisées.
+    $nonce = \Illuminate\Support\Facades\Vite::cspNonce();
 @endphp
 {{-- Icône intégrée (SVG en data:) : évite la requête vers /favicon.ico. --}}
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%231f2937'/%3E%3C/svg%3E">
@@ -14,7 +17,7 @@
 @vite($sobre ? ['resources/css/app.css'] : ['resources/css/app.css', 'resources/js/app.js'])
 
 @if ($sobre)
-    <style>{!! $sansScript !!}</style>
+    <style @if ($nonce) nonce="{{ $nonce }}" @endif>{!! $sansScript !!}</style>
 @else
-    <noscript><style>{!! $sansScript !!}</style></noscript>
+    <noscript><style @if ($nonce) nonce="{{ $nonce }}" @endif>{!! $sansScript !!}</style></noscript>
 @endif

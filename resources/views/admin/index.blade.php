@@ -7,6 +7,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @include('admin._subnav')
 
+            <x-alertes-connexion />
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <p class="text-lg font-medium text-gray-900">Bienvenue {{ Auth::user()->name }}</p>
             </div>

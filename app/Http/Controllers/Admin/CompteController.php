@@ -10,6 +10,7 @@ use App\Services\Journal;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -25,8 +26,8 @@ class CompteController extends Controller
 
     public function updateRole(Request $request, User $user): RedirectResponse
     {
-        // Garde minimale sur cette action sensible, en attendant le middleware de rôle (D09).
-        abort_unless($request->user()->isAdmin(), 403);
+        // Action sensible : ComptePolicy (administrateur seul), en plus du middleware de rôle de la route.
+        Gate::authorize('updateRole', $user);
 
         $data = $request->validate([
             'role' => ['required', Rule::enum(Role::class)],

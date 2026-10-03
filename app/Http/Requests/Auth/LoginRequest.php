@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Services\SecuriteConnexion;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -34,53 +33,50 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Tente la connexion. Limites et événements de sécurité : SecuriteConnexion (F37).
+     * Le message de blocage est le même que l'adresse e-mail existe ou non.
      *
      * @throws ValidationException
      */
     public function authenticate(): void
     {
-        $this->ensureIsNotRateLimited();
+        $securite = app(SecuriteConnexion::class);
+        $email = SecuriteConnexion::normaliser($this->input('email'));
+        $this->merge(['email' => $email]);
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $this->ensureIsNotRateLimited($securite, $email);
+
+        if (! Auth::attempt(['email' => $email, 'password' => (string) $this->input('password')], $this->boolean('remember'))) {
+            $securite->echec($email, (string) $this->ip());
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
+        $securite->succes($email, (string) $this->ip());
     }
 
     /**
-     * Ensure the login request is not rate limited.
+     * Refuse la tentative si une limite est atteinte.
      *
      * @throws ValidationException
      */
-    public function ensureIsNotRateLimited(): void
+    public function ensureIsNotRateLimited(SecuriteConnexion $securite, string $email): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        $secondes = $securite->secondesRestantes($email, (string) $this->ip());
+
+        if ($secondes <= 0) {
             return;
         }
 
         event(new Lockout($this));
 
-        $seconds = RateLimiter::availableIn($this->throttleKey());
-
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => trans_choice(
+                '{1} Trop de tentatives de connexion. Réessayez dans :count minute.|[2,*] Trop de tentatives de connexion. Réessayez dans :count minutes.',
+                max(1, (int) ceil($secondes / 60)),
+            ),
         ]);
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
-    public function throttleKey(): string
-    {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
     }
 }

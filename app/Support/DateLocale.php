@@ -23,6 +23,16 @@ class DateLocale
         return Carbon::parse($date)->timezone(config('app.timezone'))->format('H:i');
     }
 
+    /** Jour et mois seuls (jj/mm), en heure locale. */
+    public static function jourMois(CarbonInterface|string|null $date): string
+    {
+        if ($date === null || $date === '') {
+            return '';
+        }
+
+        return Carbon::parse($date)->timezone(config('app.timezone'))->format('d/m');
+    }
+
     public static function format(CarbonInterface|string|null $date): string
     {
         if ($date === null || $date === '') {
