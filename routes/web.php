@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SynchronisationController;
 use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
+use App\Http\Controllers\Agent\DonneesApiController;
 use App\Http\Controllers\Agent\JournalController;
 use App\Http\Controllers\AccessibiliteController;
 use App\Http\Controllers\AgentController;
@@ -53,6 +54,9 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
 Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
     Route::get('/', [AgentController::class, 'index'])->name('agent.index');
     Route::get('/demandes', [AgentDemandeController::class, 'index'])->name('agent.demandes.index');
+    // Données de l'API (D19) : lecture seule ; l'actualisation reste sur /admin/synchronisation. Le POST ne touche qu'une préférence de l'agent.
+    Route::get('/donnees-api', [DonneesApiController::class, 'index'])->name('agent.donnees-api.index');
+    Route::post('/donnees-api/vues', [DonneesApiController::class, 'marquerVues'])->middleware('throttle:10,1')->name('agent.donnees-api.vues');
     Route::get('/demandes/{demande}', [AgentDemandeController::class, 'show'])->name('agent.demandes.show');
     // Seul le changement de statut (via TransitionDemande) : jamais de statut libre.
     Route::patch('/demandes/{demande}/statut', [AgentDemandeController::class, 'updateStatut'])->name('agent.demandes.statut');

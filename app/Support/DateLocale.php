@@ -13,6 +13,16 @@ class DateLocale
 {
     public const FORMAT = 'd/m/Y H:i';
 
+    /** Heure seule (HH:mm), en heure locale. */
+    public static function heure(CarbonInterface|string|null $date): string
+    {
+        if ($date === null || $date === '') {
+            return '';
+        }
+
+        return Carbon::parse($date)->timezone(config('app.timezone'))->format('H:i');
+    }
+
     public static function format(CarbonInterface|string|null $date): string
     {
         if ($date === null || $date === '') {

@@ -61,6 +61,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => Role::class,
             'preferences' => 'array',
+            'donnees_api_vues_at' => 'datetime',
         ];
     }
 }
