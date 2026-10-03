@@ -9,6 +9,12 @@
     --demande-en-cours-bg: #fffbeb;
     --demande-en-cours-bord: #b45309;
     --filtre-actif-bord: #111827;
+    --alerte-urgent-bg: #fef2f2;
+    --alerte-urgent-bord: #b91c1c;
+    --alerte-vigilance-bg: #fffbeb;
+    --alerte-vigilance-bord: #b45309;
+    --alerte-info-bg: #eff6ff;
+    --alerte-info-bord: #1d4ed8;
 }
 
 /* Demandes à suivre : fond + bordure (pleine = nouvelle, pointillée = en cours) + texte dans la ligne. */
@@ -31,4 +37,18 @@
     text-decoration: underline;
     text-underline-offset: 0.25rem;
     border-bottom: 0.2rem solid var(--filtre-actif-bord);
+}
+
+/* Alertes : le niveau est toujours écrit en texte ; la bordure (pleine, double, pointillée) s'y ajoute. */
+.alerte-urgent {
+    background-color: var(--alerte-urgent-bg);
+    border-left: 0.5rem solid var(--alerte-urgent-bord);
+}
+.alerte-vigilance {
+    background-color: var(--alerte-vigilance-bg);
+    border-left: 0.5rem double var(--alerte-vigilance-bord);
+}
+.alerte-info {
+    background-color: var(--alerte-info-bg);
+    border-left: 0.5rem dotted var(--alerte-info-bord);
 }

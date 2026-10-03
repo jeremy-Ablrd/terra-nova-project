@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\TypeDemande;
 use App\Models\Demande;
 use App\Models\User;
 
@@ -13,11 +14,15 @@ class DemandePolicy
         return $user->isAgent();
     }
 
-    /** Le citoyen ne voit que ses demandes ; l'agent voit toutes les demandes ; l'admin n'a aucun accès aux demandes des habitants. */
+    /** Le citoyen ne voit que ses demandes ; l'agent voit toutes les demandes citoyennes ; l'admin n'a aucun accès aux demandes des habitants. */
     public function view(User $user, Demande $demande): bool
     {
         // user_id null (demande importée de l'API) ne correspond jamais à un utilisateur : comparaison stricte.
-        return $user->isAgent() || ($demande->user_id !== null && $demande->user_id === $user->id);
+        if ($user->isAgent()) {
+            return ($demande->type ?? TypeDemande::Citoyen) === TypeDemande::Citoyen;
+        }
+
+        return $demande->user_id !== null && $demande->user_id === $user->id;
     }
 
     /** Seul l'agent peut modifier le statut d'une demande. */

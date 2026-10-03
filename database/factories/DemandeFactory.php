@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\Statut;
+use App\Enums\TypeDemande;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -28,6 +29,11 @@ class DemandeFactory extends Factory
             'request_code' => $code ?? 'X'.fake()->unique()->numerify('####'),
             'demandeur_nom' => $nom,
         ]);
+    }
+
+    public function type(TypeDemande $type): static
+    {
+        return $this->state(fn () => ['type' => $type]);
     }
 
     public function statut(Statut $statut): static

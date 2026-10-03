@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    // L'accueil affiche le bandeau des alertes : il lit la table `alertes`.
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      */

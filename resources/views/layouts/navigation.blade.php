@@ -22,6 +22,9 @@
                         <x-nav-link :href="route('admin.synchronisation.index')" :active="request()->routeIs('admin.synchronisation.*')">
                             {{ __('Synchronisation') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.alertes.index')" :active="request()->routeIs('admin.alertes.*')">
+                            {{ __('Alertes') }}
+                        </x-nav-link>
                     @elseif (Auth::user()->isAgent())
                         <x-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
                             Espace agent
@@ -107,6 +110,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.synchronisation.index')" :active="request()->routeIs('admin.synchronisation.*')">
                     {{ __('Synchronisation') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.alertes.index')" :active="request()->routeIs('admin.alertes.*')">
+                    {{ __('Alertes') }}
                 </x-responsive-nav-link>
             @elseif (Auth::user()->isAgent())
                 <x-responsive-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">

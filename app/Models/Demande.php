@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Statut;
+use App\Enums\TypeDemande;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-// user_id, statut, agent_id, traitee_at, request_code et demandeur_nom sont fixés côté serveur, jamais depuis un formulaire.
+// user_id, statut, type, agent_id, traitee_at, request_code et demandeur_nom sont fixés côté serveur, jamais depuis un formulaire.
 #[Fillable(['objet', 'message', 'service_id'])]
 class Demande extends Model
 {
@@ -29,10 +30,16 @@ class Demande extends Model
         });
     }
 
-    /** D17 : une demande « en attente » n'est pas encore prise en charge (statut nouvelle). */
+    /** Demandes citoyennes : les seules affichées et comptées dans le Centre technique municipal. */
+    public function scopeCitoyennes(Builder $query): Builder
+    {
+        return $query->where('type', TypeDemande::Citoyen->value);
+    }
+
+    /** D17 : une demande « en attente » n'est pas encore prise en charge (statut nouvelle) ; demandes citoyennes seulement. */
     public function scopeEnAttente(Builder $query): Builder
     {
-        return $query->where('statut', Statut::Nouvelle->value);
+        return $query->citoyennes()->where('statut', Statut::Nouvelle->value);
     }
 
     /** Demande importée de l'API : aucun compte utilisateur associé (user_id null). */
@@ -51,6 +58,7 @@ class Demande extends Model
     {
         return [
             'statut' => Statut::class,
+            'type' => TypeDemande::class,
             'traitee_at' => 'datetime',
         ];
     }

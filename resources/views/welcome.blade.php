@@ -9,6 +9,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-gray-100 text-gray-900">
+        <x-alertes-banniere />
+
         <header class="bg-white border-b border-gray-100">
             <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <a href="{{ url('/') }}" class="flex items-center gap-2 font-semibold">
@@ -17,6 +19,7 @@
                 </a>
 
                 <div class="flex items-center gap-3 text-sm">
+                    <a href="{{ route('alertes.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Alertes en cours') }}</a>
                     @auth
                         <a href="{{ Auth::user()->homeUrl() }}" class="px-4 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700">Mon espace</a>
                     @else

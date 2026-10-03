@@ -15,8 +15,16 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
+        @if ($banniere)
+            <x-alertes-banniere />
+        @endif
+
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            @auth
+                @include('layouts.navigation')
+            @else
+                @include('layouts.invite')
+            @endauth
 
             <!-- Fil d'Ariane (optionnel) -->
             @isset($breadcrumb)

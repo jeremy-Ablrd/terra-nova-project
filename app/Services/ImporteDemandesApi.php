@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\TypeDemande;
 use App\Models\ApiRequest;
 use App\Models\Demande;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,7 @@ class ImporteDemandesApi
                 $demande->user_id = null;
                 $demande->demandeur_nom = $ligne->requester_name;
                 $demande->request_code = $ligne->request_code;
+                $demande->type = TypeDemande::Citoyen;
                 $demande->save(); // statut « nouvelle » par défaut ; la référence est générée par l'événement `created`
 
                 $creees++;

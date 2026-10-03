@@ -2,6 +2,8 @@
 
 // Messages des règles utilisées dans l'application. Ajouter une ligne quand une nouvelle règle apparaît.
 return [
+    'after' => 'Le champ :attribute doit être une date postérieure à :date.',
+    'date' => 'Le champ :attribute doit être une date valide.',
     'confirmed' => 'La confirmation du champ :attribute ne correspond pas.',
     'current_password' => 'Le mot de passe est incorrect.',
     'email' => 'Le champ :attribute doit être une adresse e-mail valide.',
@@ -37,6 +39,14 @@ return [
         'service_id' => 'service concerné',
         'objet' => 'objet',
         'message' => 'message',
+        'titre' => 'titre',
+        'ce_qui_se_passe' => 'ce qui se passe',
+        'ce_quil_faut_faire' => "ce qu'il faut faire",
+        'secteur' => 'secteur',
+        'niveau' => 'niveau',
+        'consignes_vulnerables' => 'consignes pour les personnes vulnérables',
+        'starts_at' => 'début de la diffusion',
+        'ends_at' => 'fin de la diffusion',
         'current_password' => 'mot de passe actuel',
     ],
 ];

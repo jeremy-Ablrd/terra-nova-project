@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AlerteController as AdminAlerteController;
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\SynchronisationController;
 use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\ProfileController;
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Alertes en cours : pages publiques (visibles sans connexion).
+Route::get('/alertes', [AlerteController::class, 'index'])->name('alertes.index');
+Route::get('/alertes/{alerte}', [AlerteController::class, 'show'])->name('alertes.show');
 
 Route::get('/espace', function () {
     return view('dashboard');
@@ -38,6 +44,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/comptes/{user}/role', [CompteController::class, 'updateRole'])->name('admin.comptes.role');
     Route::get('/synchronisation', [SynchronisationController::class, 'index'])->name('admin.synchronisation.index');
     Route::post('/synchronisation', [SynchronisationController::class, 'store'])->middleware('throttle:6,1')->name('admin.synchronisation.run');
+
+    // Publication des alertes : admin seul (role:admin du groupe).
+    Route::get('/alertes', [AdminAlerteController::class, 'index'])->name('admin.alertes.index');
+    Route::get('/alertes/nouvelle', [AdminAlerteController::class, 'create'])->name('admin.alertes.create');
+    Route::post('/alertes', [AdminAlerteController::class, 'store'])->name('admin.alertes.store');
+    Route::post('/alertes/{alerte}/terminer', [AdminAlerteController::class, 'terminer'])->name('admin.alertes.terminer');
 });
 
 Route::middleware('auth')->group(function () {

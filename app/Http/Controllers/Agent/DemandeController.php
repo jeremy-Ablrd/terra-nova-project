@@ -19,16 +19,18 @@ class DemandeController extends Controller
         $valeur = $request->query('statut');
         $statut = is_string($valeur) ? Statut::tryFrom($valeur) : null;
 
+        // Le Centre technique ne montre que les demandes citoyennes (formulaire de contact et import « Citoyen »).
         // user et service sont chargés d'avance (pas de N+1) ; id en second critère pour un ordre stable entre les pages.
-        $demandes = Demande::with(['user', 'service'])
+        $demandes = Demande::citoyennes()
+            ->with(['user', 'service'])
             ->when($statut, fn ($query) => $query->where('statut', $statut))
             ->latest()
             ->orderByDesc('id')
             ->paginate(15)
             ->withQueryString();
 
-        // Compteurs : UNE requête groupée, indépendante du filtre actif.
-        $parStatut = Demande::query()->toBase()
+        // Compteurs : UNE seule requête groupée, indépendante du filtre actif.
+        $parStatut = Demande::citoyennes()->toBase()
             ->selectRaw('statut, count(*) as total')
             ->groupBy('statut')
             ->pluck('total', 'statut');

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\Statut;
+use App\Enums\TypeDemande;
 use App\Models\ApiRequest;
 use App\Models\Demande;
 use App\Models\User;
@@ -79,6 +80,7 @@ class ImportDemandesApiTest extends TestCase
         $this->assertSame('F21', $demande->request_code);
         $this->assertSame(Statut::Nouvelle, $demande->statut);
         $this->assertMatchesRegularExpression('/^NT-\d{4}-\d{5}$/', $demande->reference);
+        $this->assertSame(TypeDemande::Citoyen, $demande->type);
         $this->assertTrue($demande->estImportee());
     }
 
@@ -124,9 +126,10 @@ class ImportDemandesApiTest extends TestCase
         $this->apiRow('F29', 'citoyen');   // casse différente : non importée
         $this->apiRow('F30', 'Citoyen ');  // espace final : non importée
 
-        $this->artisan('novaterra:import-demandes')->assertExitCode(0);
+        $this->artisan('novaterra:import-demandes')->expectsOutput('1 demande citoyenne importée')->assertExitCode(0);
 
         $this->assertSame(['F21'], Demande::pluck('request_code')->all());
+        $this->assertSame(TypeDemande::Citoyen, Demande::firstOrFail()->type);
     }
 
     public function test_rows_without_a_message_are_skipped_without_failing(): void

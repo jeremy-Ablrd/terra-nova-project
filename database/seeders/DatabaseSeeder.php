@@ -48,6 +48,9 @@ class DatabaseSeeder extends Seeder
             ])->save();
         }
 
+        // Alertes de démonstration (dates relatives à maintenant, jamais de date fixe).
+        $this->call(AlerteSeeder::class);
+
         // Demandes de démonstration pour le citoyen (une seule fois).
         $citoyen = User::where('email', 'citoyen@novaterra.test')->first();
         $agentId = User::where('email', 'agent@novaterra.test')->value('id');
