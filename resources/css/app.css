@@ -58,6 +58,7 @@ h3 {
 
 /* --- Composants du design (terra-nova.css) : compléments propres à l'application. ------------------------------- */
 .tn-btn {
+    min-height: 2.75rem; /* l'emporte sur button { min-height } ci-dessus (même poids, ce bloc passe après) */
     justify-content: center;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;

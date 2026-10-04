@@ -273,13 +273,9 @@ class AccessibiliteTest extends TestCase
         }
     }
 
-    public function test_every_page_has_a_single_h1_except_the_sign_in_forms_left_to_the_final_audit(): void
+    public function test_every_page_has_a_single_h1_including_the_sign_in_forms(): void
     {
         foreach ($this->pages() as $nom => [$user, $url]) {
-            if (in_array($nom, ['connexion', 'inscription'], true)) {
-                continue; // pages d'authentification : titre à ajouter lors de l'audit des formulaires (F21 + F42 + D20)
-            }
-
             $this->assertSame(1, preg_match_all('/<h1\b/', $this->html($user, $url)), "$nom : il faut exactement un <h1>.");
         }
     }

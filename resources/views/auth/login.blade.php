@@ -1,4 +1,6 @@
 <x-guest-layout>
+    <h1 class="font-display font-bold text-3xl text-gray-900 mb-6">{{ __('Connexion') }}</h1>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -27,26 +29,26 @@
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                <input id="remember_me" type="checkbox" class="rounded border-2 border-gray-300 bg-white text-brand-text focus:ring-accent" name="remember">
+                <span class="ms-2 text-sm text-gray-900">{{ __('Remember me') }}</span>
             </label>
         </div>
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                <a class="underline text-sm text-gray-900 hover:text-gray-600" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <x-primary-button class="ms-4">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
 
-        <p class="mt-6 text-center text-sm text-gray-600">
+        <p class="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-gray-600">
             Pas encore de compte ?
-            <a class="underline hover:text-gray-900" href="{{ route('register') }}">Créer mon compte</a>
+            <a class="font-semibold underline text-gray-900 hover:text-gray-600" href="{{ route('register') }}">Créer mon compte</a>
         </p>
     </form>
 </x-guest-layout>
