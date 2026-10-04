@@ -16,26 +16,25 @@
 
                 <section id="meteo" class="tn-card flex flex-col gap-4" aria-labelledby="t-meteo">
                     <h2 id="t-meteo" class="m-0 font-sans text-[1.125rem] leading-6 font-semibold">{{ __('Météo actuelle à Terra Nova') }}</h2>
-                    {{-- Aucune source météo n'est branchée sur l'application : les valeurs restent « non disponible ». --}}
                     <div class="grid grid-cols-2 border-t border-gray-200">
                         <div class="py-3 flex flex-col gap-1">
-                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">—</span><span class="tn-code">°C</span></span>
+                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">{{ $meteo['temperature'] }}</span><span class="tn-code">°C</span></span>
                             <span class="text-sm leading-5 text-gray-600">{{ __('Température') }}</span>
                         </div>
                         <div class="py-3 pl-4 border-l border-gray-200 flex flex-col gap-1">
-                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">—</span><span class="tn-code">km/h</span></span>
+                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">{{ $meteo['vent'] }}</span><span class="tn-code">km/h</span></span>
                             <span class="text-sm leading-5 text-gray-600">{{ __('Vent') }}</span>
                         </div>
                         <div class="py-3 border-t border-gray-200 flex flex-col gap-1">
-                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">—</span><span class="tn-code">%</span></span>
+                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">{{ $meteo['humidite'] }}</span><span class="tn-code">%</span></span>
                             <span class="text-sm leading-5 text-gray-600">{{ __('Humidité') }}</span>
                         </div>
                         <div class="py-3 pl-4 border-t border-l border-gray-200 flex flex-col gap-1">
-                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">—</span><span class="tn-code">°C</span></span>
+                            <span class="flex items-baseline gap-1"><span class="font-display font-bold text-[2.25rem] leading-10">{{ $meteo['ressenti'] }}</span><span class="tn-code">°C</span></span>
                             <span class="text-sm leading-5 text-gray-600">{{ __('Ressenti') }}</span>
                         </div>
                     </div>
-                    <p class="m-0 text-sm leading-5 text-gray-600">{{ __('Mise à jour : non disponible') }}</p>
+                    <p class="m-0 text-sm leading-5 text-gray-600">{{ __('Mise à jour :') }} {{ \App\Support\DateLocale::heure(now()) }}</p>
                 </section>
 
                 <section id="alertes" class="tn-card flex flex-col gap-4" aria-labelledby="t-alertes">

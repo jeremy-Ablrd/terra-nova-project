@@ -17,6 +17,8 @@ class AccueilController extends Controller
         $urgences = Service::actifs()->urgences()->get();
 
         return view('welcome', [
+            // Météo fictive (config/meteo.php), datée de l'instant de la requête.
+            'meteo' => config('meteo'),
             'nbServices' => $services->count(),
             'nbDisponibles' => $services->filter(fn (Service $s) => $s->disponibilite === Disponibilite::Disponible)->count(),
             'alertes' => $alertes->get(),

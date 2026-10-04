@@ -82,4 +82,13 @@ class DesignTest extends TestCase
         // Les pages de l'espace gardent la barre latérale.
         $this->actingAs($citoyen)->get('/espace')->assertOk()->assertSee('nav-lateral', false);
     }
+
+    public function test_the_home_weather_card_shows_the_fictional_values_of_the_config(): void
+    {
+        config(['meteo' => ['temperature' => 31, 'vent' => 17, 'humidite' => 64, 'ressenti' => 34]]);
+
+        $this->get('/')->assertOk()
+            ->assertSeeInOrder(['Météo actuelle à Terra Nova', '31', 'Température', '17', 'Vent', '64', 'Humidité', '34', 'Ressenti', 'Mise à jour'])
+            ->assertDontSee('non disponible');
+    }
 }
