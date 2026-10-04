@@ -3,16 +3,16 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Votre demande a bien été envoyée') }}</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <section role="status" class="bg-green-50 border border-green-200 overflow-hidden border border-gray-200 rounded-xl p-8 text-center">
                 <p class="text-sm text-green-900">{{ __('Numéro de référence') }}</p>
                 <p class="mt-2 text-4xl font-bold tracking-wide text-gray-900">{{ $demande->reference }}</p>
                 <p class="mt-4 text-sm text-green-900">{{ __('Conservez cette référence pour suivre votre demande') }}</p>
             </section>
 
-            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="recapitulatif">
-                <h2 id="recapitulatif" class="font-medium text-gray-900">{{ __('Récapitulatif') }}</h2>
+            <section class="tn-card overflow-hidden p-6" aria-labelledby="recapitulatif">
+                <h2 id="recapitulatif" class="text-lg font-semibold text-gray-900">{{ __('Récapitulatif') }}</h2>
                 <dl class="mt-4 grid gap-4 sm:grid-cols-3 text-sm">
                     <div>
                         <dt class="text-gray-500">{{ __('Objet') }}</dt>

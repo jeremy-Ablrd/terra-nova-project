@@ -18,9 +18,9 @@
         $retour = old('retour_estime_at', $retourSaisie);
     @endphp
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="tn-card overflow-hidden p-6">
                 <p class="text-sm text-gray-600">{{ __('Le motif, le retour estimé et l\'alternative sont visibles du public tant que le service est interrompu ; ils sont effacés quand le service est remis en service.') }}</p>
                 <p class="mt-1 text-sm text-gray-600">{{ __('Les champs marqués d\'un * sont obligatoires.') }}</p>
 
@@ -76,7 +76,7 @@
 
                     <div class="space-y-4">
                         <div>
-                            <h2 class="font-medium text-gray-900">{{ __('Horaires d\'ouverture') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900">{{ __('Horaires d\'ouverture') }}</h2>
                             <p id="horaires_aide" class="mt-1 text-xs text-gray-500">
                                 {{ __('Deux plages au plus par jour, en heures et minutes (heure de La Réunion). Une plage ne peut pas passer minuit : pour fermer à minuit, saisissez 23:59. Laissez les heures vides pour un jour fermé ou une seule plage. L\'état « ouvert / fermé » affiché au public est calculé à chaque visite.') }}
                             </p>

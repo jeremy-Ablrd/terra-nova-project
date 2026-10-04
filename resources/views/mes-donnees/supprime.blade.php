@@ -11,8 +11,8 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="bilan">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <section class="tn-card p-6 space-y-3 text-sm text-gray-800" aria-labelledby="bilan">
                 <h2 id="bilan" class="text-lg font-medium text-gray-900">{{ __('Ce qui a été fait') }}</h2>
                 <p>{{ __('Votre compte, vos préférences et vos connexions ont été supprimés. Vous êtes déconnecté.') }}</p>
                 <h2 class="text-lg font-medium text-gray-900">{{ __('Ce qui a été conservé') }}</h2>

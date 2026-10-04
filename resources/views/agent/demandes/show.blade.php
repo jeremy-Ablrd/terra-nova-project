@@ -14,8 +14,8 @@
 
     @php($suivant = $demande->statut->suivant())
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             @if (session('succes'))
                 <p role="status" class="rounded border-2 border-gray-800 bg-white p-3 text-sm font-medium text-gray-900">{{ session('succes') }}</p>
             @endif
@@ -23,7 +23,7 @@
                 <p role="alert" class="rounded border-2 border-red-800 bg-white p-3 text-sm font-medium text-red-900">{{ session('erreur') }}</p>
             @endif
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6 space-y-4">
+            <div class="tn-card overflow-hidden p-6 space-y-4">
                 <div class="flex items-start justify-between gap-4">
                     <h2 class="text-lg font-medium text-gray-900">{{ $demande->objet }}</h2>
                     <x-statut-badge :statut="$demande->statut" />
@@ -42,7 +42,7 @@
                 </dl>
             </div>
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6">
+            <div class="tn-card overflow-hidden p-6">
                 <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Historique') }}</h2>
                 <x-frise-demande :demande="$demande" :montrer-agent="true" />
 

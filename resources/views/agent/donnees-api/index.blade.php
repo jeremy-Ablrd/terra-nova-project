@@ -27,7 +27,7 @@
     @endphp
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             @if (session('succes'))
                 <p role="status" class="rounded border-2 border-gray-800 bg-white p-3 text-sm font-medium text-gray-900">{{ session('succes') }}</p>
             @endif
@@ -89,7 +89,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 @if ($lignes->isEmpty())
                     <div class="p-6 text-sm text-gray-600">
                         <p>{{ $total === 0 ? __('Aucune donnée reçue de l\'API pour le moment.') : __('Aucune donnée ne correspond à ces filtres.') }}</p>

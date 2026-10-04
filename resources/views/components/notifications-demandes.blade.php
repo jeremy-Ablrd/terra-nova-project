@@ -2,8 +2,9 @@
 
 {{-- F49 : un encadré par changement d'état non encore vu ; « Compris » (formulaire POST, sans JavaScript) l'acquitte. --}}
 @foreach ($changements as $etape)
-    <div role="status" class="rounded-lg border-2 border-gray-800 bg-white p-4 flex flex-wrap items-center justify-between gap-3">
-        <p class="text-sm text-gray-900">
+    <div role="status" class="tn-banner tn-banner--info max-w-none flex-wrap items-center">
+        <span aria-hidden="true">◆</span>
+        <p class="text-sm font-medium">
             @if ($etape->statut === \App\Enums\Statut::Traitee)
                 {{ __('Votre demande :reference est maintenant traitée.', ['reference' => $etape->reference]) }}
             @else

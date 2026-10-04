@@ -23,7 +23,7 @@
                 <a href="{{ route('mes-donnees.index') }}" class="underline">{{ __('Retour à mes données') }}</a>
             </div>
 
-            <article class="document bg-white border border-gray-200 rounded-xl p-6">
+            <article class="document tn-card p-6">
                 <p class="sous-titre">{{ __('Où en sont vos demandes auprès de la ville de Terra Nova.') }}</p>
                 @include('demandes._recapitulatif')
             </article>

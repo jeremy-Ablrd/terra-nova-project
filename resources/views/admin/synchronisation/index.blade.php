@@ -3,9 +3,8 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Synchronisation des demandes') }}</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('admin._subnav')
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             @if ($resultat)
                 @if ($resultat['ok'] === null)
@@ -27,8 +26,8 @@
                 @endif
             @endif
 
-            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="etat-synchro">
-                <h2 id="etat-synchro" class="font-medium text-gray-900">{{ __('État de la synchronisation') }}</h2>
+            <section class="tn-card overflow-hidden p-6" aria-labelledby="etat-synchro">
+                <h2 id="etat-synchro" class="text-lg font-semibold text-gray-900">{{ __('État de la synchronisation') }}</h2>
                 <dl class="mt-4 grid gap-4 sm:grid-cols-2 text-sm">
                     <div>
                         <dt class="text-gray-500">{{ __('Dernière synchronisation réussie') }}</dt>
@@ -54,8 +53,8 @@
                 </dl>
             </section>
 
-            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="etat-session">
-                <h2 id="etat-session" class="font-medium text-gray-900">{{ __('Session de l\'API') }}</h2>
+            <section class="tn-card overflow-hidden p-6" aria-labelledby="etat-session">
+                <h2 id="etat-session" class="text-lg font-semibold text-gray-900">{{ __('Session de l\'API') }}</h2>
                 @if ($session)
                     <dl class="mt-4 grid gap-4 sm:grid-cols-3 text-sm">
                         <div>

@@ -4,15 +4,15 @@
 
 {{-- F54 : une alerte par nouvelle connexion non vue. Deux boutons (formulaires POST, sans JavaScript) : « C'était moi » / « Ce n'était pas moi ». --}}
 @foreach ($alertes as $alerte)
-    <div role="status" class="rounded-lg border-2 border-gray-800 bg-white p-4 space-y-3">
-        <p class="text-sm font-medium text-gray-900">
+    <div role="status" class="tn-banner tn-banner--info max-w-none flex-col">
+        <p class="text-sm font-semibold"><span aria-hidden="true">◆ </span>
             {{ __('Nouvelle connexion le :date à :heure depuis :appareil', [
                 'date' => \App\Support\DateLocale::jourMois($alerte->created_at),
                 'heure' => \App\Support\DateLocale::heure($alerte->created_at),
                 'appareil' => $alerte->detail,
             ]) }}
         </p>
-        <p class="text-sm text-gray-700">{{ __('Si c\'est vous, vous n\'avez rien à faire. Sinon, nous déconnectons les autres appareils et vous invitons à changer votre mot de passe.') }}</p>
+        <p class="text-sm">{{ __('Si c\'est vous, vous n\'avez rien à faire. Sinon, nous déconnectons les autres appareils et vous invitons à changer votre mot de passe.') }}</p>
         <div class="flex flex-wrap gap-3">
             <form method="POST" action="{{ route('mes-connexions.vu', $alerte) }}">
                 @csrf

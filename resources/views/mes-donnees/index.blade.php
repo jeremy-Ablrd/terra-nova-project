@@ -12,13 +12,13 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-6 text-sm text-gray-800" aria-labelledby="documents">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <section class="tn-card p-6 space-y-6 text-sm text-gray-800" aria-labelledby="documents">
                 <h2 id="documents" class="text-lg font-medium text-gray-900">{{ __('Vos deux documents') }}</h2>
                 <p>{{ __('Ce sont des documents faits pour être lus, imprimés ou conservés : des phrases, des tableaux et des explications. Chacun existe en version imprimable, à lire à l\'écran, à imprimer ou à télécharger.') }}</p>
 
                 <div class="space-y-2">
-                    <h3 class="font-medium text-gray-900">{{ __('Mes informations') }}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">{{ __('Mes informations') }}</h3>
                     <p>{{ __('Qui vous êtes pour la ville, ce que la ville conserve sur vous, pourquoi et combien de temps, votre activité (nombre de demandes, délai moyen de traitement), vos préférences et ce que vous pouvez faire de vos données.') }}</p>
                     <p class="flex flex-wrap items-center gap-3">
                         <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="tn-btn tn-btn--primary">{{ __('Télécharger mes informations (version imprimable)') }}</a>
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="space-y-2">
-                    <h3 class="font-medium text-gray-900">{{ __('Récapitulatif de mes demandes') }}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">{{ __('Récapitulatif de mes demandes') }}</h3>
                     <p>{{ __('Une synthèse en phrases, le tableau de toutes vos demandes avec ce que chaque statut signifie pour vous, puis ce qui s\'est passé pour chacune.') }}</p>
                     <p class="flex flex-wrap items-center gap-3">
                         <a href="{{ route('demandes.recapitulatif.telecharger') }}" class="tn-btn tn-btn--primary">{{ __('Télécharger le récapitulatif de mes demandes (version imprimable)') }}</a>
@@ -36,7 +36,7 @@
                 </div>
             </section>
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="gerer">
+            <section class="tn-card p-6 space-y-3 text-sm text-gray-800" aria-labelledby="gerer">
                 <h2 id="gerer" class="text-lg font-medium text-gray-900">{{ __('Gérer mes données') }}</h2>
                 <ul class="space-y-3">
                     <li>

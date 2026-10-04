@@ -14,7 +14,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             <p class="px-4 sm:px-0 text-sm text-gray-800"><strong>{{ __('Étape 2 sur 2') }}</strong> — {{ __('pour vous protéger, saisissez votre mot de passe.') }}</p>
 
             @if ($errors->any())
@@ -28,7 +28,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('mes-donnees.suppression.destroy') }}" class="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
+            <form method="POST" action="{{ route('mes-donnees.suppression.destroy') }}" class="tn-card p-6 space-y-5">
                 @csrf
                 @method('DELETE')
 

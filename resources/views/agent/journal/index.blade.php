@@ -16,8 +16,8 @@
         $lien = fn (?string $a, ?string $r) => route('agent.journal.index', array_filter(['action' => $a, 'role' => $r], fn ($valeur) => $valeur !== null));
     @endphp
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <p class="text-sm text-gray-700">{{ __('Qui a fait quoi, quand et sur quel objet, pour les agents et les administrateurs. Le journal est en lecture seule : aucune entrée ne peut être modifiée ni supprimée.') }}</p>
 
             <nav aria-label="{{ __('Filtrer par type d\'action') }}">
@@ -66,7 +66,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 @if ($entrees->isEmpty())
                     @if ($action || $role)
                         <div class="p-6 text-sm text-gray-600">

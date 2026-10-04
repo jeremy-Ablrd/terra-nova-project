@@ -3,15 +3,14 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">Comptes</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('admin._subnav')
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             @error('role')
                 <div class="rounded-md bg-red-50 border border-red-200 p-4 text-sm text-red-800" role="alert">{{ $message }}</div>
             @enderror
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 text-sm">
                         <thead class="bg-gray-50 text-left text-gray-500">
@@ -28,7 +27,7 @@
                                     <td class="px-6 py-3">{{ $user->name }}</td>
                                     <td class="px-6 py-3">{{ $user->email }}</td>
                                     <td class="px-6 py-3">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">{{ $user->role->label() }}</span>
+                                        <span class="tn-badge">{{ $user->role->label() }}</span>
                                     </td>
                                     <td class="px-6 py-3">
                                         <form method="POST" action="{{ route('admin.comptes.role', $user) }}" class="flex items-center gap-2">

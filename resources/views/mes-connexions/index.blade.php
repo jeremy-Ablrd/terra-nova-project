@@ -12,14 +12,14 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('securite'))
                 <p role="status" class="rounded border-2 border-gray-800 bg-white p-3 text-sm font-medium text-gray-900">{{ session('securite') }}</p>
             @endif
 
             <x-alertes-connexion />
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-4" aria-labelledby="appareils">
+            <section class="tn-card p-6 space-y-4" aria-labelledby="appareils">
                 <h2 id="appareils" class="text-lg font-medium text-gray-900">{{ __('Les appareils qui ont utilisé mon compte') }}</h2>
                 <p class="text-sm text-gray-800">{{ __('Un « appareil » est un navigateur sur un ordinateur ou un téléphone. Si vous ne reconnaissez pas l\'un d\'eux, oubliez-le, déconnectez-vous partout et changez votre mot de passe.') }}</p>
 
@@ -63,7 +63,7 @@
                 @endif
             </section>
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3" aria-labelledby="partout">
+            <section class="tn-card p-6 space-y-3" aria-labelledby="partout">
                 <h2 id="partout" class="text-lg font-medium text-gray-900">{{ __('Me déconnecter partout') }}</h2>
                 <p class="text-sm text-gray-800">{{ __('Tous vos autres appareils seront déconnectés. Cet appareil reste connecté.') }}</p>
                 <form method="POST" action="{{ route('mes-connexions.deconnexion') }}">

@@ -15,9 +15,9 @@
         $champ = 'block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm';
     @endphp
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="tn-card overflow-hidden p-6">
                 <p class="text-sm text-gray-600">{{ __('L\'alerte est visible de tous les visiteurs, connectés ou non, pendant sa période de diffusion.') }}</p>
                 <p class="mt-1 text-sm text-gray-600">{{ __('Les champs marqués d\'un * sont obligatoires.') }}</p>
 

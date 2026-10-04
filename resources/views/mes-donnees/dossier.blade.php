@@ -13,7 +13,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-4">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             {{-- Impression : le bouton n'apparaît qu'avec JavaScript ; sans lui, la consigne écrite suffit. --}}
             <div class="no-print px-4 sm:px-0 flex flex-wrap items-center gap-4 text-sm text-gray-800">
                 <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="tn-btn tn-btn--primary">{{ __('Télécharger mes informations (version imprimable)') }}</a>
@@ -23,7 +23,7 @@
                 <a href="{{ route('mes-donnees.index') }}" class="underline">{{ __('Retour à mes données') }}</a>
             </div>
 
-            <article class="document bg-white border border-gray-200 rounded-xl p-6">
+            <article class="document tn-card p-6">
                 <p class="sous-titre">{{ __('Les informations personnelles que la ville de Terra Nova possède sur vous, expliquées.') }}</p>
                 @include('mes-donnees._dossier')
             </article>

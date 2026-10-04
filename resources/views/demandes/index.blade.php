@@ -21,8 +21,8 @@
         $lien = fn (?string $s, ?string $q) => route('demandes.index', array_filter(['statut' => $s, 'q' => $q], fn ($v) => $v !== null && $v !== ''));
     @endphp
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             <x-notifications-demandes />
 
             {{-- Recherche (GET, sans JavaScript) : référence ou mot de l'objet. --}}
@@ -66,7 +66,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 @if ($demandes->isEmpty())
                     <div class="p-6 text-sm text-gray-600">
                         @if ($recherche !== '')

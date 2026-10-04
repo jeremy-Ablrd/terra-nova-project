@@ -10,9 +10,9 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Accessibilité') }}</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-8 text-sm text-gray-900">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="tn-card p-6 space-y-8 text-sm text-gray-900">
                 <p>{{ __('Terra Nova doit pouvoir être utilisée par tous les habitants. Voici ce qui est disponible aujourd\'hui sur toutes les pages, pour les visiteurs comme pour les habitants connectés.') }}</p>
 
                 <section aria-labelledby="reglages">

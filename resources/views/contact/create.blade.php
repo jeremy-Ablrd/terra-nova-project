@@ -3,9 +3,9 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Contacter les services municipaux') }}</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="tn-card overflow-hidden p-6">
                 <p class="text-sm text-gray-600">
                     {{ __('Une question ou une difficulté ? Écrivez-nous : votre message sera transmis aux services de Terra Nova et vous recevrez un numéro de référence.') }}
                 </p>

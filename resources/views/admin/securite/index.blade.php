@@ -18,9 +18,8 @@
 
     <div class="py-8">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('admin._subnav')
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3" aria-labelledby="dernieres-24h">
+            <section class="tn-card p-6 space-y-3" aria-labelledby="dernieres-24h">
                 <h2 id="dernieres-24h" class="text-lg font-medium text-gray-900">{{ __('Dernières 24 heures') }}</h2>
                 <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
                     <li class="border border-gray-300 rounded p-3"><span class="text-2xl font-bold">{{ $recents['echec_connexion'] }}</span>
@@ -34,7 +33,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-2 text-sm text-gray-800" aria-labelledby="diagnostic">
+            <section class="tn-card p-6 space-y-2 text-sm text-gray-800" aria-labelledby="diagnostic">
                 <h2 id="diagnostic" class="text-lg font-medium text-gray-900">{{ __('Vérification de la configuration') }}</h2>
                 <p><strong>{{ __('Adresse IP détectée pour votre requête : :ip', ['ip' => $ipDetectee]) }}</strong></p>
                 <p>
@@ -72,7 +71,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white border border-gray-200 rounded-xl">
+            <div class="tn-card">
                 @if ($evenements->isEmpty())
                     <p class="p-6 text-sm text-gray-700">{{ $type ? __('Aucun événement de ce type pour le moment.') : __('Aucun événement de sécurité enregistré pour le moment.') }}</p>
                 @else

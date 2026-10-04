@@ -11,8 +11,8 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Centre technique municipal') }}</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <nav aria-label="{{ __('Filtrer par statut') }}">
                 <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                     <li>
@@ -34,7 +34,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 @if ($demandes->isEmpty() && $statut)
                     <div class="p-6 text-sm text-gray-600">
                         <p>{{ __('Aucune demande avec ce statut.') }}</p>

@@ -11,8 +11,8 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="protege">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <section class="tn-card p-6 space-y-3 text-sm text-gray-800" aria-labelledby="protege">
                 <h2 id="protege" class="text-lg font-medium text-gray-900">{{ __('Ce qui protège votre compte') }}</h2>
                 <ul class="list-disc ps-5 space-y-1">
                     <li><strong>{{ __('Mot de passe d\'au moins 10 caractères') }}</strong> : {{ __('exigé quand vous créez votre compte ou changez de mot de passe. Il est conservé sous une forme chiffrée, que personne ne peut lire, pas même la ville.') }}</li>
@@ -25,7 +25,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="ne-fait-pas">
+            <section class="tn-card p-6 space-y-3 text-sm text-gray-800" aria-labelledby="ne-fait-pas">
                 <h2 id="ne-fait-pas" class="text-lg font-medium text-gray-900">{{ __('Ce que la plateforme ne fait pas') }}</h2>
                 <ul class="list-disc ps-5 space-y-1">
                     <li>{{ __('Pas de double authentification : votre mot de passe est le seul secret. Choisissez-en un long et unique.') }}</li>
@@ -36,7 +36,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-2 text-sm text-gray-800" aria-labelledby="que-faire">
+            <section class="tn-card p-6 space-y-2 text-sm text-gray-800" aria-labelledby="que-faire">
                 <h2 id="que-faire" class="text-lg font-medium text-gray-900">{{ __('Que faire en cas de doute ?') }}</h2>
                 <p>{{ __('Connectez-vous, ouvrez « Mes connexions », oubliez les appareils inconnus, déconnectez-vous partout, puis changez votre mot de passe.') }}</p>
                 @auth

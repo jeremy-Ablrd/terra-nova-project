@@ -4,18 +4,18 @@
     </x-slot>
 
     @php
-        $carte = 'block bg-white border border-gray-200 rounded-xl p-4 border border-gray-200 hover:border-gray-500';
+        $carte = 'block tn-card p-4 border border-gray-200 hover:border-gray-500';
         $lienStatut = fn (string $statut) => route('agent.demandes.index', ['statut' => $statut]);
     @endphp
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <x-alertes-connexion />
 
             <p class="px-4 sm:px-0 text-lg font-medium text-gray-900">Bienvenue {{ Auth::user()->name }}</p>
 
             <section aria-labelledby="charge-de-travail">
-                <h2 id="charge-de-travail" class="font-medium text-gray-900 mb-2 px-4 sm:px-0">{{ __('Charge de travail') }}</h2>
+                <h2 id="charge-de-travail" class="text-lg font-semibold text-gray-900 mb-2 px-4 sm:px-0">{{ __('Charge de travail') }}</h2>
                 <p class="mb-3 px-4 sm:px-0 text-3xl font-bold text-gray-900">
                     <x-compteur-en-attente :nombre="$nouvelles" visible />
                 </p>
@@ -51,7 +51,7 @@
             </section>
 
             <section aria-labelledby="plateforme">
-                <h2 id="plateforme" class="font-medium text-gray-900 mb-2 px-4 sm:px-0">{{ __('Plateforme') }}</h2>
+                <h2 id="plateforme" class="text-lg font-semibold text-gray-900 mb-2 px-4 sm:px-0">{{ __('Plateforme') }}</h2>
                 <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     <li><a href="{{ route('alertes.index') }}" class="{{ $carte }}">
                         <span class="text-2xl font-bold">{{ $alertesActives }}</span>
@@ -73,8 +73,8 @@
                 </ul>
             </section>
 
-            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="suivi-activite">
-                <h2 id="suivi-activite" class="font-medium text-gray-900">{{ __('Suivi de l\'activité') }}</h2>
+            <section class="tn-card overflow-hidden p-6" aria-labelledby="suivi-activite">
+                <h2 id="suivi-activite" class="text-lg font-semibold text-gray-900">{{ __('Suivi de l\'activité') }}</h2>
                 @if ($entrees->isEmpty())
                     <p class="mt-2 text-sm text-gray-600">{{ __('Aucune activité enregistrée pour le moment.') }}</p>
                 @else
@@ -92,8 +92,8 @@
                 </p>
             </section>
 
-            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="synchro-api">
-                <h2 id="synchro-api" class="font-medium text-gray-900">{{ __('État de la synchronisation API') }}</h2>
+            <section class="tn-card overflow-hidden p-6" aria-labelledby="synchro-api">
+                <h2 id="synchro-api" class="text-lg font-semibold text-gray-900">{{ __('État de la synchronisation API') }}</h2>
                 @if ($sync['erreur'])
                     <p role="alert" class="mt-2 rounded border-2 border-red-800 p-2 text-sm font-medium text-red-900">{{ __('Dernière erreur : :message', ['message' => $sync['erreur']]) }}</p>
                 @endif

@@ -6,11 +6,10 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('admin._subnav')
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 @if ($alertes->isEmpty())
                     <p class="p-6 text-sm text-gray-600">{{ __("Aucune alerte pour le moment. Publiez la première avec « Nouvelle alerte ».") }}</p>
                 @else
