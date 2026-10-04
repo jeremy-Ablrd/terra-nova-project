@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\ActionJournal;
 use App\Enums\Disponibilite;
 use App\Models\Alerte;
+use App\Models\Contribution;
+use App\Models\Projet;
 use App\Models\Demande;
 use App\Models\JournalActivite;
 use App\Models\Service;
@@ -95,6 +97,35 @@ class Journal
         return implode(' ; ', $parties);
     }
 
+    /** Noms lisibles des champs d'un projet modifié (le détail ne cite que ces noms, jamais les textes). */
+    private const CHAMPS_PROJET = [
+        'titre' => 'titre',
+        'resume' => 'résumé',
+        'description' => 'description',
+        'consultation_debut_at' => 'début de la consultation',
+        'consultation_fin_at' => 'fin de la consultation',
+        'bilan' => 'bilan',
+    ];
+
+    /**
+     * Détail d'un projet modifié : « publication : non → oui ; champs : titre, bilan ». Noms de champs seulement.
+     *
+     * @param  list<string>  $champs
+     * @param  array{0: bool, 1: bool}|null  $publication
+     */
+    public static function detailProjet(array $champs, ?array $publication = null): string
+    {
+        $parties = [];
+        if ($publication !== null) {
+            $parties[] = 'publication : '.($publication[0] ? 'oui' : 'non').' → '.($publication[1] ? 'oui' : 'non');
+        }
+        if ($champs !== []) {
+            $parties[] = 'champs : '.implode(', ', array_map(fn (string $c) => self::CHAMPS_PROJET[$c] ?? $c, $champs));
+        }
+
+        return implode(' ; ', $parties);
+    }
+
     /** @return array{0: string, 1: ?int, 2: string} type, identifiant et libellé de l'objet (sans donnée personnelle) */
     private static function decrire(ActionJournal $action, ?Model $objet): array
     {
@@ -102,6 +133,9 @@ class Journal
             $objet === null => [$action->objetParDefaut()[0], null, $action->objetParDefaut()[1]],
             $objet instanceof Demande => ['demande', $objet->id, (string) $objet->reference],
             $objet instanceof Service => ['service', $objet->id, $objet->nom],
+            // Référence PA-… et numéro de projet : jamais le titre d'un projet, ni le texte d'une contribution.
+            $objet instanceof Contribution => ['contribution', $objet->id, (string) $objet->reference],
+            $objet instanceof Projet => ['projet', $objet->id, 'Projet n° '.$objet->id],
             $objet instanceof Alerte => ['alerte', $objet->id, $objet->titre],
             // Un compte n'est désigné que par son numéro : ni nom ni e-mail (données personnelles).
             $objet instanceof User => ['compte', $objet->id, 'Compte n° '.$objet->id],

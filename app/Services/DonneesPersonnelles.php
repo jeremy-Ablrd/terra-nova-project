@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Statut;
 use App\Enums\TailleTexte;
 use App\Enums\ThemeAffichage;
+use App\Models\Contribution;
 use App\Models\Demande;
 use App\Models\DemandeEtape;
 use App\Models\User;
@@ -93,6 +94,19 @@ class DonneesPersonnelles
 
         $resume = $this->resume($user);
 
+        // Participation : MES contributions (user_id strict), de la plus ancienne à la plus récente, une requête.
+        $contributions = Contribution::where('user_id', $user->id)->with(['projet', 'service'])->orderBy('created_at')->orderBy('id')->get()
+            ->map(fn (Contribution $c) => [
+                'reference' => $c->reference,
+                'type' => $c->type->label(),
+                'intitule' => $c->intitule(),
+                'date' => DateLocale::format($c->created_at),
+                'statut' => $c->statut->label(),
+                'message' => $c->message,
+                'reponse' => $c->reponse,
+                'prise_en_compte' => $c->statut === \App\Enums\StatutContribution::PriseEnCompte,
+            ]);
+
         return [
             'compte' => [
                 'nom' => $user->name,
@@ -111,10 +125,25 @@ class DonneesPersonnelles
             'attente_jours' => $plusAncienneAttente ? (int) floor(Carbon::parse($plusAncienneAttente)->diffInDays($maintenant, true)) : null,
             'derniere_activite' => $date($activites->max()),
             'non_lus' => (int) $nonLus,
+            'contributions' => $contributions,
+            'phrases_contributions' => $this->phrasesContributions($contributions),
             'genere_le' => DateLocale::format($maintenant),
             'conservation' => config('dossier.conservation'),
             'phrases' => $this->phrases($total, $parStatut, $plusAncienneAttente ? (int) floor(Carbon::parse($plusAncienneAttente)->diffInDays($maintenant, true)) : null,
                 $delais->isEmpty() ? null : round($delais->avg(), 1), $date($activites->max()), (int) $nonLus),
+        ];
+    }
+
+    /** @return array<string, string> phrases de synthèse de la participation (accords compris) */
+    private function phrasesContributions(Collection $contributions): array
+    {
+        if ($contributions->isEmpty()) {
+            return ['bilan' => __('suivi_participation.dossier.aucune')];
+        }
+
+        return [
+            'bilan' => trans_choice('suivi_participation.dossier.total', $contributions->count()).' '
+                .trans_choice('suivi_participation.dossier.prises_en_compte', $contributions->where('prise_en_compte', true)->count()),
         ];
     }
 

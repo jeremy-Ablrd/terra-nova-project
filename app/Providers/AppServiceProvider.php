@@ -52,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('donnees-telechargement', fn (Request $request) => Limit::perMinute(10)->by('dl|'.($request->user()?->id ?? $request->ip())));
         RateLimiter::for('suppression-compte', fn (Request $request) => Limit::perMinute(5)->by('sup|'.($request->user()?->id ?? $request->ip())));
 
+        // Contributions des habitants : 5 par tranche de 10 minutes et par compte (avis, idées et commentaires confondus).
+        RateLimiter::for('contributions', fn (Request $request) => Limit::perMinutes(10, 5)->by('contrib|'.($request->user()?->id ?? $request->ip())));
+
         // Compteur D17 de la barre de navigation : calculé (une seule requête) uniquement pour un agent connecté.
         View::composer('layouts.navigation', function ($view) {
             $user = auth()->user();

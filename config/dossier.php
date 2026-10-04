@@ -29,6 +29,12 @@ return [
             'action' => null,
         ],
         [
+            'donnee' => 'Vos contributions : avis sur un projet, idées et commentaires sur un service, avec leur référence, leur statut et la réponse de la ville',
+            'finalite' => 'Les lire, vous répondre et vous montrer ce que la ville en a fait.',
+            'duree' => 'Tant que votre compte existe. Après sa suppression, elles sont conservées sans votre nom ni votre texte.',
+            'action' => ['route' => 'mes-contributions.index', 'libelle' => 'Voir mes contributions'],
+        ],
+        [
             'donnee' => 'Vos préférences d\'affichage : taille du texte et thème',
             'finalite' => 'Retrouver votre affichage à chaque visite.',
             'duree' => 'Tant que votre compte existe.',

@@ -4,6 +4,8 @@ use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AlerteController as AdminAlerteController;
 use App\Http\Controllers\Admin\CompteController;
+use App\Http\Controllers\Admin\ParticipationController as AdminParticipationController;
+use App\Http\Controllers\Admin\ProjetController as AdminProjetController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SecuriteController as AdminSecuriteController;
 use App\Http\Controllers\Admin\SynchronisationController;
@@ -14,6 +16,9 @@ use App\Http\Controllers\AccessibiliteController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MesContributionsController;
+use App\Http\Controllers\ParticipationController;
+use App\Http\Controllers\ProjetController;
 use App\Http\Controllers\EcoConceptionController;
 use App\Http\Controllers\MesConnexionsController;
 use App\Http\Controllers\MesDonneesController;
@@ -35,6 +40,10 @@ Route::get('/alertes/{alerte}', [AlerteController::class, 'show'])->name('alerte
 // Catalogue des services municipaux : pages publiques (visibles sans connexion).
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
+
+// Projets de la ville (F67) : pages publiques (visibles sans connexion) ; contribuer exige un compte citoyen (ci-dessous).
+Route::get('/projets', [ProjetController::class, 'index'])->name('projets.index');
+Route::get('/projets/{projet:slug}', [ProjetController::class, 'show'])->name('projets.show');
 
 // Accessibilité : page publique (lien dans le pied de page) et réglages d'affichage (taille du texte, thème),
 // ouverts à tous les visiteurs : cookie, et compte si l'utilisateur est connecté.
@@ -59,6 +68,19 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
     Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
     Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
     Route::get('/contact/confirmation/{demande}', [ContactController::class, 'confirmation'])->name('contact.confirmation');
+});
+
+// Participation (F65, F66, F68, F76) : avis (ce n'est pas un vote), idées, commentaires sur un service, et « Mes contributions ».
+// Réservé au citoyen (agent et admin : 403, invité : connexion). Envois limités par compte (`contributions`).
+Route::middleware(['auth', 'role:citoyen'])->group(function () {
+    Route::get('/projets/{projet:slug}/avis', [ParticipationController::class, 'avisCreate'])->name('projets.avis.create');
+    Route::post('/projets/{projet:slug}/avis', [ParticipationController::class, 'avisStore'])->middleware('throttle:contributions')->name('projets.avis.store');
+    Route::get('/idees/nouvelle', [ParticipationController::class, 'ideeCreate'])->name('idees.create');
+    Route::post('/idees', [ParticipationController::class, 'ideeStore'])->middleware('throttle:contributions')->name('idees.store');
+    Route::get('/services/{service:slug}/commentaire', [ParticipationController::class, 'commentaireCreate'])->name('services.commentaire.create');
+    Route::post('/services/{service:slug}/commentaire', [ParticipationController::class, 'commentaireStore'])->middleware('throttle:contributions')->name('services.commentaire.store');
+    Route::get('/mes-contributions', [MesContributionsController::class, 'index'])->name('mes-contributions.index');
+    Route::get('/mes-contributions/{contribution}', [MesContributionsController::class, 'show'])->name('mes-contributions.show');
 });
 
 // Mes données (F55, F56, F33) : réservé au citoyen (agent et admin : 403, invité : connexion). Ces routes fixes sont
@@ -109,6 +131,17 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Coupure d'urgence (F63) : désactiver / réactiver depuis la liste, sans JavaScript, avec limite de débit.
     Route::post('/services/{service}/desactiver', [AdminServiceController::class, 'desactiver'])->middleware('throttle:20,1')->name('admin.services.desactiver');
     Route::post('/services/{service}/reactiver', [AdminServiceController::class, 'reactiver'])->middleware('throttle:20,1')->name('admin.services.reactiver');
+
+    // Participation (F65, F66, F67, F68, F76) : admin seul. Les agents n'y ont aucun accès. Routes fixes avant {contribution}.
+    Route::get('/participation', [AdminParticipationController::class, 'index'])->name('admin.participation.index');
+    Route::get('/participation/projets', [AdminProjetController::class, 'index'])->name('admin.participation.projets.index');
+    Route::get('/participation/projets/nouveau', [AdminProjetController::class, 'create'])->name('admin.participation.projets.create');
+    Route::post('/participation/projets', [AdminProjetController::class, 'store'])->name('admin.participation.projets.store');
+    Route::get('/participation/projets/{projet}/modifier', [AdminProjetController::class, 'edit'])->name('admin.participation.projets.edit');
+    Route::put('/participation/projets/{projet}', [AdminProjetController::class, 'update'])->name('admin.participation.projets.update');
+    Route::get('/participation/{contribution}', [AdminParticipationController::class, 'show'])->whereNumber('contribution')->name('admin.participation.show');
+    // Seul le statut suivant (via TransitionContribution) : jamais de statut libre, jamais de suppression.
+    Route::patch('/participation/{contribution}/statut', [AdminParticipationController::class, 'statut'])->whereNumber('contribution')->middleware('throttle:30,1')->name('admin.participation.statut');
 
     // Publication des alertes : admin seul (role:admin du groupe).
     Route::get('/alertes', [AdminAlerteController::class, 'index'])->name('admin.alertes.index');

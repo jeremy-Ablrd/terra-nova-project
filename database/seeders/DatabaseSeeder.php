@@ -51,6 +51,9 @@ class DatabaseSeeder extends Seeder
             ])->save();
         }
 
+        // Participation de démonstration : après les comptes (les contributions sont celles du citoyen de démonstration).
+        $this->call(ParticipationSeeder::class);
+
         // Alertes de démonstration (dates relatives à maintenant, jamais de date fixe).
         $this->call(AlerteSeeder::class);
 

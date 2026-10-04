@@ -27,6 +27,7 @@
                     <li>{{ __('Vos préférences d\'affichage.') }}</li>
                     <li>{{ __('Toutes vos connexions ouvertes, sur tous vos appareils.') }}</li>
                     <li>{{ __('Le texte de vos demandes (objet et message) : il est remplacé par « [Contenu supprimé à la demande de l\'habitant] ».') }}</li>
+                    <li>{{ __('Le titre et le texte de vos contributions (avis, idées, commentaires) : ils sont effacés.') }}</li>
                 </ul>
             </section>
 
@@ -34,6 +35,7 @@
                 <h2 id="conserve" class="text-lg font-medium text-gray-900">{{ __('Ce qui sera conservé, sous forme anonyme') }}</h2>
                 <ul class="list-disc ps-5 space-y-1">
                     <li>{{ __('Vos demandes, sans votre nom ni votre texte : numéro de référence, service, statut, dates et étapes de suivi. Les agents ne pourront plus savoir qui les a faites. La ville les garde pour ses statistiques et la continuité du service.') }}</li>
+                    <li>{{ __('Vos contributions, sans votre nom ni votre texte : numéro de référence, statut, réponse de la ville, dates et étapes de suivi.') }}</li>
                     <li>{{ __('Une ligne dans le journal de la ville : « Compte n° … supprimé par son titulaire », avec seulement le numéro du compte.') }}</li>
                 </ul>
             </section>

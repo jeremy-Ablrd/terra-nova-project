@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\ActionJournal;
+use App\Models\Contribution;
 use App\Models\Demande;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,16 @@ class SuppressionCompte
             // Anonymisation : updated_at est conservé tel quel (la date de dernière mise à jour fait partie de ce qui reste).
             Demande::where('user_id', $compte->id)->update([
                 'objet' => self::TEXTE_SUPPRIME,
+                'message' => self::TEXTE_SUPPRIME,
+                'user_id' => null,
+                'anonymisee_at' => now(),
+                'updated_at' => DB::raw('updated_at'),
+            ]);
+
+            // Contributions (avis, idées, commentaires) : même règle que les demandes, anonymisées et jamais supprimées.
+            // Référence, type, projet ou service, statut, réponse de la ville, dates et étapes restent ; le titre et le texte disparaissent.
+            Contribution::where('user_id', $compte->id)->update([
+                'titre' => null,
                 'message' => self::TEXTE_SUPPRIME,
                 'user_id' => null,
                 'anonymisee_at' => now(),

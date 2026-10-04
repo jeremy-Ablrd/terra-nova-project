@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Alerte;
+use App\Models\Contribution;
 use App\Models\Demande;
+use App\Models\Projet;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +33,8 @@ class MatriceAccesTest extends TestCase
     /** URL de la route, avec des enregistrements existants pour ses paramètres (la liaison se fait avant le contrôle du rôle). */
     private function url(LaravelRoute $route): string
     {
-        $modeles = ['demande' => Demande::class, 'service' => Service::class, 'alerte' => Alerte::class, 'user' => User::class];
+        $modeles = ['demande' => Demande::class, 'service' => Service::class, 'alerte' => Alerte::class, 'user' => User::class,
+            'projet' => Projet::class, 'contribution' => Contribution::class];
         $parametres = [];
 
         foreach ($route->parameterNames() as $nom) {

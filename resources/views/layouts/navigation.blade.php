@@ -41,6 +41,9 @@
                     <x-nav-link :href="route('admin.alertes.index')" :active="request()->routeIs('admin.alertes.*')">
                         {{ __('Alertes') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.participation.index')" :active="request()->routeIs('admin.participation.*')">
+                        {{ __('Participation') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('admin.securite')" :active="request()->routeIs('admin.securite')">
                         {{ __('Sécurité') }}
                     </x-nav-link>
@@ -67,6 +70,12 @@
                     <x-nav-link :href="route('demandes.index')" :active="request()->routeIs('demandes.*')">
                         <span>Mes demandes</span>
                         <x-compteur-changements :nombre="$changementsNonVus" />
+                    </x-nav-link>
+                    <x-nav-link :href="route('projets.index')" :active="request()->routeIs('projets.*', 'idees.*')">
+                        {{ __('Participer') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('mes-contributions.index')" :active="request()->routeIs('mes-contributions.*')">
+                        {{ __('Mes contributions') }}
                     </x-nav-link>
                     <x-nav-link :href="route('mes-donnees.index')" :active="request()->routeIs('mes-donnees.*')">
                         {{ __('Mes données') }}

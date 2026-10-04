@@ -9,6 +9,7 @@
         <div class="flex flex-wrap items-center xl:flex-1 xl:justify-center gap-x-1 gap-y-1 text-sm">
             <a href="{{ route('services.index') }}" class="nav-lien" @if (request()->routeIs('services.*')) aria-current="page" @endif>{{ __('Services') }}</a>
             <a href="{{ route('urgences.index') }}" class="nav-lien" @if (request()->routeIs('urgences.*')) aria-current="page" @endif>{{ __('Urgences') }}</a>
+            <a href="{{ route('projets.index') }}" class="nav-lien" @if (request()->routeIs('projets.*')) aria-current="page" @endif>{{ __('Participer') }}</a>
             <a href="{{ route('alertes.index') }}" class="nav-lien" @if (request()->routeIs('alertes.*')) aria-current="page" @endif>{{ __('Alertes en cours') }}</a>
         </div>
 

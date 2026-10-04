@@ -94,10 +94,14 @@
 
             <p class="flex flex-wrap items-center gap-4 text-sm">
                 @auth
+                    @if (Auth::user()->isCitoyen())
+                        <a href="{{ route('services.commentaire.create', $service) }}" class="tn-btn tn-btn--secondary">{{ __('Laisser un commentaire') }}</a>
+                    @endif
                     @if (Auth::user()->isCitoyen() && ! $service->estDesactive())
                         <x-primary-link href="{{ route('contact.create', ['service_id' => $service->id]) }}">{{ __('Faire une demande à ce service') }}</x-primary-link>
                     @endif
                 @else
+                    <a href="{{ route('login') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Se connecter pour laisser un commentaire') }}</a>
                     @unless ($service->estDesactive())
                         <a href="{{ route('login') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Se connecter pour faire une demande') }}</a>
                     @endunless

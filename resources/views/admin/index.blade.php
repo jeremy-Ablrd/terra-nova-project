@@ -21,6 +21,7 @@
                     ['admin.services.index', 'Services', 'Gérer le catalogue des services municipaux.'],
                     ['admin.synchronisation.index', 'Synchronisation', 'Lancer et suivre la synchronisation des données.'],
                     ['admin.alertes.index', 'Alertes', 'Publier, modifier et clôturer les alertes.'],
+                    ['admin.participation.index', 'Participation', 'Traiter les contributions des habitants et gérer les projets de la ville.'],
                     ['admin.securite', 'Sécurité', 'Consulter les événements de sécurité de la plateforme.'],
                 ] as [$route, $titre, $texte])
                     <li class="tn-card flex flex-col gap-3">

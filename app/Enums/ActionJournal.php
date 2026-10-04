@@ -17,6 +17,9 @@ enum ActionJournal: string
     case SynchronisationLancee = 'synchronisation_lancee';
     case StatutDemandeModifie = 'statut_demande_modifie';
     case CompteSupprime = 'compte_supprime';
+    case ProjetCree = 'projet_cree';
+    case ProjetModifie = 'projet_modifie';
+    case ContributionTraitee = 'contribution_traitee';
 
     public function label(): string
     {
@@ -29,6 +32,9 @@ enum ActionJournal: string
             self::SynchronisationLancee => __('Synchronisation lancée'),
             self::StatutDemandeModifie => __('Statut de demande modifié'),
             self::CompteSupprime => __('Compte supprimé'),
+            self::ProjetCree => __('Projet créé'),
+            self::ProjetModifie => __('Projet modifié'),
+            self::ContributionTraitee => __('Contribution traitée'),
         };
     }
 

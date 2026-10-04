@@ -77,6 +77,45 @@
     @endif
 </section>
 
+<section aria-labelledby="doc-contributions">
+    <h2 id="doc-contributions">{{ __('Vos contributions') }}</h2>
+    <p>{{ $d['phrases_contributions']['bilan'] }}</p>
+    @if ($d['contributions']->isNotEmpty())
+        <div class="tableau-defilant">
+            <table>
+                <caption>{{ __('Vos contributions, de la plus ancienne à la plus récente') }}</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">{{ __('Référence') }}</th>
+                        <th scope="col">{{ __('Type') }}</th>
+                        <th scope="col">{{ __('Objet') }}</th>
+                        <th scope="col">{{ __('Envoyée le') }}</th>
+                        <th scope="col">{{ __('Suivi') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($d['contributions'] as $c)
+                        <tr>
+                            <th scope="row">{{ $c['reference'] }}</th>
+                            <td>{{ $c['type'] }}</td>
+                            <td>{{ $c['intitule'] }}</td>
+                            <td>{{ $c['date'] }}</td>
+                            <td>{{ $c['statut'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @foreach ($d['contributions'] as $c)
+            <h3>{{ $c['reference'] }}</h3>
+            <p>{{ $c['message'] }}</p>
+            @if ($c['reponse'])
+                <p><strong>{{ __('Réponse de la ville :') }}</strong> {{ $c['reponse'] }}</p>
+            @endif
+        @endforeach
+    @endif
+</section>
+
 <section aria-labelledby="doc-preferences">
     <h2 id="doc-preferences">{{ __('Vos préférences') }}</h2>
     <dl>
@@ -93,6 +132,7 @@
         <li><a href="{{ route('mes-donnees.suppression') }}">{{ __('Supprimer mon compte') }}</a></li>
     </ul>
     <p>{{ __('Si vous supprimez votre compte, vos demandes ne sont pas supprimées : elles sont anonymisées. Le texte de chaque demande est remplacé, et seuls restent son numéro de référence, son service, son statut, ses dates et ses étapes, sans votre nom.') }}</p>
+    <p>{{ __('Vos contributions (avis, idées, commentaires) sont anonymisées de la même façon : leur texte est effacé, et seuls restent leur référence, leur statut, la réponse de la ville et leurs dates.') }}</p>
 </section>
 
 <p class="pied-de-document">

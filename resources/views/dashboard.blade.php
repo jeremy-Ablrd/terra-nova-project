@@ -14,6 +14,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <x-alertes-connexion />
             <x-notifications-demandes />
+            @if (Auth::user()->isCitoyen())
+                <x-notifications-contributions />
+            @endif
 
             <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 <div class="p-6 text-gray-900">
@@ -57,6 +60,18 @@
                                 @endforeach
                             </ul>
                         @endif
+                    </div>
+                </div>
+
+                <div class="tn-card overflow-hidden p-0">
+                    <div class="p-6">
+                        <h2 class="text-lg font-semibold text-gray-900">{{ __('Participer') }}</h2>
+                        <p class="mt-1 text-sm text-gray-600">{{ __('Donnez votre avis sur les projets de la ville (un avis n\'est pas un vote), proposez une idée, et suivez ce que la ville fait de vos contributions.') }}</p>
+                        <p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                            <a href="{{ route('projets.index') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Projets de la ville') }}</a>
+                            <a href="{{ route('idees.create') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Proposer une idée') }}</a>
+                            <a href="{{ route('mes-contributions.index') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Mes contributions') }}</a>
+                        </p>
                     </div>
                 </div>
 
