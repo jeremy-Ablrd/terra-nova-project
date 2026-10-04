@@ -1,13 +1,13 @@
 <x-app-layout :title="__('Services')">
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Services') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Services') }}</h1>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @include('admin._subnav')
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 text-sm">
                         <caption class="sr-only">{{ __('Services municipaux, prioritaires en premier') }}</caption>
@@ -56,7 +56,7 @@
                                                         <input id="alternative-{{ $service->id }}" name="alternative" type="text" maxlength="500"
                                                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
                                                     </div>
-                                                    <button type="submit" class="inline-flex items-center px-3 py-2 bg-red-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700">{{ __('Désactiver') }}<span class="sr-only"> {{ $service->nom }}</span></button>
+                                                    <button type="submit" class="btn btn-danger">{{ __('Désactiver') }}<span class="sr-only"> {{ $service->nom }}</span></button>
                                                 </form>
                                             </details>
                                         @endif

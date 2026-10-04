@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ $alerte->titre }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ $alerte->titre }}</h1>
     </x-slot>
 
     <div class="py-12">

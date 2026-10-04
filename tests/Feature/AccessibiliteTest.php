@@ -22,12 +22,23 @@ class AccessibiliteTest extends TestCase
     }
 
     /** @return array<string, string> variables CSS déclarées dans le premier bloc dont le sélecteur est $selecteur */
+    /** Variables de couleur d'un bloc ; les alias `var(--autre)` sont résolus comme le ferait le navigateur (sur le même élément). */
     private function variables(string $selecteur): array
     {
-        preg_match('/'.preg_quote($selecteur, '/').'\s*\{([^}]*)\}/', $this->css(), $bloc);
-        preg_match_all('/(--[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/', $bloc[1] ?? '', $paires, PREG_SET_ORDER);
+        $lire = function (string $sel): array {
+            preg_match('/'.preg_quote($sel, '/').'s*{([^}]*)}/', $this->css(), $bloc);
+            preg_match_all('/(--[a-z-]+)s*:s*(#[0-9a-fA-F]{6}|var((--[a-z-]+)))s*;/', $bloc[1] ?? '', $paires, PREG_SET_ORDER);
 
-        return collect($paires)->mapWithKeys(fn ($p) => [$p[1] => strtolower($p[2])])->all();
+            return collect($paires)->mapWithKeys(fn ($p) => [$p[1] => strtolower($p[2])])->all();
+        };
+
+        $propres = $lire($selecteur);
+        $toutes = $selecteur === ':root' ? $propres : array_merge($lire(':root'), $propres);
+        $resoudre = function (string $valeur) use (&$resoudre, $toutes) {
+            return str_starts_with($valeur, 'var(') ? $resoudre($toutes[trim(substr($valeur, 4), ')')] ?? '#000000') : $valeur;
+        };
+
+        return collect($propres)->map(fn ($v) => $resoudre($v))->all();
     }
 
     private function luminance(string $hex): float
@@ -329,7 +340,7 @@ class AccessibiliteTest extends TestCase
         $this->assertStringContainsString('@keydown.escape.window="open = false"', $html);
 
         // Le logo n'est pas le seul contenu d'un lien sans nom.
-        $this->assertStringContainsString('aria-label="Nova Terra — accueil"', $html);
+        $this->assertStringContainsString('aria-label="Terra Nova — accueil"', $html);
     }
 
     public function test_the_current_page_link_is_announced_and_not_only_coloured(): void
@@ -337,7 +348,7 @@ class AccessibiliteTest extends TestCase
         $html = $this->html(User::factory()->create(), '/services');
 
         $this->assertMatchesRegularExpression('/<a [^>]*href="[^"]*\/services"[^>]*aria-current="page"/', $html);
-        $this->assertMatchesRegularExpression('/border-indigo-700 text-sm font-semibold[^"]*"[^>]*aria-current="page"/', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*nav-lien[^"]*"[^>]*aria-current="page"/', $html);
         // Deux liens (bureau + menu mobile) ; le fil d'Ariane ajoute son propre <span aria-current="page">.
         $this->assertSame(2, preg_match_all('/<a [^>]*aria-current="page"/', $html));
     }
@@ -402,9 +413,9 @@ class AccessibiliteTest extends TestCase
     public function test_standard_theme_colors_meet_wcag_contrast(): void
     {
         $v = $this->variables(':root');
-        $blanc = '#ffffff';
-        $fondPage = '#f3f4f6';   // bg-gray-100 : fond des pages
-        $gris50 = '#f9fafb';     // bg-gray-50 : en-têtes de tableau, barre de réglages
+        $blanc = '#fffdf9';      // surface-raised : cartes et champs
+        $fondPage = '#ebe3d8';   // surface-sunken (bg-gray-100) : barre de réglages, bandeaux
+        $gris50 = '#f6f1ea';     // surface (bg-gray-50) : fond des pages
 
         // Texte : 4,5:1 minimum sur tous les fonds.
         foreach ([$blanc, $gris50, $fondPage] as $fond) {
@@ -412,7 +423,7 @@ class AccessibiliteTest extends TestCase
             $this->assertContrast(4.5, $v['--texte-discret'], $fond, 'texte discret');
         }
         $this->assertContrast(4.5, $v['--succes-texte'], $blanc, 'texte de succès');
-        $this->assertContrast(4.5, $v['--succes-texte'], '#f0fdf4', 'texte de succès sur fond de succès');
+        $this->assertContrast(4.5, $v['--succes-texte'], $v['--success-bg'], 'texte de succès sur fond de succès');
         $this->assertContrast(4.5, $v['--bouton-desactive-texte'], $v['--bouton-desactive-bg'], 'bouton désactivé (texte)');
 
         // Composants d'interface : 3:1 minimum.

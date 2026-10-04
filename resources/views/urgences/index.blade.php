@@ -7,20 +7,20 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Urgences et hôpitaux') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Urgences et hôpitaux') }}</h1>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <p class="text-sm text-gray-700">{{ __('Les services d\'urgence et de santé de Nova Terra : où ils se trouvent, comment les joindre et s\'ils sont disponibles.') }}</p>
+            <p class="text-sm text-gray-700">{{ __('Les services d\'urgence et de santé de Terra Nova : où ils se trouvent, comment les joindre et s\'ils sont disponibles.') }}</p>
 
             @if ($services->isEmpty())
-                <p class="bg-white shadow-sm sm:rounded-lg p-6 text-sm text-gray-600">{{ __('Aucun service d\'urgence ou de santé n\'est renseigné pour le moment.') }}</p>
+                <p class="bg-white border border-gray-200 rounded-xl p-6 text-sm text-gray-600">{{ __('Aucun service d\'urgence ou de santé n\'est renseigné pour le moment.') }}</p>
             @else
                 <ul class="grid gap-6 md:grid-cols-2">
                     @foreach ($services as $service)
                         <li>
-                            <article aria-labelledby="urgence-{{ $service->id }}" class="bg-white shadow-sm sm:rounded-lg p-6 space-y-4 h-full">
+                            <article aria-labelledby="urgence-{{ $service->id }}" class="bg-white border border-gray-200 rounded-xl p-6 space-y-4 h-full">
                                 <div>
                                     <h2 id="urgence-{{ $service->id }}" class="text-lg font-semibold text-gray-900">{{ $service->nom }}</h2>
                                     <p class="mt-1 text-xs text-gray-600">

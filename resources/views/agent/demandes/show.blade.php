@@ -9,7 +9,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Demande :reference', ['reference' => $demande->reference]) }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Demande :reference', ['reference' => $demande->reference]) }}</h1>
     </x-slot>
 
     @php($suivant = $demande->statut->suivant())
@@ -23,7 +23,7 @@
                 <p role="alert" class="rounded border-2 border-red-800 bg-white p-3 text-sm font-medium text-red-900">{{ session('erreur') }}</p>
             @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 space-y-4">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6 space-y-4">
                 <div class="flex items-start justify-between gap-4">
                     <h2 class="text-lg font-medium text-gray-900">{{ $demande->objet }}</h2>
                     <x-statut-badge :statut="$demande->statut" />
@@ -42,7 +42,7 @@
                 </dl>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6">
                 <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Historique') }}</h2>
                 <x-frise-demande :demande="$demande" :montrer-agent="true" />
 

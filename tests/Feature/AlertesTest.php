@@ -233,7 +233,7 @@ class AlertesTest extends TestCase
 
         [$vide, $videAlertes] = $count();
         $this->assertSame(1, $videAlertes);   // une requête même sans rien à afficher
-        $this->assertSame(1, $vide);          // et aucune autre
+        $this->assertSame(3, $vide);          // l'accueil ajoute deux requêtes de services (liste et urgences), rien d'autre
 
         Alerte::factory()->count(6)->create(['user_id' => User::factory()->admin()->create()->id]);
         [$plein, $pleinAlertes] = $count();

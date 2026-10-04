@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
-/** Données de l'API Nova Terra pour les agents (D19) : lecture seule, depuis la base (jamais l'API directement). */
+/** Données de l'API Terra Nova pour les agents (D19) : lecture seule, depuis la base (jamais l'API directement). */
 class DonneesApiController extends Controller
 {
     private const PAR_PAGE = 25;

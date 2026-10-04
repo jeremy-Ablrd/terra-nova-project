@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AlerteController as AdminAlerteController;
 use App\Http\Controllers\Admin\CompteController;
@@ -25,9 +26,7 @@ use App\Http\Controllers\SuppressionCompteController;
 use App\Http\Controllers\UrgenceController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', AccueilController::class)->name('accueil');
 
 // Alertes en cours : pages publiques (visibles sans connexion).
 Route::get('/alertes', [AlerteController::class, 'index'])->name('alertes.index');

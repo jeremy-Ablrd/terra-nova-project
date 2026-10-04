@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Données API') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Données API') }}</h1>
     </x-slot>
 
     @php
@@ -33,7 +33,7 @@
             @endif
 
             <div class="px-4 sm:px-0 space-y-2 text-sm text-gray-800">
-                <p>{{ __('Demandes transmises par l\'API Nova Terra, en lecture seule. L\'actualisation se fait côté administrateur.') }}</p>
+                <p>{{ __('Demandes transmises par l\'API Terra Nova, en lecture seule. L\'actualisation se fait côté administrateur.') }}</p>
                 @if ($erreur)
                     <p role="alert" class="rounded border-2 border-red-800 bg-white p-3 font-medium text-red-900">
                         {{ __('La dernière synchronisation avec l\'API a échoué : :message', ['message' => $erreur]) }}
@@ -89,7 +89,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 @if ($lignes->isEmpty())
                     <div class="p-6 text-sm text-gray-600">
                         <p>{{ $total === 0 ? __('Aucune donnée reçue de l\'API pour le moment.') : __('Aucune donnée ne correspond à ces filtres.') }}</p>

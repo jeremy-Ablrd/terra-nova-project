@@ -10,7 +10,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Confirmer la suppression de mon compte') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Confirmer la suppression de mon compte') }}</h1>
     </x-slot>
 
     <div class="py-8">
@@ -28,7 +28,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('mes-donnees.suppression.destroy') }}" class="bg-white shadow-sm sm:rounded-lg p-6 space-y-5">
+            <form method="POST" action="{{ route('mes-donnees.suppression.destroy') }}" class="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
                 @csrf
                 @method('DELETE')
 
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-4">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-800 rounded-md font-semibold text-white hover:bg-red-700">{{ __('Supprimer définitivement mon compte') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ __('Supprimer définitivement mon compte') }}</button>
                     <a href="{{ route('mes-donnees.index') }}" class="underline text-gray-900 text-sm">{{ __('Annuler et revenir') }}</a>
                 </div>
             </form>

@@ -17,7 +17,7 @@
             <x-alertes-banniere />
         @endif
 
-        <div class="min-h-screen flex flex-col bg-gray-100">
+        <div class="min-h-screen flex flex-col bg-gray-50">
             <header>
                 <x-affichage-controles />
 
@@ -36,16 +36,16 @@
             <main id="contenu" tabindex="-1" class="flex-1">
                 <!-- Titre de la page (le h1) -->
                 @isset($header)
-                    <div class="bg-white shadow">
+                    <div class="bg-white border-b border-gray-200">
                         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>
                     </div>
                 @endisset
 
-                @if (session('success'))
+                @if ($flash && session('success'))
                     <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
-                        <div class="rounded-md bg-green-50 border border-green-200 p-4 text-sm text-green-800" role="status">
+                        <div class="rounded-lg bg-green-50 border-2 border-green-200 p-4 text-sm font-semibold text-green-800" role="status">
                             {{ session('success') }}
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 # Contexte : concours 24h by WebCup 2026
 
-Je suis seul, 24h de développement. Application web pour la ville fictive de Nova Terra (la doc de l'API écrit parfois "Terra Nova" : utiliser "Nova Terra" dans l'interface, comme dans les demandes).
+Je suis seul, 24h de développement. Application web pour la ville fictive de Terra Nova (nom à utiliser partout dans l'interface : "Terra Nova", comme dans la doc de l'API ; décision du 04/10/2026, ancienne graphie "Nova Terra" abandonnée).
 Les demandes viennent d'une API officielle. Un premier lot est disponible dès le lancement, d'autres arrivent par vagues. On est jugé sur des fonctionnalités réellement utilisables et intégrées à l'application.
 
 ## Stack

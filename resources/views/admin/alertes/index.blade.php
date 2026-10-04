@@ -1,7 +1,7 @@
 <x-app-layout :title="__('Alertes')">
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4">
-            <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Alertes') }}</h1>
+            <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Alertes') }}</h1>
             <x-primary-link href="{{ route('admin.alertes.create') }}">{{ __('Nouvelle alerte') }}</x-primary-link>
         </div>
     </x-slot>
@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @include('admin._subnav')
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 @if ($alertes->isEmpty())
                     <p class="p-6 text-sm text-gray-600">{{ __("Aucune alerte pour le moment. Publiez la première avec « Nouvelle alerte ».") }}</p>
                 @else

@@ -7,7 +7,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Éco-conception de la plateforme') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Éco-conception de la plateforme') }}</h1>
     </x-slot>
 
     @php
@@ -20,7 +20,7 @@
 
     <div class="py-8">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <section class="bg-white shadow-sm sm:rounded-lg p-6 space-y-3 text-sm text-gray-800" aria-labelledby="pourquoi">
+            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="pourquoi">
                 <h2 id="pourquoi" class="text-lg font-medium text-gray-900">{{ __('Pourquoi des pages légères ?') }}</h2>
                 <p>{{ __('Une page légère se charge plus vite quand la connexion est lente ou limitée, consomme moins de données mobiles et sollicite moins de serveurs et de réseau. Les informations et les actions essentielles restent disponibles : seul ce qui est superflu a été retiré.') }}</p>
                 <p>{{ __('Budget que se fixe la plateforme pour une page courante, chargée à froid :') }}
@@ -28,7 +28,7 @@
                     <strong>{{ trans_choice('{1} :count requête|[2,*] :count requêtes', $budget['requetes']) }}</strong> {{ __('au plus') }}.</p>
             </section>
 
-            <section class="bg-white shadow-sm sm:rounded-lg p-6 space-y-4" aria-labelledby="mesures">
+            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-4" aria-labelledby="mesures">
                 <h2 id="mesures" class="text-lg font-medium text-gray-900">{{ __('Mesures avant et après') }}</h2>
 
                 @if ($avant === null && $apres === null)
@@ -103,7 +103,7 @@
                 @endif
             </section>
 
-            <section class="bg-white shadow-sm sm:rounded-lg p-6 space-y-3 text-sm text-gray-800" aria-labelledby="choix">
+            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="choix">
                 <h2 id="choix" class="text-lg font-medium text-gray-900">{{ __('Choix de conception appliqués') }}</h2>
                 <ul class="list-disc ps-5 space-y-1">
                     <li>{{ __('Aucune requête vers un site tiers : les polices sont celles du système de l\'utilisateur, rien n\'est téléchargé.') }}</li>
@@ -117,7 +117,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white shadow-sm sm:rounded-lg p-6 space-y-3 text-sm text-gray-800" aria-labelledby="limites">
+            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="limites">
                 <h2 id="limites" class="text-lg font-medium text-gray-900">{{ __('Limites, en toute honnêteté') }}</h2>
                 <ul class="list-disc ps-5 space-y-1">
                     <li>{{ __('Ces chiffres sont des mesures de laboratoire (un navigateur, un réseau simulé, une base de démonstration) : ils indiquent un ordre de grandeur, pas l\'expérience de chaque habitant.') }}</li>
@@ -128,7 +128,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white shadow-sm sm:rounded-lg p-6 space-y-3 text-sm text-gray-800" aria-labelledby="hebergeur">
+            <section class="bg-white border border-gray-200 rounded-xl p-6 space-y-3 text-sm text-gray-800" aria-labelledby="hebergeur">
                 <h2 id="hebergeur" class="text-lg font-medium text-gray-900">{{ __('Ce qui dépend de l\'hébergeur') }}</h2>
                 <ul class="list-disc ps-5 space-y-1">
                     <li>{{ __('La compression des réponses (module de compression du serveur web).') }}</li>

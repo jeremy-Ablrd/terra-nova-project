@@ -60,21 +60,21 @@ class NovaTerraApi
                 ->connectTimeout(5)
                 ->get(config('services.webcup.url'));
         } catch (ConnectionException $e) {
-            throw new NovaTerraApiException('API Nova Terra injoignable : '.$e->getMessage(), previous: $e);
+            throw new NovaTerraApiException('API Terra Nova injoignable : '.$e->getMessage(), previous: $e);
         }
 
         if ($response->status() === 403) {
-            throw new NovaTerraApiException('API Nova Terra : accès refusé (403). Vérifiez la clé WEBCUP_API_KEY.');
+            throw new NovaTerraApiException('API Terra Nova : accès refusé (403). Vérifiez la clé WEBCUP_API_KEY.');
         }
 
         if ($response->failed()) {
-            throw new NovaTerraApiException('API Nova Terra : erreur HTTP '.$response->status().'.');
+            throw new NovaTerraApiException('API Terra Nova : erreur HTTP '.$response->status().'.');
         }
 
         $data = $response->json();
 
         if (! is_array($data) || ! is_array($data['requests'] ?? null)) {
-            throw new NovaTerraApiException('API Nova Terra : réponse inattendue (liste "requests" absente).');
+            throw new NovaTerraApiException('API Terra Nova : réponse inattendue (liste "requests" absente).');
         }
 
         return $data;

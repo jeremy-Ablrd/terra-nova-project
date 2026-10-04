@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ $service->nom }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ $service->nom }}</h1>
     </x-slot>
 
     <div class="py-12">
@@ -21,7 +21,7 @@
                 </div>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-5">
+            <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
                 @if ($service->organisme)
                     <p class="text-sm font-semibold text-gray-900">{{ $service->organisme }}</p>
                 @endif

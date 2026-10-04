@@ -397,7 +397,7 @@ class ServicesUrgencesTest extends TestCase
         }
 
         $this->get('/urgences')->assertOk()
-            ->assertSee('Hôpital de Nova Terra')->assertSee('Urgences de Nova Terra')
+            ->assertSee('Hôpital de Terra Nova')->assertSee('Urgences de Terra Nova')
             ->assertSee('Quartier sud')->assertSee('Quartier est')
             ->assertSee('href="tel:15"', false);
     }
@@ -421,6 +421,6 @@ class ServicesUrgencesTest extends TestCase
 
         $this->assertSame(10, Service::count());
         $this->assertSame(4, Service::where('categorie', 'sante')->count());
-        $this->get('/urgences')->assertSee('Hôpital de Nova Terra')->assertSee('Centre de santé municipal')->assertDontSee('Urbanisme');
+        $this->get('/urgences')->assertSee('Hôpital de Terra Nova')->assertSee('Centre de santé municipal')->assertDontSee('Urbanisme');
     }
 }

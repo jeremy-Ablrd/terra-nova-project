@@ -9,39 +9,178 @@
  * pour que « Taille du texte » et « Contraste renforcé » restent de simples bascules de classe sur <html>.
  *
  * Contrastes (WCAG 2.2) : texte >= 4,5:1 ; grand texte et composants d'interface >= 3:1.
- * Valeurs corrigées après audit (ratio contre le blanc) :
- *   texte discret   #6b7280 (4,39:1 sur le fond de page gris)  ->  #4b5563 (7,56:1 sur blanc, 6,87:1 sur le fond de page)
- *   bordure champ   #d1d5db (1,47:1)                           ->  #6b7280 (4,83:1)
- *   bordure lien    #818cf8 (2,98:1)                           ->  #4338ca (7,90:1)
- *   texte de succès #16a34a (3,30:1)                           ->  #166534 (7,13:1)
- *   bouton inactif  opacité 50 % (3,05:1)                      ->  blanc sur #6b7280 (4,83:1)
+ * Palette : celle du design Terra Nova (docs/design/ds/terra-nova/tokens.json, thème « jour »), dont les contrastes
+ * sont annoncés conformes (texte >= 4,5:1, bordures de champ >= 3:1). Le doré de la marque (--brand) ne sert jamais
+ * de couleur de texte ni de trait fin : le texte de marque est --brand-text (bronze).
  */
 :root {
-    --texte: #111827;
-    --texte-discret: #4b5563;
-    --bordure-champ: #6b7280;
-    --lien-actif-bord: #4338ca;
-    --succes-texte: #166534;
-    --couleur-focus: #1d4ed8;
-    --epaisseur-focus: 0.1875rem;
-    --bouton-desactive-bg: #6b7280;
-    --bouton-desactive-texte: #ffffff;
+    --surface: #f6f1ea;
+    --surface-raised: #fffdf9;
+    --surface-sunken: #ebe3d8;
+    --ink: #1c1713;
+    --ink-muted: #5a4f45;
+    --border-strong: #756859;
+    --border-subtle: #d6cbbd;
+    --brand: #d6a85f;
+    --on-brand: #1c1713;
+    --brand-text: #7a5218;
+    --accent: #1f5fa8;
+    --on-accent: #ffffff;
+    --focus: #1f5fa8;
+    --info-bg: #e4eefa;
+    --info-border: #1f5fa8;
+    --info-text: #174a85;
+    --warn-bg: #fbefd2;
+    --warn-border: #8a5a00;
+    --warn-text: #6b4500;
+    --danger-bg: #fbe4e1;
+    --danger-border: #b3261e;
+    --danger-text: #8f1d17;
+    --success-bg: #d9f0ea;
+    --success-border: #0b6b5c;
+    --success-text: #0a5247;
+    --disabled-bg: #6b7280;
+    --on-disabled: #ffffff;
+    --shadow-card: 0 0.0625rem 0.125rem rgba(28, 23, 19, 0.12);
 
-    --demande-nouvelle-bg: #eff6ff;
-    --demande-nouvelle-bord: #1d4ed8;
-    --demande-en-cours-bg: #fffbeb;
-    --demande-en-cours-bord: #b45309;
-    --filtre-actif-bord: #111827;
-    --alerte-urgent-bg: #fef2f2;
-    --alerte-urgent-bord: #b91c1c;
-    --alerte-vigilance-bg: #fffbeb;
-    --alerte-vigilance-bord: #b45309;
-    --alerte-info-bg: #eff6ff;
-    --alerte-info-bord: #1d4ed8;
-    --service-interrompu-bg: #fff7ed;
-    --service-interrompu-bord: #c2410c;
-    --service-desactive-bg: #f3f4f6;
-    --service-desactive-bord: #111827;
+    /* Noms utilisés par le reste de la feuille de style (alias des jetons du design). */
+    --texte: var(--ink);
+    --texte-discret: var(--ink-muted);
+    --bordure-champ: var(--border-strong);
+    --lien-actif-bord: var(--brand-text);
+    --succes-texte: var(--success-text);
+    --couleur-focus: var(--focus);
+    --epaisseur-focus: 0.1875rem;
+    --bouton-desactive-bg: var(--disabled-bg);
+    --bouton-desactive-texte: var(--on-disabled);
+
+    --demande-nouvelle-bg: var(--info-bg);
+    --demande-nouvelle-bord: var(--info-border);
+    --demande-en-cours-bg: var(--warn-bg);
+    --demande-en-cours-bord: var(--warn-border);
+    --filtre-actif-bord: var(--brand-text);
+    --alerte-urgent-bg: var(--danger-bg);
+    --alerte-urgent-bord: var(--danger-border);
+    --alerte-vigilance-bg: var(--warn-bg);
+    --alerte-vigilance-bord: var(--warn-border);
+    --alerte-info-bg: var(--info-bg);
+    --alerte-info-bord: var(--info-border);
+    --service-interrompu-bg: var(--warn-bg);
+    --service-interrompu-bord: var(--warn-border);
+    --service-desactive-bg: var(--surface-sunken);
+    --service-desactive-bord: var(--ink);
+}
+
+body {
+    background-color: var(--surface);
+    color: var(--ink);
+}
+
+/* Titres : police d'affichage du design (Trebuchet MS, remplaçant système de Bricolage Grotesque, sans téléchargement). */
+h1,
+h2 {
+    font-family: "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.01em;
+}
+
+/* --- Composants du design (tn-* de bundle.css, renommés) : boutons, cartes, pastilles. Tailles en rem. ----------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.25rem 1rem;
+    border: 0.125rem solid transparent;
+    border-radius: var(--radius-md, 0.5rem);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-primary {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: var(--on-brand);
+}
+.btn-primary:hover {
+    box-shadow: inset 0 0 0 0.125rem var(--on-brand);
+}
+.btn-secondary {
+    background-color: var(--surface-raised);
+    border-color: var(--border-strong);
+    color: var(--ink);
+}
+.btn-secondary:hover {
+    background-color: var(--surface-sunken);
+}
+.btn-danger {
+    background-color: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
+}
+.btn-danger:hover {
+    box-shadow: inset 0 0 0 0.125rem var(--danger-border);
+}
+.carte {
+    background-color: var(--surface-raised);
+    border: 0.0625rem solid var(--border-subtle);
+    border-radius: var(--radius-lg, 0.875rem);
+    padding: 1rem;
+    box-shadow: var(--shadow-card);
+}
+.pastille {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+    border: 0.0625rem solid var(--border-strong);
+    border-radius: 9999rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+}
+.pastille-info {
+    background-color: var(--info-bg);
+    border-color: var(--info-border);
+    color: var(--info-text);
+}
+.pastille-warn {
+    background-color: var(--warn-bg);
+    border-color: var(--warn-border);
+    color: var(--warn-text);
+}
+.pastille-danger {
+    background-color: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
+}
+.pastille-success {
+    background-color: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text);
+}
+.code {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-weight: 500;
+}
+/* Page courante dans la navigation : trait de la couleur de marque + gras (jamais la couleur seule). */
+.nav-lien {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 0.75rem;
+    border-radius: var(--radius-md, 0.5rem);
+    font-weight: 500;
+    text-decoration: none;
+}
+.nav-lien:hover {
+    text-decoration: underline;
+}
+.nav-lien[aria-current="page"] {
+    font-weight: 700;
+    box-shadow: inset 0 -0.25rem 0 var(--brand-text);
 }
 
 /* --- Taille du texte : la taille racine change, tout le reste (rem) suit. ----------------------------------- */
@@ -149,14 +288,15 @@ button[aria-disabled="true"] {
 /* --- Réglages d'affichage (barre du haut) : l'état est dit par aria-pressed, un trait et un « coché ». ---------- */
 .bouton-reglage {
     padding: 0.125rem 0.75rem;
+    min-height: 2.25rem;
     border: 0.125rem solid var(--bordure-champ);
-    border-radius: 0.375rem;
-    background-color: #ffffff;
+    border-radius: var(--radius-md, 0.5rem);
+    background-color: var(--surface-raised);
     color: var(--texte);
     font-weight: 500;
 }
 .bouton-reglage:hover {
-    background-color: #f3f4f6;
+    background-color: var(--surface-sunken);
 }
 .bouton-reglage-actif {
     border-color: var(--filtre-actif-bord);
@@ -224,6 +364,35 @@ button[aria-disabled="true"] {
  * Les différences de forme (bordure pleine, double, pointillée, tirets) restent : rien ne passe par la couleur seule.
  * ====================================================================================================== */
 html.theme-contraste {
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --surface-sunken: #ffffff;
+    --ink: #000000;
+    --ink-muted: #000000;
+    --border-strong: #000000;
+    --border-subtle: #000000;
+    --brand: #ffffff;
+    --on-brand: #000000;
+    --brand-text: #000000;
+    --accent: #000000;
+    --on-accent: #ffffff;
+    --focus: #000000;
+    --info-bg: #ffffff;
+    --info-border: #000000;
+    --info-text: #000000;
+    --warn-bg: #ffffff;
+    --warn-border: #000000;
+    --warn-text: #000000;
+    --danger-bg: #ffffff;
+    --danger-border: #000000;
+    --danger-text: #000000;
+    --success-bg: #ffffff;
+    --success-border: #000000;
+    --success-text: #000000;
+    --disabled-bg: #4b5563;
+    --on-disabled: #ffffff;
+    --shadow-card: none;
+
     --texte: #000000;
     --texte-discret: #000000;
     --bordure-champ: #000000;
@@ -316,6 +485,15 @@ html.theme-contraste {
     background-color: #ffffff;
     color: #000000;
     border: 0.125rem solid #000000;
+}
+.theme-contraste .btn-primary,
+.theme-contraste .btn-secondary,
+.theme-contraste .btn-danger {
+    border-color: #000000;
+}
+.theme-contraste .btn-primary {
+    background-color: #000000;
+    color: #ffffff;
 }
 .theme-contraste .bouton-reglage {
     background-color: #ffffff;

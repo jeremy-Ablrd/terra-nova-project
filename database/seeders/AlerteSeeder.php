@@ -33,7 +33,7 @@ class AlerteSeeder extends Seeder
                 'titre' => 'Vague de chaleur extrême',
                 'niveau' => Niveau::Vigilance,
                 'secteur' => 'Plusieurs secteurs de la ville',
-                'ce_qui_se_passe' => 'Une vague de chaleur extrême touche actuellement plusieurs secteurs de Nova Terra. Les températures restent très élevées jour et nuit.',
+                'ce_qui_se_passe' => 'Une vague de chaleur extrême touche actuellement plusieurs secteurs de Terra Nova. Les températures restent très élevées jour et nuit.',
                 'ce_quil_faut_faire' => 'Buvez régulièrement, évitez les efforts physiques aux heures chaudes et passez du temps dans des lieux frais ou climatisés.',
                 'consignes_vulnerables' => 'Personnes âgées, jeunes enfants, personnes malades ou isolées : restez au frais, buvez même sans soif, faites-vous rendre visite deux fois par jour et appelez les secours au moindre malaise.',
                 'starts_at' => now()->subHours(6),

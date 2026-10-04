@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">Espace agent</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">Espace agent</h1>
     </x-slot>
 
     @php
-        $carte = 'block bg-white shadow-sm sm:rounded-lg p-4 border border-gray-200 hover:border-gray-500';
+        $carte = 'block bg-white border border-gray-200 rounded-xl p-4 border border-gray-200 hover:border-gray-500';
         $lienStatut = fn (string $statut) => route('agent.demandes.index', ['statut' => $statut]);
     @endphp
 
@@ -73,7 +73,7 @@
                 </ul>
             </section>
 
-            <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6" aria-labelledby="suivi-activite">
+            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="suivi-activite">
                 <h2 id="suivi-activite" class="font-medium text-gray-900">{{ __('Suivi de l\'activité') }}</h2>
                 @if ($entrees->isEmpty())
                     <p class="mt-2 text-sm text-gray-600">{{ __('Aucune activité enregistrée pour le moment.') }}</p>
@@ -92,7 +92,7 @@
                 </p>
             </section>
 
-            <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6" aria-labelledby="synchro-api">
+            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="synchro-api">
                 <h2 id="synchro-api" class="font-medium text-gray-900">{{ __('État de la synchronisation API') }}</h2>
                 @if ($sync['erreur'])
                     <p role="alert" class="mt-2 rounded border-2 border-red-800 p-2 text-sm font-medium text-red-900">{{ __('Dernière erreur : :message', ['message' => $sync['erreur']]) }}</p>

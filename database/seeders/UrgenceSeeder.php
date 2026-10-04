@@ -18,10 +18,10 @@ class UrgenceSeeder extends Seeder
     {
         $services = [
             [
-                'nom' => 'Hôpital de Nova Terra',
+                'nom' => 'Hôpital de Terra Nova',
                 'slug' => 'hopital-nova-terra',
                 'resume' => 'Hôpital général : consultations spécialisées, hospitalisation, maternité et imagerie médicale.',
-                'description' => 'L\'hôpital de Nova Terra accueille les patients pour les consultations spécialisées, les hospitalisations, la maternité et l\'imagerie médicale. Pour une urgence, rendez-vous directement aux urgences de la ville.',
+                'description' => 'L\'hôpital de Terra Nova accueille les patients pour les consultations spécialisées, les hospitalisations, la maternité et l\'imagerie médicale. Pour une urgence, rendez-vous directement aux urgences de la ville.',
                 'horaires' => 'Accueil 24h/24 ; consultations de 8h00 à 18h00',
                 'adresse' => '45 boulevard de l\'Hôpital',
                 'quartier' => 'Quartier sud',
@@ -34,7 +34,7 @@ class UrgenceSeeder extends Seeder
                 'ordre' => 9,
             ],
             [
-                'nom' => 'Urgences de Nova Terra',
+                'nom' => 'Urgences de Terra Nova',
                 'slug' => 'urgences-nova-terra',
                 'resume' => 'Accueil des urgences médicales et chirurgicales, jour et nuit.',
                 'description' => 'Le service des urgences accueille jour et nuit toute personne dont l\'état nécessite une prise en charge rapide. En cas de détresse vitale, appelez le 15 avant de vous déplacer.',

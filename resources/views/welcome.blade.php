@@ -1,63 +1,111 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ \App\Support\Affichage::classes() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Nova Terra') }}</title>
-
-        <x-tete-assets />
-    </head>
-    <body class="font-sans antialiased bg-gray-100 text-gray-900 min-h-screen flex flex-col">
-        {{-- Premier élément focusable de la page : saute l'en-tête. --}}
-        <a href="#contenu" class="skip-link">{{ __('Aller au contenu') }}</a>
-
-        <x-alertes-banniere />
-
-        <header>
-            <x-affichage-controles />
-
-            <div class="bg-white border-b border-gray-100">
-                <nav aria-label="{{ __('Navigation principale') }}" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 min-h-[4rem] flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-                    <a href="{{ url('/') }}" class="flex items-center gap-2 font-semibold">
-                        <x-application-logo class="h-8 w-auto fill-current text-gray-800" />
-                        Nova Terra
-                    </a>
-
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-                        <a href="{{ route('services.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Services') }}</a>
-                        <a href="{{ route('urgences.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Urgences') }}</a>
-                        <a href="{{ route('alertes.index') }}" class="px-3 py-2 text-gray-700 hover:text-gray-900">{{ __('Alertes en cours') }}</a>
-                        @auth
-                            <a href="{{ Auth::user()->homeUrl() }}" class="px-4 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700">Mon espace</a>
-                        @else
-                            <a href="{{ route('login') }}" class="px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">Se connecter</a>
-                            <a href="{{ route('register') }}" class="px-4 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700">Créer mon compte</a>
-                        @endauth
-                    </div>
-                </nav>
+<x-app-layout :flash="false">
+    <section aria-labelledby="titre-accueil" class="bg-gray-100 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 flex flex-wrap items-center gap-x-12 gap-y-10">
+            <div class="flex-1 basis-[22rem] min-w-0 flex flex-col items-start gap-4">
+                <span class="pastille pastille-info"><span aria-hidden="true">◆</span>{{ __('Services numériques de la ville') }}</span>
+                <h1 id="titre-accueil" class="font-display font-bold text-4xl sm:text-5xl leading-tight text-gray-900">{{ __('Bienvenue à Terra Nova') }}</h1>
+                <p class="max-w-xl text-lg text-gray-600">{{ __('Les services numériques de la ville, accessibles à chaque habitant depuis son espace personnel.') }}</p>
+                <div class="flex flex-wrap items-center gap-3 mt-2">
+                    @auth
+                        <a href="{{ Auth::user()->homeUrl() }}" class="btn btn-primary">{{ __('Accéder à mon espace') }}</a>
+                    @else
+                        <a href="{{ route('register') }}" class="btn btn-primary">{{ __('Créer mon compte habitant') }}</a>
+                        <a href="{{ route('login') }}" class="btn btn-secondary">{{ __('Se connecter') }}</a>
+                    @endauth
+                </div>
             </div>
-        </header>
 
-        <main id="contenu" tabindex="-1" class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-            <h1 class="text-3xl sm:text-4xl font-bold">Bienvenue à Nova Terra</h1>
-            <p class="mt-4 text-lg text-gray-600">
-                Les services numériques de la ville, accessibles à chaque habitant depuis son espace personnel.
-            </p>
+            {{-- Chiffres de la ville : lus en base, jamais codés en dur. --}}
+            <div class="flex-1 basis-[20rem] min-w-0">
+                <h2 class="sr-only">{{ __('La ville en chiffres') }}</h2>
+                <dl class="carte grid grid-cols-3 text-center py-4 px-0">
+                    <div class="px-3 flex flex-col-reverse gap-1">
+                        <dt class="text-sm text-gray-600">{{ __('services municipaux') }}</dt>
+                        <dd class="font-display font-bold text-4xl">{{ $nbServices }}</dd>
+                    </div>
+                    <div class="px-3 border-l border-gray-200 flex flex-col-reverse gap-1">
+                        <dt class="text-sm text-gray-600">{{ __('alertes en cours') }}</dt>
+                        <dd class="font-display font-bold text-4xl">{{ $nbAlertes }}</dd>
+                    </div>
+                    <div class="px-3 border-l border-gray-200 flex flex-col-reverse gap-1">
+                        <dt class="text-sm text-gray-600">{{ __("lieux d'urgence") }}</dt>
+                        <dd class="font-display font-bold text-4xl">{{ $nbUrgences }}</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </section>
 
-            <div class="mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-12">
+        <div class="grid gap-6 md:grid-cols-2">
+            <section aria-labelledby="t-dispo" class="carte flex flex-col gap-4">
+                <h2 id="t-dispo" class="text-lg font-semibold">{{ __('Disponibilité des services') }}</h2>
+                <p class="flex items-baseline gap-2">
+                    <span class="font-display font-bold text-4xl">{{ $nbDisponibles }}/{{ $nbServices }}</span>
+                    <span class="text-sm text-gray-600">{{ __('services disponibles') }}</span>
+                </p>
+                @forelse ($interrompus as $service)
+                    <div>
+                        <p class="text-sm font-semibold">{{ $service->nom }}</p>
+                        <x-disponibilite-service :service="$service" sans-role />
+                    </div>
+                @empty
+                    <p class="pastille pastille-success self-start"><span aria-hidden="true">✓</span>{{ __('Tous les services sont disponibles') }}</p>
+                @endforelse
+                <a href="{{ route('services.index') }}" class="btn btn-secondary self-start">{{ __('Voir tous les services') }}</a>
+            </section>
+
+            <section aria-labelledby="t-urgences" class="carte flex flex-col gap-4">
+                <h2 id="t-urgences" class="text-lg font-semibold">{{ __('Urgences') }}</h2>
+                <ul class="flex flex-col gap-3 text-sm">
+                    @foreach ($urgences as $lieu)
+                        <li class="border-t border-gray-200 pt-3">
+                            <strong>{{ $lieu->nom }}</strong><br>
+                            <span class="text-gray-600">{{ collect([$lieu->quartier, $lieu->horaires])->filter()->implode(' · ') }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+                <a href="{{ route('urgences.index') }}" class="btn btn-secondary self-start">{{ __('Où aller en urgence') }}</a>
+            </section>
+        </div>
+
+        <section aria-labelledby="t-services" class="flex flex-col gap-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 id="t-services" class="font-display font-semibold text-2xl">{{ __('Services à la une') }}</h2>
+                <a href="{{ route('services.index') }}" class="btn btn-secondary">{{ __('Tout le catalogue') }}</a>
+            </div>
+            <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach ($alaUne as $service)
+                    <li class="carte flex flex-col gap-2">
+                        @if ($service->prioritaire)
+                            <span class="text-sm font-semibold text-brand-text"><span aria-hidden="true">◆ </span>{{ __('Prioritaire') }}</span>
+                        @endif
+                        <h3 class="text-lg font-semibold"><a href="{{ route('services.show', $service) }}" class="hover:underline">{{ $service->nom }}</a></h3>
+                        <p class="text-sm text-gray-600">{{ $service->resume }}</p>
+                        <x-disponibilite-service :service="$service" class="mt-auto" />
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+
+        <section aria-labelledby="t-espace" class="carte bg-gray-100 flex flex-wrap items-center gap-x-12 gap-y-6 p-8">
+            <div class="flex-1 basis-[22rem] flex flex-col gap-3">
+                <h2 id="t-espace" class="font-display font-semibold text-2xl">{{ __('Votre espace habitant') }}</h2>
+                <p class="text-gray-600">{{ __("Contactez la mairie depuis votre compte : vous recevez un numéro de référence, puis vous suivez l'avancement de chaque demande.") }}</p>
+                <p class="flex flex-wrap items-center gap-2">
+                    <span class="pastille pastille-info"><span aria-hidden="true">◆</span>{{ __('Nouvelle') }}</span>
+                    <span class="pastille pastille-warn"><span aria-hidden="true">▲</span>{{ __('En cours') }}</span>
+                    <span class="pastille pastille-success"><span aria-hidden="true">✓</span>{{ __('Traitée') }}</span>
+                </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
                 @auth
-                    <a href="{{ Auth::user()->homeUrl() }}" class="inline-block px-6 py-3 rounded-md bg-gray-800 text-white hover:bg-gray-700">Accéder à mon espace</a>
+                    <a href="{{ Auth::user()->homeUrl() }}" class="btn btn-primary">{{ __('Accéder à mon espace') }}</a>
                 @else
-                    <a href="{{ route('register') }}" class="inline-block px-6 py-3 rounded-md bg-gray-800 text-white hover:bg-gray-700">Créer mon compte habitant</a>
-                    <p class="mt-4 text-sm text-gray-600">
-                        Déjà inscrit ? <a href="{{ route('login') }}" class="underline hover:text-gray-900">Se connecter</a>
-                    </p>
+                    <a href="{{ route('register') }}" class="btn btn-primary">{{ __('Créer mon compte habitant') }}</a>
+                    <a href="{{ route('login') }}" class="btn btn-secondary">{{ __('Se connecter') }}</a>
                 @endauth
             </div>
-        </main>
-
-        <x-pied-de-page />
-    </body>
-</html>
+        </section>
+    </div>
+</x-app-layout>

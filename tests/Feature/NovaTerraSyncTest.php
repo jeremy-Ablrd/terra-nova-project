@@ -186,7 +186,7 @@ class NovaTerraSyncTest extends TestCase
                 'request_code' => 'D01',
                 'requester_name' => 'Haut Conseil de la Ville',
                 'requester_type' => 'Institution',
-                'message_public' => 'La plateforme va accueillir les habitants de Nova Terra.',
+                'message_public' => 'La plateforme va accueillir les habitants de Terra Nova.',
                 'difficulty' => 'Facile',
                 'xp_base' => 250,
                 'xp_time_bonus' => 0,

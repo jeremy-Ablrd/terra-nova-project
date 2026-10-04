@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4">
-            <h1 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">
                 Mon espace {{ Auth::user()->role === \App\Enums\Role::Citoyen ? 'citoyen' : Auth::user()->role->label() }}
             </h1>
             @if (Auth::user()->isCitoyen())
@@ -15,11 +15,11 @@
             <x-alertes-connexion />
             <x-notifications-demandes />
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 <div class="p-6 text-gray-900">
                     <p class="text-lg font-medium">Bienvenue, {{ Auth::user()->name }} !</p>
                     <p class="mt-1 text-sm text-gray-600">
-                        Vous êtes connecté à votre espace personnel de Nova Terra en tant que
+                        Vous êtes connecté à votre espace personnel de Terra Nova en tant que
                         <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">{{ Auth::user()->role->label() }}</span>.
                     </p>
                 </div>
@@ -31,7 +31,7 @@
                     $demandes = Auth::user()->demandes()->latest()->get();
                     $parStatut = $demandes->countBy(fn ($d) => $d->statut->value);
                 @endphp
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <h3 class="font-medium text-gray-900">Mes demandes</h3>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                     <div class="p-6">
                         <h3 class="font-medium text-gray-900">{{ __('Mes données') }}</h3>
                         <p class="mt-1 text-sm text-gray-600">{{ __('Consultez ce que la ville conserve sur vous, téléchargez vos informations et le récapitulatif de vos demandes, ou supprimez votre compte.') }}</p>
@@ -69,7 +69,7 @@
                 </div>
             @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 <div class="p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="font-medium text-gray-900">Mes informations</h3>

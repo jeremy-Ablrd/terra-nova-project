@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <h1 class="text-xl font-semibold text-gray-900">Accès refusé</h1>
+    <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900">Accès refusé</h1>
     <p class="mt-2 text-sm text-gray-600">
-        Votre profil ne vous permet pas d'accéder à cette page. Si vous pensez qu'il s'agit d'une erreur, contactez un administrateur de Nova Terra.
+        Votre profil ne vous permet pas d'accéder à cette page. Si vous pensez qu'il s'agit d'une erreur, contactez un administrateur de Terra Nova.
     </p>
     <p class="mt-6">
         @auth

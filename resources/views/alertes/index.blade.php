@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Alertes en cours') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Alertes en cours') }}</h1>
     </x-slot>
 
     <div class="py-12">
@@ -30,7 +30,7 @@
                     </p>
                 </article>
             @empty
-                <p class="bg-white shadow-sm sm:rounded-lg p-6 text-sm text-gray-600">{{ __('Aucune alerte en cours.') }}</p>
+                <p class="bg-white border border-gray-200 rounded-xl p-6 text-sm text-gray-600">{{ __('Aucune alerte en cours.') }}</p>
             @endforelse
         </div>
     </div>

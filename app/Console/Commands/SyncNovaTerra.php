@@ -12,7 +12,7 @@ class SyncNovaTerra extends Command
 {
     protected $signature = 'novaterra:sync';
 
-    protected $description = 'Récupère les demandes de l\'API Nova Terra et les enregistre en base';
+    protected $description = 'Récupère les demandes de l\'API Terra Nova et les enregistre en base';
 
     public function handle(NovaTerraApi $api): int
     {

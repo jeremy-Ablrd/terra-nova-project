@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Demandes reçues de l'API Nova Terra (sans rapport avec la table `demandes` des habitants).
+     * Demandes reçues de l'API Terra Nova (sans rapport avec la table `demandes` des habitants).
      * Presque tout est nullable : un champ absent de l'API ne doit pas faire échouer l'upsert.
      */
     public function up(): void

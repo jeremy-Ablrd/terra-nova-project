@@ -15,19 +15,18 @@
 
         <x-alertes-banniere />
 
-        <div class="min-h-screen flex flex-col bg-gray-100">
+        <div class="min-h-screen flex flex-col bg-gray-50">
             <header>
                 <x-affichage-controles />
             </header>
 
-            <main id="contenu" tabindex="-1" class="flex-1 flex flex-col items-center justify-center px-4 py-6">
-                <div>
-                    <a href="/" aria-label="{{ config('app.name') }} — {{ __('accueil') }}">
-                        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                    </a>
-                </div>
+            <main id="contenu" tabindex="-1" class="flex-1 flex flex-col items-center justify-center px-4 py-8">
+                <a href="/" class="flex flex-col items-center gap-2 font-display font-bold text-2xl" aria-label="{{ config('app.name') }} — {{ __('accueil') }}">
+                    <x-application-logo class="w-16 aspect-square fill-current text-brand" />
+                    <span>Terra Nova</span>
+                </a>
 
-                <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+                <div class="carte w-full sm:max-w-md mt-6 px-6 py-6">
                     {{ $slot }}
                 </div>
             </main>

@@ -28,7 +28,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // API officielle des demandes Nova Terra (appel côté serveur uniquement).
+    // API officielle des demandes Terra Nova (appel côté serveur uniquement).
     // La clé vient de WEBCUP_API_KEY, avec API_KEY en repli (nom utilisé dans le .env local).
     'webcup' => [
         'url' => env('WEBCUP_API_URL', 'https://24h.webcup.fr/wp-json/webcup/v1/requests'),

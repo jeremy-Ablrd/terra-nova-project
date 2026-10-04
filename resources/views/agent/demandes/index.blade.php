@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Centre technique municipal') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Centre technique municipal') }}</h1>
     </x-slot>
 
     <div class="py-12">
@@ -34,7 +34,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 @if ($demandes->isEmpty() && $statut)
                     <div class="p-6 text-sm text-gray-600">
                         <p>{{ __('Aucune demande avec ce statut.') }}</p>

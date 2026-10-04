@@ -9,7 +9,7 @@
 
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4">
-            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Mes demandes</h1>
+            <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">Mes demandes</h1>
             @if (Auth::user()->isCitoyen())
                 <x-primary-link href="{{ route('contact.create') }}">{{ __('Nouvelle demande') }}</x-primary-link>
             @endif
@@ -66,7 +66,7 @@
                 </ul>
             </nav>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
                 @if ($demandes->isEmpty())
                     <div class="p-6 text-sm text-gray-600">
                         @if ($recherche !== '')

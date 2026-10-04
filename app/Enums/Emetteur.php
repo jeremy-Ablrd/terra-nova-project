@@ -17,7 +17,7 @@ enum Emetteur: string
     {
         return match ($this) {
             self::HautConseil => __('Haut Conseil'),
-            self::Ville => __('Ville de Nova Terra'),
+            self::Ville => __('Ville de Terra Nova'),
             self::ServiceCommunication => __('Service communication'),
         };
     }
@@ -27,7 +27,7 @@ enum Emetteur: string
     {
         return match ($this) {
             self::HautConseil => __('Message officiel du Haut Conseil'),
-            self::Ville => __('Message officiel de la Ville de Nova Terra'),
+            self::Ville => __('Message officiel de la Ville de Terra Nova'),
             self::ServiceCommunication => __('Message officiel du service communication'),
         };
     }

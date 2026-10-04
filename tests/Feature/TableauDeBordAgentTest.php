@@ -173,10 +173,10 @@ class TableauDeBordAgentTest extends TestCase
             ->assertSee('Aucune synchronisation réussie pour l&#039;instant.', false);
 
         Cache::forever(NovaTerraApi::CACHE_LAST_SYNC, '2026-10-10T09:05:00+04:00');
-        Cache::forever(NovaTerraApi::CACHE_LAST_ERROR, 'API Nova Terra : accès refusé (403).');
+        Cache::forever(NovaTerraApi::CACHE_LAST_ERROR, 'API Terra Nova : accès refusé (403).');
 
         $this->actingAs($this->agent)->get('/agent')
-            ->assertSee('Dernière erreur : API Nova Terra : accès refusé (403).')
+            ->assertSee('Dernière erreur : API Terra Nova : accès refusé (403).')
             ->assertSee('Dernière synchro réussie : 10/10/2026 09:05');
     }
 
@@ -341,11 +341,11 @@ class TableauDeBordAgentTest extends TestCase
     {
         $this->api('CODE-A', 'Citoyen', 0, '2026-10-09 10:00:00');
         Cache::forever(NovaTerraApi::CACHE_LAST_SYNC, '2026-10-10 09:05:00');
-        Cache::forever(NovaTerraApi::CACHE_LAST_ERROR, 'API Nova Terra : injoignable.');
+        Cache::forever(NovaTerraApi::CACHE_LAST_ERROR, 'API Terra Nova : injoignable.');
 
         $this->actingAs($this->agent)->get('/agent/donnees-api')->assertOk()
             ->assertSee('CODE-A')
-            ->assertSee('La dernière synchronisation avec l&#039;API a échoué : API Nova Terra : injoignable.', false)
+            ->assertSee('La dernière synchronisation avec l&#039;API a échoué : API Terra Nova : injoignable.', false)
             ->assertSee('Les dernières données valides restent affichées.')
             ->assertSee('Dernière synchro réussie : 10/10/2026 09:05');
     }

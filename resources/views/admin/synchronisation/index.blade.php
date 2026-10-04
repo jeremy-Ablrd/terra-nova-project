@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Synchronisation des demandes') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Synchronisation des demandes') }}</h1>
     </x-slot>
 
     <div class="py-12">
@@ -27,7 +27,7 @@
                 @endif
             @endif
 
-            <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6" aria-labelledby="etat-synchro">
+            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="etat-synchro">
                 <h2 id="etat-synchro" class="font-medium text-gray-900">{{ __('État de la synchronisation') }}</h2>
                 <dl class="mt-4 grid gap-4 sm:grid-cols-2 text-sm">
                     <div>
@@ -54,7 +54,7 @@
                 </dl>
             </section>
 
-            <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6" aria-labelledby="etat-session">
+            <section class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6" aria-labelledby="etat-session">
                 <h2 id="etat-session" class="font-medium text-gray-900">{{ __('Session de l\'API') }}</h2>
                 @if ($session)
                     <dl class="mt-4 grid gap-4 sm:grid-cols-3 text-sm">

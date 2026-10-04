@@ -53,7 +53,7 @@ class AlertesOfficiellesTest extends TestCase
     {
         $phrases = [
             'haut_conseil' => 'Message officiel du Haut Conseil',
-            'ville' => 'Message officiel de la Ville de Nova Terra',
+            'ville' => 'Message officiel de la Ville de Terra Nova',
             'service_communication' => 'Message officiel du service communication',
         ];
 
@@ -73,7 +73,7 @@ class AlertesOfficiellesTest extends TestCase
     public function test_sentences_are_whole_translated_strings_not_interpolated(): void
     {
         $this->assertSame(['haut_conseil', 'ville', 'service_communication'], array_map(fn ($e) => $e->value, Emetteur::cases()));
-        $this->assertSame(['Haut Conseil', 'Ville de Nova Terra', 'Service communication'], array_map(fn ($e) => $e->label(), Emetteur::cases()));
+        $this->assertSame(['Haut Conseil', 'Ville de Terra Nova', 'Service communication'], array_map(fn ($e) => $e->label(), Emetteur::cases()));
 
         foreach (Emetteur::cases() as $e) {
             $this->assertStringStartsWith('Message officiel ', $e->phrase());
@@ -90,7 +90,7 @@ class AlertesOfficiellesTest extends TestCase
         ]);
 
         $this->assertSame(Emetteur::Ville, Alerte::firstOrFail()->emetteur);
-        $this->get('/')->assertSee('Message officiel de la Ville de Nova Terra');
+        $this->get('/')->assertSee('Message officiel de la Ville de Terra Nova');
     }
 
     public function test_the_admin_form_has_a_labelled_select_with_the_high_council_preselected(): void
@@ -100,7 +100,7 @@ class AlertesOfficiellesTest extends TestCase
         $this->assertMatchesRegularExpression('/<label[^>]*for="emetteur"[^>]*>\s*Émetteur du message officiel \*/u', $page);
         $this->assertStringContainsString('<select id="emetteur" name="emetteur"', $page);
         $this->assertStringContainsString('<option value="haut_conseil" selected>Haut Conseil</option>', $page);
-        $this->assertStringContainsString('<option value="ville" >Ville de Nova Terra</option>', $page);
+        $this->assertStringContainsString('<option value="ville" >Ville de Terra Nova</option>', $page);
         $this->assertStringContainsString('<option value="service_communication" >Service communication</option>', $page);
     }
 

@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Modifier le service') }} : {{ $service->nom }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Modifier le service') }} : {{ $service->nom }}</h1>
     </x-slot>
 
     @php
@@ -20,7 +20,7 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl p-6">
                 <p class="text-sm text-gray-600">{{ __('Le motif, le retour estimé et l\'alternative sont visibles du public tant que le service est interrompu ; ils sont effacés quand le service est remis en service.') }}</p>
                 <p class="mt-1 text-sm text-gray-600">{{ __('Les champs marqués d\'un * sont obligatoires.') }}</p>
 

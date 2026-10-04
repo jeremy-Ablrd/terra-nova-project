@@ -7,12 +7,12 @@
     </x-slot>
 
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Services municipaux') }}</h1>
+        <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ __('Services municipaux') }}</h1>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <p class="text-sm text-gray-700">{{ __('Retrouvez les principaux services de Nova Terra, leurs horaires et leur disponibilité avant de commencer une démarche.') }}</p>
+            <p class="text-sm text-gray-700">{{ __('Retrouvez les principaux services de Terra Nova, leurs horaires et leur disponibilité avant de commencer une démarche.') }}</p>
 
             {{-- Synthèse : ce qui est disponible, ce qui ne l'est pas. --}}
             <p class="text-base font-medium text-gray-900">{{ $synthese }}</p>
@@ -60,14 +60,14 @@
             </nav>
 
             @if ($services->isEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6 text-sm text-gray-600">
+                <div class="bg-white border border-gray-200 rounded-xl p-6 text-sm text-gray-600">
                     <p>{{ $etat ? __('Aucun service ne correspond à ces filtres.') : __('Aucun service dans cette catégorie.') }}</p>
                     <p class="mt-2"><a href="{{ route('services.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir tous les services') }}</a></p>
                 </div>
             @else
                 <ul class="grid gap-6 md:grid-cols-2">
                     @foreach ($services as $service)
-                        <li class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col gap-3">
+                        <li class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col gap-3">
                             <article aria-labelledby="service-{{ $service->id }}" class="flex flex-col gap-3">
                                 <div>
                                     <h2 id="service-{{ $service->id }}" class="text-lg font-semibold text-gray-900">{{ $service->nom }}</h2>

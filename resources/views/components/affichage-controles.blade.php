@@ -5,7 +5,7 @@
 
 {{-- Réglages d'affichage : taille du texte et thème. Formulaire POST sans JavaScript ; chaque bouton envoie UNE valeur.
      L'état courant est dit par aria-pressed, par le trait sous le bouton et par un « coché » (jamais la couleur seule). --}}
-<div class="bg-gray-50 border-b border-gray-200">
+<div class="bg-gray-100 border-b border-gray-200">
     <form method="POST" action="{{ route('preferences.affichage') }}" aria-label="{{ __("Réglages d'affichage") }}"
           class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
         @csrf
