@@ -13,6 +13,8 @@
 
     <div class="py-8">
         <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <p class="tn-banner tn-banner--warn max-w-none font-semibold"><span aria-hidden="true">✚</span> {{ __('En cas d\'urgence réelle, appelez le 15 (SAMU) ou le 112.') }}</p>
+
             @if ($services->isEmpty())
                 <x-carte class="text-sm text-gray-600">
                     <p>{{ __('Aucun service d\'urgence ou de santé n\'est renseigné pour le moment.') }}</p>

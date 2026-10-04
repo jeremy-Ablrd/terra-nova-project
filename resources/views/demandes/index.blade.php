@@ -17,8 +17,8 @@
     </x-slot>
 
     @php
-        // Filtre et recherche se combinent : chaque lien garde l'autre paramètre et repart de la page 1.
-        $lien = fn (?string $s, ?string $q) => route('demandes.index', array_filter(['statut' => $s, 'q' => $q], fn ($v) => $v !== null && $v !== ''));
+        // Filtres et recherche se combinent : chaque lien garde les autres paramètres (dont le service, F79) et repart de la page 1.
+        $lien = fn (?string $s, ?string $q) => route('demandes.index', array_filter(['statut' => $s, 'q' => $q, 'service' => $service], fn ($v) => $v !== null && $v !== ''));
     @endphp
 
     <div class="py-8">
@@ -29,6 +29,9 @@
             <form method="GET" action="{{ route('demandes.index') }}" role="search" aria-label="{{ __('Rechercher dans mes demandes') }}" class="px-4 sm:px-0 flex flex-wrap items-end gap-3">
                 @if ($statut)
                     <input type="hidden" name="statut" value="{{ $statut->value }}">
+                @endif
+                @if ($service !== null)
+                    <input type="hidden" name="service" value="{{ $service }}">
                 @endif
                 <div>
                     <x-input-label for="recherche" :value="__('Référence ou mot de l\'objet')" />
@@ -42,6 +45,31 @@
 
             @if ($recherche !== '')
                 <p class="px-4 sm:px-0 text-sm text-gray-800">{{ __('Recherche : « :texte »', ['texte' => $recherche]) }}</p>
+            @endif
+
+            @if ($optionsService->isNotEmpty())
+                <form method="GET" action="{{ route('demandes.index') }}" aria-label="{{ __('Filtrer par service') }}" class="px-4 sm:px-0 flex flex-wrap items-end gap-3">
+                    @if ($statut)
+                        <input type="hidden" name="statut" value="{{ $statut->value }}">
+                    @endif
+                    @if ($recherche !== '')
+                        <input type="hidden" name="q" value="{{ $recherche }}">
+                    @endif
+                    <div>
+                        <x-input-label for="filtre-service" :value="__('Service (sujet de la demande)')" />
+                        <select id="filtre-service" name="service"
+                                class="mt-1 block w-full sm:w-80 min-h-[2.75rem] rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-accent focus:ring-accent">
+                            <option value="">{{ __('Tous les services') }} ({{ $optionsService->sum('total') }})</option>
+                            @foreach ($optionsService as $option)
+                                <option value="{{ $option->valeur }}" @selected($service === $option->valeur)>{{ $option->nom }} ({{ $option->total }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <x-primary-button type="submit">{{ __('Filtrer') }}</x-primary-button>
+                    @if ($service !== null)
+                        <a href="{{ route('demandes.index', array_filter(['statut' => $statut?->value, 'q' => $recherche])) }}" class="underline text-sm text-gray-700 hover:text-gray-900">{{ __('Effacer le filtre de service') }}</a>
+                    @endif
+                </form>
             @endif
 
             {{-- Filtre par statut : liens GET avec compteurs ; l'actif est en gras souligné, avec aria-current. --}}
@@ -72,6 +100,9 @@
                         @if ($recherche !== '')
                             <p>{{ __('Aucun résultat pour cette recherche.') }}</p>
                             <p class="mt-2"><a href="{{ $lien(null, null) }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Effacer la recherche') }}</a></p>
+                        @elseif ($service !== null && ! $statut)
+                            <p>{{ __('Aucune demande pour ce service.') }}</p>
+                            <p class="mt-2"><a href="{{ route('demandes.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir toutes mes demandes') }}</a></p>
                         @elseif ($statut)
                             <p>{{ __('Aucune demande avec ce statut.') }}</p>
                             <p class="mt-2"><a href="{{ $lien(null, null) }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir toutes mes demandes') }}</a></p>
@@ -87,6 +118,7 @@
                                 {{ __('Mes demandes, de la plus récente à la plus ancienne') }}
                                 @if ($statut) — {{ __('statut :') }} {{ $statut->label() }} @endif
                                 @if ($recherche !== '') — {{ __('recherche :') }} {{ $recherche }} @endif
+                                @if ($service !== null) — {{ __('service :') }} {{ $optionsService->firstWhere('valeur', $service)?->nom }} @endif
                             </caption>
                             <thead class="bg-gray-50 text-left text-gray-500">
                                 <tr>

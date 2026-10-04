@@ -36,6 +36,10 @@ class SuppressionCompte
             $compte = User::whereKey($compte->id)->lockForUpdate()->firstOrFail();
             $this->verifier($compte);
 
+            // Réponses des agents (F84) : leur texte peut citer l'habitant, il est remplacé (la date et l'agent restent).
+            DB::table('demande_reponses')->whereIn('demande_id', Demande::where('user_id', $compte->id)->select('id'))
+                ->update(['texte' => self::TEXTE_SUPPRIME]);
+
             // Anonymisation : updated_at est conservé tel quel (la date de dernière mise à jour fait partie de ce qui reste).
             Demande::where('user_id', $compte->id)->update([
                 'objet' => self::TEXTE_SUPPRIME,

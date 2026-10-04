@@ -99,6 +99,21 @@
                         <x-input-error id="message_erreur" :messages="$errors->get('message')" class="mt-2" role="alert" />
                     </div>
 
+                    <fieldset class="space-y-3">
+                        <legend class="font-medium text-gray-900">{{ __('Urgence médicale') }}</legend>
+                        <x-consigne-urgence :numeros="$numeros" />
+                        <div class="flex items-start gap-3">
+                            <input type="hidden" name="urgence_medicale" value="0">
+                            <input id="urgence_medicale" name="urgence_medicale" type="checkbox" value="1" class="h-6 w-6 shrink-0 rounded border-2 border-gray-400"
+                                   aria-describedby="urgence_aide" @checked(old('urgence_medicale') == '1')>
+                            <div>
+                                <x-input-label for="urgence_medicale" :value="__('Il s\'agit d\'une urgence médicale')" class="!mt-0" />
+                                <p id="urgence_aide" class="text-xs text-gray-500">{{ __('Cocher cette case place votre demande en tête de la liste des agents. Ce n\'est pas un appel d\'urgence : appelez les secours.') }}</p>
+                            </div>
+                        </div>
+                        <x-input-error :messages="$errors->get('urgence_medicale')" class="mt-2" role="alert" />
+                    </fieldset>
+
                     <div class="flex items-center justify-end">
                         <x-primary-button x-bind:disabled="envoi" x-bind:aria-disabled="envoi" class="disabled:opacity-50 disabled:cursor-not-allowed">
                             <span x-text="envoi ? {{ Js::from(__('Envoi en cours…')) }} : {{ Js::from(__('Envoyer ma demande')) }}">{{ __('Envoyer ma demande') }}</span>

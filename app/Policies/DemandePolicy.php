@@ -25,6 +25,18 @@ class DemandePolicy
         return $demande->user_id !== null && $demande->user_id === $user->id;
     }
 
+    /** F80 : l'agent fixe la priorité d'une demande citoyenne (jamais l'admin, jamais l'habitant : sa seule case est « urgence médicale »). */
+    public function changerPriorite(User $user, Demande $demande): bool
+    {
+        return $user->isAgent() && ($demande->type ?? TypeDemande::Citoyen) === TypeDemande::Citoyen;
+    }
+
+    /** F84 : l'agent répond à un habitant ; une demande sans compte destinataire (user_id nul) ne reçoit pas de réponse. */
+    public function repondre(User $user, Demande $demande): bool
+    {
+        return $this->changerPriorite($user, $demande) && $demande->user_id !== null;
+    }
+
     /** F49 : seul l'habitant propriétaire acquitte un changement d'état (comparaison stricte, jamais pour user_id null). */
     public function acquitter(User $user, Demande $demande): bool
     {

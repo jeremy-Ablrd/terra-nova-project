@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Priorite;
 use App\Enums\Statut;
 use App\Enums\TypeDemande;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -44,6 +45,12 @@ class Demande extends Model
         return $query->where('type', TypeDemande::Citoyen->value);
     }
 
+    /** F80 : urgence médicale d'abord, puis prioritaire, puis normale (le tri suivant est à ajouter par l'appelant). */
+    public function scopeParPriorite(Builder $query): Builder
+    {
+        return $query->orderByRaw("case priorite when 'urgence_medicale' then 0 when 'prioritaire' then 1 else 2 end");
+    }
+
     /** D17 : une demande « en attente » n'est pas encore prise en charge (statut nouvelle) ; demandes citoyennes seulement. */
     public function scopeEnAttente(Builder $query): Builder
     {
@@ -75,6 +82,7 @@ class Demande extends Model
         return [
             'anonymisee_at' => 'datetime',
             'statut' => Statut::class,
+            'priorite' => Priorite::class,
             'type' => TypeDemande::class,
             'traitee_at' => 'datetime',
         ];
@@ -95,6 +103,12 @@ class Demande extends Model
     public function etapes(): HasMany
     {
         return $this->hasMany(DemandeEtape::class)->orderBy('created_at')->orderBy('id');
+    }
+
+    /** Réponses directes des agents (F84), de la plus ancienne à la plus récente. */
+    public function reponses(): HasMany
+    {
+        return $this->hasMany(DemandeReponse::class)->orderBy('created_at')->orderBy('id');
     }
 
     /** L'agent qui prend en charge la demande. */

@@ -65,7 +65,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('demandesEnAttente', $user?->isAgent() ? Demande::enAttente()->count() : null);
 
             // F49 : changements d'état non lus, pour un citoyen connecté seulement (une requête, partagée avec l'encadré).
-            $view->with('changementsNonVus', $user?->isCitoyen() ? app(SuiviDemandes::class)->changementsNonVus($user)->count() : 0);
+            $view->with('changementsNonVus', $user?->isCitoyen() ? app(SuiviDemandes::class)->changementsNonVus($user)->count() + app(SuiviDemandes::class)->reponsesNonVues($user)->count() : 0);
         });
     }
 }

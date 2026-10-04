@@ -11,6 +11,14 @@
                 <p class="mt-4 text-sm text-green-900">{{ __('Conservez cette référence pour suivre votre demande') }}</p>
             </section>
 
+            @if ($numeros !== null)
+                <section aria-labelledby="consigne-urgence-titre" class="space-y-3">
+                    <h2 id="consigne-urgence-titre" class="text-lg font-semibold text-gray-900">{{ __('Urgence médicale signalée') }}</h2>
+                    <p class="text-sm text-gray-800">{{ __('Votre demande est marquée « Urgence médicale » et sera lue en premier par les agents.') }}</p>
+                    <x-consigne-urgence :numeros="$numeros" />
+                </section>
+            @endif
+
             <section class="tn-card overflow-hidden p-6" aria-labelledby="recapitulatif">
                 <h2 id="recapitulatif" class="text-lg font-semibold text-gray-900">{{ __('Récapitulatif') }}</h2>
                 <dl class="mt-4 grid gap-4 sm:grid-cols-3 text-sm">

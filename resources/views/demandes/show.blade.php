@@ -38,6 +38,18 @@
                 <p class="mt-4 text-sm text-gray-800 whitespace-pre-line">{{ $demande->message }}</p>
             </div>
 
+            @if ($demande->reponses->isNotEmpty())
+                <section class="tn-card overflow-hidden p-6 space-y-3" aria-labelledby="reponses-mairie">
+                    <h2 id="reponses-mairie" class="text-lg font-medium text-gray-900">{{ __('Réponse de la mairie') }}</h2>
+                    @foreach ($demande->reponses as $reponse)
+                        <div>
+                            <p class="text-sm text-gray-600">{{ __('Le :date', ['date' => \App\Support\DateLocale::format($reponse->created_at)]) }}</p>
+                            <p class="mt-1 text-gray-900 whitespace-pre-line">{{ $reponse->texte }}</p>
+                        </div>
+                    @endforeach
+                </section>
+            @endif
+
             <div class="tn-card overflow-hidden p-6">
                 <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Suivi de votre demande') }}</h2>
                 <p class="text-sm text-gray-700 mb-3">{{ __('État actuel : :statut', ['statut' => $demande->statut->label()]) }}</p>

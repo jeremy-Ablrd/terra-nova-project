@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Priorite;
 use App\Enums\Statut;
 use App\Enums\TypeDemande;
 use App\Models\User;
@@ -18,7 +19,13 @@ class DemandeFactory extends Factory
             'user_id' => User::factory(),
             'objet' => fake()->sentence(4),
             'message' => fake()->paragraph(),
+            'priorite' => Priorite::Normale,
         ];
+    }
+
+    public function priorite(Priorite $priorite): static
+    {
+        return $this->state(fn () => ['priorite' => $priorite]);
     }
 
     /** Demande importée de l'API : sans compte utilisateur. */

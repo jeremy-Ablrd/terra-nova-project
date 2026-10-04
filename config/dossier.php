@@ -29,6 +29,12 @@ return [
             'action' => null,
         ],
         [
+            'donnee' => 'Les réponses de la mairie à vos demandes : date, référence de la demande et texte (le nom de l\'agent n\'est pas conservé pour vous)',
+            'finalite' => 'Vous permettre de relire ce que la ville vous a répondu.',
+            'duree' => 'Tant que votre compte existe. Après sa suppression, le texte est effacé et seules restent la date et la demande anonymisée.',
+            'action' => ['route' => 'demandes.index', 'libelle' => 'Voir mes demandes'],
+        ],
+        [
             'donnee' => 'Vos contributions : avis sur un projet, idées et commentaires sur un service, avec leur référence, leur statut et la réponse de la ville',
             'finalite' => 'Les lire, vous répondre et vous montrer ce que la ville en a fait.',
             'duree' => 'Tant que votre compte existe. Après sa suppression, elles sont conservées sans votre nom ni votre texte.',

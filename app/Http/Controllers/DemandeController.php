@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Statut;
 use App\Models\Demande;
 use App\Models\DemandeEtape;
+use App\Models\DemandeReponse;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,8 +38,37 @@ class DemandeController extends Controller
                 ->orWhereRaw("objet like ? escape '!'", [$motif]));
         });
 
+        // F79 : services (sujets) de MES demandes, avec leur nombre (deux requêtes). La liste des services ne dépend ni du statut ni de
+        // la recherche (un service choisi reste proposé) ; les nombres, eux, sont ceux qu'on obtient en le choisissant avec le statut et
+        // la recherche en cours. Valeur inconnue ignorée ; « aucun » = demandes sans service.
+        $nombres = $correspond(Demande::query()->where('user_id', $userId))->toBase()
+            ->selectRaw('service_id, count(*) as total, sum(case when statut = ? then 1 else 0 end) as dans_statut', [$statut?->value ?? ''])
+            ->groupBy('service_id')
+            ->get()
+            ->keyBy(fn ($ligne) => $ligne->service_id === null ? 'aucun' : (string) $ligne->service_id);
+        $optionsService = Demande::query()->where('user_id', $userId)->toBase()
+            ->leftJoin('services', 'services.id', '=', 'demandes.service_id')
+            ->selectRaw('demandes.service_id as service_id, services.nom as nom')
+            ->groupBy('demandes.service_id', 'services.nom')
+            ->get()
+            ->map(function ($ligne) use ($nombres, $statut) {
+                $valeur = $ligne->service_id === null ? 'aucun' : (string) $ligne->service_id;
+                $compte = $nombres->get($valeur);
+
+                return (object) [
+                    'valeur' => $valeur,
+                    'nom' => $ligne->nom ?? __('À orienter'),
+                    'total' => (int) ($compte === null ? 0 : ($statut ? $compte->dans_statut : $compte->total)),
+                ];
+            })
+            ->sortBy(fn ($o) => [$o->valeur === 'aucun' ? 1 : 0, mb_strtolower($o->nom)])
+            ->values();
+        $valeurService = $request->query('service');
+        $service = is_string($valeurService) && $optionsService->contains('valeur', $valeurService) ? $valeurService : null;
+        $filtreService = fn (Builder $query) => $query->when($service !== null, fn (Builder $q) => $service === 'aucun' ? $q->whereNull('service_id') : $q->where('service_id', (int) $service));
+
         // Plus récente d'abord ; id en second critère pour un ordre stable entre les pages.
-        $demandes = $correspond(Demande::query()->where('user_id', $userId))
+        $demandes = $filtreService($correspond(Demande::query()->where('user_id', $userId)))
             ->with('service')
             ->when($statut, fn ($query) => $query->where('statut', $statut->value))
             ->latest()
@@ -47,7 +77,7 @@ class DemandeController extends Controller
             ->withQueryString();
 
         // Compteurs : UNE requête groupée, limitée à mes demandes (et à la recherche en cours), indépendante du filtre de statut.
-        $parStatut = $correspond(Demande::query()->where('user_id', $userId))->toBase()
+        $parStatut = $filtreService($correspond(Demande::query()->where('user_id', $userId)))->toBase()
             ->selectRaw('statut, count(*) as total')
             ->groupBy('statut')
             ->pluck('total', 'statut');
@@ -59,6 +89,8 @@ class DemandeController extends Controller
             'demandes' => $demandes,
             'statut' => $statut,
             'recherche' => $recherche,
+            'optionsService' => $optionsService,
+            'service' => $service,
             'compteurs' => $compteurs,
             'total' => $compteurs->sum(),
         ]);
@@ -68,14 +100,27 @@ class DemandeController extends Controller
     {
         Gate::authorize('view', $demande);
 
-        $demande->load('etapes');
+        $demande->load(['etapes', 'reponses']);
 
         // F49 : ouvrir sa propre demande vaut accusé de lecture (un agent qui la consulte ne marque rien).
         if (Gate::allows('acquitter', $demande)) {
             $demande->etapes()->whereNull('vu_at')->update(['vu_at' => now()]);
+            $demande->reponses()->whereNull('vu_at')->update(['vu_at' => now()]);
         }
 
         return view('demandes.show', compact('demande'));
+    }
+
+    /** F84 : bouton « Compris » d'une réponse de la mairie (habitant propriétaire seulement). */
+    public function acquitterReponse(DemandeReponse $reponse): RedirectResponse
+    {
+        Gate::authorize('acquitter', $reponse->demande);
+
+        if ($reponse->vu_at === null) {
+            $reponse->forceFill(['vu_at' => now()])->save();
+        }
+
+        return back();
     }
 
     /** F49 : bouton « Compris » d'un changement d'état. */

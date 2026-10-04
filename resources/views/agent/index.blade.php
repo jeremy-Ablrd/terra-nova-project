@@ -19,6 +19,11 @@
                 <p class="mb-3 px-4 sm:px-0 text-3xl font-bold text-gray-900">
                     <x-compteur-en-attente :nombre="$nouvelles" visible />
                 </p>
+                <p class="mb-3 px-4 sm:px-0 text-sm">
+                    <a href="{{ route('agent.demandes.index', ['priorite' => 'urgence_medicale']) }}" class="underline font-semibold text-gray-900 hover:text-gray-600">
+                        <span aria-hidden="true">✚</span> {{ trans_choice('{0} Aucune urgence médicale à traiter|{1} :count urgence médicale à traiter|[2,*] :count urgences médicales à traiter', $urgencesMedicales) }}
+                    </a>
+                </p>
                 <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <li><a href="{{ $lienStatut('nouvelle') }}" class="{{ $carte }}">
                         <span class="text-2xl font-bold">{{ $nouvelles }}</span>

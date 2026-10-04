@@ -16,7 +16,7 @@
             <nav aria-label="{{ __('Filtrer par statut') }}">
                 <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                     <li>
-                        <a href="{{ route('agent.demandes.index') }}"
+                        <a href="{{ route('agent.demandes.index', array_filter(['priorite' => $priorite])) }}"
                            class="inline-block pb-1 {{ $statut === null ? 'filtre-actif' : 'text-gray-600 hover:text-gray-900' }}"
                            @if ($statut === null) aria-current="true" @endif>
                             {{ __('Toutes') }} <span>({{ $total }})</span>
@@ -24,7 +24,7 @@
                     </li>
                     @foreach (\App\Enums\Statut::cases() as $option)
                         <li>
-                            <a href="{{ route('agent.demandes.index', ['statut' => $option->value]) }}"
+                            <a href="{{ route('agent.demandes.index', array_filter(['statut' => $option->value, 'priorite' => $priorite])) }}"
                                class="inline-block pb-1 {{ $statut === $option ? 'filtre-actif' : 'text-gray-600 hover:text-gray-900' }}"
                                @if ($statut === $option) aria-current="true" @endif>
                                 {{ $option->label() }} <span>({{ $compteurs[$option->value] }})</span>
@@ -34,10 +34,36 @@
                 </ul>
             </nav>
 
+            {{-- F80 : filtre par priorité, qui se combine avec le statut. --}}
+            <nav aria-label="{{ __('Filtrer par priorité') }}">
+                <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                    <li>
+                        <a href="{{ route('agent.demandes.index', array_filter(['statut' => $statut?->value])) }}"
+                           class="inline-block pb-1 {{ $priorite === null ? 'filtre-actif' : 'text-gray-600 hover:text-gray-900' }}"
+                           @if ($priorite === null) aria-current="true" @endif>{{ __('Toutes les priorités') }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('agent.demandes.index', array_filter(['statut' => $statut?->value, 'priorite' => 'prioritaires'])) }}"
+                           class="inline-block pb-1 {{ $priorite === 'prioritaires' ? 'filtre-actif' : 'text-gray-600 hover:text-gray-900' }}"
+                           @if ($priorite === 'prioritaires') aria-current="true" @endif>{{ __('Prioritaires') }} <span>({{ $compteursPriorite['prioritaires'] }})</span></a>
+                    </li>
+                    <li>
+                        <a href="{{ route('agent.demandes.index', array_filter(['statut' => $statut?->value, 'priorite' => 'urgence_medicale'])) }}"
+                           class="inline-block pb-1 {{ $priorite === 'urgence_medicale' ? 'filtre-actif' : 'text-gray-600 hover:text-gray-900' }}"
+                           @if ($priorite === 'urgence_medicale') aria-current="true" @endif>{{ __('Urgences médicales') }} <span>({{ $compteursPriorite['urgence_medicale'] }})</span></a>
+                    </li>
+                </ul>
+            </nav>
+
             <div class="tn-card overflow-hidden p-0">
                 @if ($demandes->isEmpty() && $statut)
                     <div class="p-6 text-sm text-gray-600">
                         <p>{{ __('Aucune demande avec ce statut.') }}</p>
+                        <p class="mt-2"><a href="{{ route('agent.demandes.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir toutes les demandes') }}</a></p>
+                    </div>
+                @elseif ($demandes->isEmpty() && $priorite)
+                    <div class="p-6 text-sm text-gray-600">
+                        <p>{{ __('Aucune demande avec cette priorité.') }}</p>
                         <p class="mt-2"><a href="{{ route('agent.demandes.index') }}" class="underline text-gray-700 hover:text-gray-900">{{ __('Voir toutes les demandes') }}</a></p>
                     </div>
                 @elseif ($demandes->isEmpty())
@@ -46,7 +72,7 @@
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 text-sm">
                             <caption class="sr-only">
-                                {{ __('Demandes des habitants, de la plus récente à la plus ancienne') }}
+                                {{ __('Demandes des habitants, de la plus récente à la plus ancienne') }} — {{ __('urgences médicales et demandes prioritaires en tête') }}
                                 @if ($statut) — {{ __('statut :') }} {{ $statut->label() }} @endif
                             </caption>
                             <thead class="bg-gray-50 text-left text-gray-500">
@@ -72,6 +98,7 @@
                                     <tr class="{{ $classe }}">
                                         <td class="px-6 py-3 whitespace-nowrap">
                                             <a href="{{ route('agent.demandes.show', $demande) }}" class="underline font-medium">{{ $demande->reference }}</a>
+                                            <x-badge-priorite :priorite="$demande->priorite" class="mt-1" />
                                             @if ($repere)
                                                 <span class="block text-xs font-semibold text-gray-700">{{ $repere }}</span>
                                             @endif

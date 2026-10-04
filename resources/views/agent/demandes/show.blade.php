@@ -26,7 +26,10 @@
             <div class="tn-card overflow-hidden p-6 space-y-4">
                 <div class="flex items-start justify-between gap-4">
                     <h2 class="text-lg font-medium text-gray-900">{{ $demande->objet }}</h2>
-                    <x-statut-badge :statut="$demande->statut" />
+                    <span class="flex flex-wrap items-center gap-2">
+                        <x-badge-priorite :priorite="$demande->priorite" />
+                        <x-statut-badge :statut="$demande->statut" />
+                    </span>
                 </div>
 
                 <p class="text-sm text-gray-800 whitespace-pre-line">{{ $demande->message }}</p>
@@ -42,6 +45,46 @@
                 </dl>
             </div>
 
+            @can('changerPriorite', $demande)
+                @php($actuelle = $demande->priorite ?? \App\Enums\Priorite::Normale)
+                <section class="tn-card overflow-hidden p-6 space-y-3" aria-labelledby="priorite-titre">
+                    <h2 id="priorite-titre" class="text-lg font-medium text-gray-900">{{ __('Priorité') }}</h2>
+                    <p class="text-sm text-gray-800">{{ __('Priorité actuelle :') }} <strong>{{ $actuelle->label() }}</strong></p>
+                    <div class="flex flex-wrap gap-3">
+                        @foreach (\App\Enums\Priorite::cases() as $niveau)
+                            @if ($niveau !== $actuelle)
+                                <form method="POST" action="{{ route('agent.demandes.priorite', $demande) }}">
+                                    @csrf
+                                    <input type="hidden" name="priorite" value="{{ $niveau->value }}">
+                                    <input type="hidden" name="priorite_affichee" value="{{ $actuelle->value }}">
+                                    <x-secondary-button type="submit">{{ __('Passer en « :niveau »', ['niveau' => $niveau->label()]) }}</x-secondary-button>
+                                </form>
+                            @endif
+                        @endforeach
+                    </div>
+                </section>
+            @endcan
+
+            <section class="tn-card overflow-hidden p-6 space-y-3" aria-labelledby="reponse-titre">
+                <h2 id="reponse-titre" class="text-lg font-medium text-gray-900">{{ __('Réponse à l\'habitant') }}</h2>
+                @can('repondre', $demande)
+                    <form method="POST" action="{{ route('agent.demandes.reponse', $demande) }}" class="space-y-3" novalidate>
+                        @csrf
+                        <div>
+                            <x-input-label for="reponse" :value="__('Votre réponse').' *'" />
+                            <textarea id="reponse" name="reponse" rows="5" minlength="5" maxlength="2000" required aria-required="true"
+                                      aria-describedby="reponse_aide{{ $errors->has('reponse') ? ' reponse_erreur' : '' }}"
+                                      aria-invalid="{{ $errors->has('reponse') ? 'true' : 'false' }}"
+                                      class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">{{ old('reponse') }}</textarea>
+                            <p id="reponse_aide" class="mt-1 text-xs text-gray-500">{{ __('Entre 5 et 2 000 caractères. L\'habitant est averti sur son espace ; votre nom ne lui est pas communiqué.') }}</p>
+                            <x-input-error id="reponse_erreur" :messages="$errors->get('reponse')" class="mt-2" role="alert" />
+                        </div>
+                        <x-primary-button type="submit">{{ __('Envoyer la réponse') }}</x-primary-button>
+                    </form>
+                @else
+                    <p class="text-sm text-gray-700">{{ __('Cette demande n\'a pas de compte habitant destinataire (demande importée de l\'API, ou compte supprimé) : la réponse n\'est pas possible depuis la plateforme.') }}</p>
+                @endcan
+            </section>
             <div class="tn-card overflow-hidden p-6">
                 <h2 class="text-lg font-medium text-gray-900 mb-3">{{ __('Historique') }}</h2>
                 <x-frise-demande :demande="$demande" :montrer-agent="true" />

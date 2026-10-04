@@ -112,6 +112,9 @@ Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
     Route::get('/donnees-api', [DonneesApiController::class, 'index'])->name('agent.donnees-api.index');
     Route::post('/donnees-api/vues', [DonneesApiController::class, 'marquerVues'])->middleware('throttle:10,1')->name('agent.donnees-api.vues');
     Route::get('/demandes/{demande}', [AgentDemandeController::class, 'show'])->name('agent.demandes.show');
+    // Priorité (F80) et réponse directe à l'habitant (F84) : boutons et formulaires POST, sans JavaScript.
+    Route::post('/demandes/{demande}/priorite', [AgentDemandeController::class, 'priorite'])->middleware('throttle:30,1')->name('agent.demandes.priorite');
+    Route::post('/demandes/{demande}/reponse', [AgentDemandeController::class, 'repondre'])->middleware('throttle:20,1')->name('agent.demandes.reponse');
     // Seul le changement de statut (via TransitionDemande) : jamais de statut libre.
     Route::patch('/demandes/{demande}/statut', [AgentDemandeController::class, 'updateStatut'])->name('agent.demandes.statut');
     // Journal d'activité : lecture seule (aucune route d'écriture, de modification ni de suppression).
@@ -167,6 +170,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mes-demandes', [DemandeController::class, 'index'])->middleware('role:citoyen')->name('demandes.index');
     Route::get('/mes-demandes/{demande}', [DemandeController::class, 'show'])->name('demandes.show');
     Route::post('/mes-demandes/etapes/{etape}/vu', [DemandeController::class, 'acquitter'])->name('demandes.etapes.vu');
+    Route::post('/mes-demandes/reponses/{reponse}/vu', [DemandeController::class, 'acquitterReponse'])->name('demandes.reponses.vu');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

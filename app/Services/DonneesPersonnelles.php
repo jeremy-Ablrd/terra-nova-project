@@ -8,6 +8,7 @@ use App\Enums\ThemeAffichage;
 use App\Models\Contribution;
 use App\Models\Demande;
 use App\Models\DemandeEtape;
+use App\Models\DemandeReponse;
 use App\Models\User;
 use App\Support\DateLocale;
 use Illuminate\Support\Carbon;
@@ -94,6 +95,15 @@ class DonneesPersonnelles
 
         $resume = $this->resume($user);
 
+        // Réponses de la mairie à MES demandes (user_id strict), de la plus ancienne à la plus récente : une requête.
+        $reponses = DemandeReponse::query()
+            ->join('demandes', 'demandes.id', '=', 'demande_reponses.demande_id')
+            ->where('demandes.user_id', $user->id)
+            ->select('demande_reponses.created_at', 'demande_reponses.texte', 'demandes.reference')
+            ->orderBy('demande_reponses.created_at')->orderBy('demande_reponses.id')
+            ->toBase()->get()
+            ->map(fn ($r) => ['reference' => $r->reference, 'date' => DateLocale::format($r->created_at), 'texte' => $r->texte]);
+
         // Participation : MES contributions (user_id strict), de la plus ancienne à la plus récente, une requête.
         $contributions = Contribution::where('user_id', $user->id)->with(['projet', 'service'])->orderBy('created_at')->orderBy('id')->get()
             ->map(fn (Contribution $c) => [
@@ -126,6 +136,7 @@ class DonneesPersonnelles
             'derniere_activite' => $date($activites->max()),
             'non_lus' => (int) $nonLus,
             'contributions' => $contributions,
+            'reponses' => $reponses,
             'phrases_contributions' => $this->phrasesContributions($contributions),
             'genere_le' => DateLocale::format($maintenant),
             'conservation' => config('dossier.conservation'),

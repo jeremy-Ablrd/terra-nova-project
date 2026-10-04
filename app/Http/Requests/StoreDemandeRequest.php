@@ -28,6 +28,8 @@ class StoreDemandeRequest extends FormRequest
                 }],
             'objet' => ['required', 'string', 'max:150'],
             'message' => ['required', 'string', 'min:10', 'max:3000'],
+            // F86 : la seule priorité que l'habitant fixe lui-même ; le reste est décidé par les agents.
+            'urgence_medicale' => ['nullable', 'boolean'],
         ];
     }
 }

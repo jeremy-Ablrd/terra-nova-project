@@ -92,12 +92,22 @@ class AgentFiltresTest extends TestCase
     {
         $this->seedMix();
 
+        // Deux filtres (statut, priorité), chacun dans son propre repère de navigation au nom accessible distinct : un seul lien actif par filtre.
+        $groupe = function (string $html, string $nom): string {
+            $this->assertSame(1, preg_match('~<nav aria-label="'.preg_quote($nom, '~').'">(.*?)</nav>~s', $html, $m), "repère « {$nom} » introuvable ou en double");
+
+            return $m[1];
+        };
+
         $all = $this->actingAs($this->agent)->get('/agent/demandes')->getContent();
-        $this->assertSame(1, substr_count($all, 'aria-current="true"'));
+        $this->assertNotSame('Filtrer par statut', 'Filtrer par priorité'); // noms accessibles différents
+        $this->assertSame(1, substr_count($groupe($all, 'Filtrer par statut'), 'aria-current="true"'));
+        $this->assertSame(1, substr_count($groupe($all, 'Filtrer par priorité'), 'aria-current="true"'));
         $this->assertMatchesRegularExpression('/class="[^"]*filtre-actif[^"]*"\s+aria-current="true"\s*>\s*Toutes/', $all);
 
         $filtered = $this->actingAs($this->agent)->get('/agent/demandes?statut=en_cours')->getContent();
-        $this->assertSame(1, substr_count($filtered, 'aria-current="true"'));
+        $this->assertSame(1, substr_count($groupe($filtered, 'Filtrer par statut'), 'aria-current="true"'));
+        $this->assertSame(1, substr_count($groupe($filtered, 'Filtrer par priorité'), 'aria-current="true"'));
         $this->assertMatchesRegularExpression('/class="[^"]*filtre-actif[^"]*"\s+aria-current="true"\s*>\s*En cours/', $filtered);
     }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\Statut;
 use App\Models\DemandeEtape;
+use App\Models\DemandeReponse;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
@@ -29,6 +30,30 @@ class SuiviDemandes
                 ->select('demande_etapes.*', 'demandes.reference as reference')
                 ->orderBy('demande_etapes.created_at')
                 ->orderBy('demande_etapes.id')
+                ->get());
+        }
+
+        return $requete->attributes->get($cle);
+    }
+
+    /** F84 : réponses de la mairie non encore vues par l'habitant. Une requête par requête HTTP, citoyens seulement ; attribut `reference` ajouté. */
+    public function reponsesNonVues(?User $user): Collection
+    {
+        if ($user === null || ! $user->isCitoyen()) {
+            return collect();
+        }
+
+        $requete = request();
+        $cle = 'reponses_non_vues_'.$user->id;
+
+        if (! $requete->attributes->has($cle)) {
+            $requete->attributes->set($cle, DemandeReponse::query()
+                ->join('demandes', 'demandes.id', '=', 'demande_reponses.demande_id')
+                ->where('demandes.user_id', $user->id)
+                ->whereNull('demande_reponses.vu_at')
+                ->select('demande_reponses.*', 'demandes.reference as reference')
+                ->orderBy('demande_reponses.created_at')
+                ->orderBy('demande_reponses.id')
                 ->get());
         }
 

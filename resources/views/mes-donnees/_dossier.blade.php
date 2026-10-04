@@ -77,6 +77,19 @@
     @endif
 </section>
 
+<section aria-labelledby="doc-reponses">
+    <h2 id="doc-reponses">{{ __('Les réponses de la mairie') }}</h2>
+    @if ($d['reponses']->isEmpty())
+        <p>{{ __('Vous n\'avez reçu aucune réponse directe de la mairie.') }}</p>
+    @else
+        <p>{{ trans_choice('{1} Vous avez reçu :count réponse directe de la mairie.|[2,*] Vous avez reçu :count réponses directes de la mairie.', $d['reponses']->count()) }}</p>
+        @foreach ($d['reponses'] as $reponse)
+            <h3>{{ __('Demande :reference, le :date', ['reference' => $reponse['reference'], 'date' => $reponse['date']]) }}</h3>
+            <p>{{ $reponse['texte'] }}</p>
+        @endforeach
+    @endif
+</section>
+
 <section aria-labelledby="doc-contributions">
     <h2 id="doc-contributions">{{ __('Vos contributions') }}</h2>
     <p>{{ $d['phrases_contributions']['bilan'] }}</p>

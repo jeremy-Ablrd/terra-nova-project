@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Disponibilite;
+use App\Enums\Priorite;
 use App\Enums\Role;
 use App\Enums\Statut;
 use App\Models\Alerte;
@@ -28,6 +29,7 @@ class AgentController extends Controller
             ->selectRaw('sum(case when statut = ? then 1 else 0 end) as nouvelles', [Statut::Nouvelle->value])
             ->selectRaw('sum(case when statut = ? then 1 else 0 end) as en_cours', [Statut::EnCours->value])
             ->selectRaw('sum(case when statut = ? then 1 else 0 end) as traitees', [Statut::Traitee->value])
+            ->selectRaw('sum(case when priorite = ? and statut != ? then 1 else 0 end) as urgences_medicales', [Priorite::UrgenceMedicale->value, Statut::Traitee->value])
             ->selectRaw('sum(case when created_at >= ? then 1 else 0 end) as recentes', [now()->subDays(7)->toDateTimeString()])
             ->selectRaw('min(case when statut = ? then created_at end) as plus_ancienne', [Statut::Nouvelle->value])
             ->first();
@@ -47,6 +49,7 @@ class AgentController extends Controller
             'enCours' => (int) $agregat->en_cours,
             'traitees' => (int) $agregat->traitees,
             'recentes' => (int) $agregat->recentes,
+            'urgencesMedicales' => (int) $agregat->urgences_medicales,
             'ancienneteJours' => $plusAncienne ? (int) floor($plusAncienne->diffInDays(now(), true)) : null,
             'alertesActives' => Alerte::active()->count(),
             'servicesInterrompus' => (int) ($servicesParEtat[Disponibilite::Interrompu->value] ?? 0),

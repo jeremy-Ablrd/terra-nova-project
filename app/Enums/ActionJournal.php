@@ -20,6 +20,8 @@ enum ActionJournal: string
     case ProjetCree = 'projet_cree';
     case ProjetModifie = 'projet_modifie';
     case ContributionTraitee = 'contribution_traitee';
+    case PrioriteModifiee = 'priorite_modifiee';
+    case ReponseEnvoyee = 'reponse_envoyee';
 
     public function label(): string
     {
@@ -35,6 +37,8 @@ enum ActionJournal: string
             self::ProjetCree => __('Projet créé'),
             self::ProjetModifie => __('Projet modifié'),
             self::ContributionTraitee => __('Contribution traitée'),
+            self::PrioriteModifiee => __('Priorité modifiée'),
+            self::ReponseEnvoyee => __('Réponse envoyée'),
         };
     }
 
