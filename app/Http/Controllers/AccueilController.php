@@ -24,6 +24,8 @@ class AccueilController extends Controller
             'interrompus' => $services->filter(fn (Service $s) => $s->disponibilite !== Disponibilite::Disponible)->take(2),
             'alaUne' => $services->sortBy([['prioritaire', 'desc']])->take(4),
             'urgences' => $urgences->take(2),
+            // Numéro d'urgence national à 2 ou 3 chiffres, s'il est renseigné sur un service d'urgence.
+            'numeroUrgence' => $urgences->pluck('telephone')->first(fn ($t) => preg_match('/^\d{2,3}$/', (string) $t)),
         ]);
     }
 }

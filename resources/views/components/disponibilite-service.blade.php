@@ -4,7 +4,7 @@
      (coupure d'urgence). $detail : motif, retour estimé et alternative en plus (fiche, urgences). --}}
 @if ($service->estDesactive())
     <div {{ $attributes->merge(['class' => 'service-desactive p-3 text-sm text-gray-900']) }} @if ($detail && ! $sansRole) role="status" @endif>
-        <p class="font-semibold">{{ __('Service désactivé') }}</p>
+        <p class="font-semibold"><span aria-hidden="true">⊘ </span>{{ __('Service désactivé') }}</p>
         @if ($detail && $service->motif_interruption)
             <p class="mt-1"><span class="font-medium">{{ __('Motif :') }}</span> {{ $service->motif_interruption }}</p>
         @endif
@@ -14,7 +14,7 @@
     </div>
 @elseif ($service->estInterrompu())
     <div {{ $attributes->merge(['class' => 'service-interrompu p-3 text-sm text-gray-900']) }} @if ($detail && ! $sansRole) role="status" @endif>
-        <p class="font-semibold">{{ __('Service interrompu') }}</p>
+        <p class="font-semibold"><span aria-hidden="true">▲ </span>{{ __('Service interrompu') }}</p>
         @if ($detail && $service->motif_interruption)
             <p class="mt-1"><span class="font-medium">{{ __('Motif :') }}</span> {{ $service->motif_interruption }}</p>
         @endif
@@ -27,5 +27,5 @@
         @endif
     </div>
 @else
-    <p {{ $attributes->merge(['class' => 'text-sm text-gray-900']) }}><span class="font-medium">{{ __('Disponible') }}</span></p>
+    <p {{ $attributes->merge(['class' => 'tn-badge tn-badge--success self-start justify-self-start w-fit']) }}><span aria-hidden="true">✓</span>{{ __('Disponible') }}</p>
 @endif

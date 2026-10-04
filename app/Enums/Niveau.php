@@ -18,6 +18,26 @@ enum Niveau: string
         };
     }
 
+    /** Variante de pastille du design (tn-badge--…). */
+    public function badge(): string
+    {
+        return match ($this) {
+            self::Info => 'tn-badge--info',
+            self::Vigilance => 'tn-badge--warn',
+            self::Urgent => 'tn-badge--danger',
+        };
+    }
+
+    /** Glyphe de la pastille : il double la couleur. */
+    public function glyphe(): string
+    {
+        return match ($this) {
+            self::Info => '◆',
+            self::Vigilance => '▲',
+            self::Urgent => '!',
+        };
+    }
+
     /** Classe CSS de mise en avant (bordure pleine, double ou pointillée + variables du thème). */
     public function classe(): string
     {

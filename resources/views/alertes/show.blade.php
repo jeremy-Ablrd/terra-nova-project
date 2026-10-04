@@ -14,14 +14,14 @@
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @if ($terminee)
-                <p class="bg-gray-50 border border-gray-300 p-4 text-sm text-gray-900" role="status">
+                <p class="tn-banner tn-banner--info max-w-none" role="status">
                     <span class="font-medium">{{ __('Alerte terminée') }}</span> — {{ __('cette alerte a pris fin le') }} {{ \App\Support\DateLocale::format($alerte->ends_at) }}.
                 </p>
             @endif
 
-            <article class="alerte {{ $alerte->niveau->classe() }} bg-white shadow-sm p-6 space-y-5">
+            <article class="tn-card space-y-5 p-6">
                 <div>
-                    <p class="text-sm font-semibold uppercase tracking-wide text-gray-900">{{ $alerte->niveau->label() }}</p>
+                    <p><span class="tn-badge {{ $alerte->niveau->badge() }}" data-glyphe="{{ $alerte->niveau->glyphe() }}">{{ $alerte->niveau->label() }}</span></p>
                     <p class="mt-1 text-sm font-semibold text-gray-900">{{ ($alerte->emetteur ?? \App\Enums\Emetteur::Ville)->phrase() }}</p>
                     <p class="mt-1 text-sm text-gray-600">
                         @if ($alerte->secteur){{ __('Secteur :') }} {{ $alerte->secteur }} · @endif

@@ -241,27 +241,37 @@ button[aria-disabled="true"] {
 /* Alertes : le niveau est toujours écrit en texte ; la bordure (pleine, double, pointillée) s'y ajoute. */
 .alerte-urgent {
     background-color: var(--alerte-urgent-bg);
+    border: 0.125rem solid var(--alerte-urgent-bord);
     border-left: 0.5rem solid var(--alerte-urgent-bord);
+    border-radius: var(--radius-md);
 }
 .alerte-vigilance {
     background-color: var(--alerte-vigilance-bg);
+    border: 0.125rem solid var(--alerte-vigilance-bord);
     border-left: 0.5rem double var(--alerte-vigilance-bord);
+    border-radius: var(--radius-md);
 }
 .alerte-info {
     background-color: var(--alerte-info-bg);
+    border: 0.125rem solid var(--alerte-info-bord);
     border-left: 0.5rem dotted var(--alerte-info-bord);
+    border-radius: var(--radius-md);
 }
 /* Service interrompu : le texte « Service interrompu » est toujours présent ; la bordure en tirets s'y ajoute. */
 .service-interrompu {
     background-color: var(--service-interrompu-bg);
+    border: 0.125rem solid var(--service-interrompu-bord);
     border-left: 0.5rem dashed var(--service-interrompu-bord);
+    border-radius: var(--radius-md);
 }
 
 /* Service désactivé (coupure d'urgence) : le texte « Service désactivé » est toujours présent ; la bordure pleine et épaisse
    s'y ajoute (celle de l'interruption est en tirets) : jamais la couleur seule. */
 .service-desactive {
     background-color: var(--service-desactive-bg);
+    border: 0.125rem solid var(--service-desactive-bord);
     border-left: 0.5rem solid var(--service-desactive-bord);
+    border-radius: var(--radius-md);
 }
 
 /* ========================================================================================================
@@ -488,4 +498,10 @@ html.theme-contraste {
 .interrupteur[aria-checked="true"]::after {
     left: auto;
     right: 0.125rem;
+}
+
+/* Glyphe décoratif d'une pastille (data-glyphe) : le texte de la pastille dit déjà l'information. */
+.tn-badge[data-glyphe]::before {
+    content: attr(data-glyphe);
+    content: attr(data-glyphe) / "";
 }

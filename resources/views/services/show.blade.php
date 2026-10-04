@@ -21,7 +21,7 @@
                 </div>
             @endif
 
-            <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
+            <div class="tn-card p-6 space-y-5">
                 @if ($service->organisme)
                     <p class="text-sm font-semibold text-gray-900">{{ $service->organisme }}</p>
                 @endif

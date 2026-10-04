@@ -12,7 +12,7 @@
                 <section role="{{ $alerte->niveau->role() }}" aria-labelledby="alerte-{{ $alerte->id }}"
                          class="alerte {{ $alerte->niveau->classe() }} p-3 text-sm text-gray-900">
                     <p class="font-semibold">
-                        <span class="uppercase tracking-wide">{{ $alerte->niveau->label() }}</span>
+                        <span class="tn-badge {{ $alerte->niveau->badge() }}" data-glyphe="{{ $alerte->niveau->glyphe() }}">{{ $alerte->niveau->label() }}</span>
                         — <span id="alerte-{{ $alerte->id }}">{{ $alerte->titre }}</span>
                     </p>
                     <p class="mt-1 text-xs font-semibold">{{ ($alerte->emetteur ?? \App\Enums\Emetteur::Ville)->phrase() }}</p>
