@@ -1,5 +1,5 @@
 {{-- Le bandeau global est masqué ici : cette page affiche déjà toutes les alertes en cours. --}}
-<x-app-layout :title="__('Alertes en cours')" :banniere="false">
+<x-app-layout :title="__('Alertes en cours')" :banniere="false" public>
     <x-slot name="breadcrumb">
         <x-breadcrumb :items="[
             ['label' => __('Accueil'), 'url' => url('/')],

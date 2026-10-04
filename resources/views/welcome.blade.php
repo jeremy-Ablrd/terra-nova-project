@@ -1,4 +1,4 @@
-<x-app-layout :flash="false" :banniere="false">
+<x-app-layout :flash="false" :banniere="false" public>
     @php
         $part = $nbServices > 0 ? $nbDisponibles / $nbServices : 0;
         $plusHaut = $alertes->first()?->niveau;

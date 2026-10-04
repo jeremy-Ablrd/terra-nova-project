@@ -17,18 +17,19 @@
             <x-alertes-banniere />
         @endif
 
-        {{-- Connecté : barre latérale unique (menu selon le rôle). Visiteur : en-tête public. --}}
+        {{-- Connecté : barre latérale unique (menu selon le rôle), sauf sur les pages publiques. Visiteur : en-tête public. --}}
+        @php($barreLaterale = auth()->check() && ! $public)
         <div class="min-h-screen flex flex-col lg:flex-row">
-            @auth
+            @if ($barreLaterale)
                 @include('layouts.navigation')
-            @endauth
+            @endif
 
             <div class="flex-1 min-w-0 flex flex-col">
-                @guest
+                @unless ($barreLaterale)
                     <header>
                         @include('layouts.invite')
                     </header>
-                @endguest
+                @endunless
 
                 <!-- Fil d'Ariane (optionnel) -->
                 @isset($breadcrumb)

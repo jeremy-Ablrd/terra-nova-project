@@ -16,8 +16,16 @@
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
             <x-affichage-controles />
             <div class="flex flex-wrap items-center gap-2">
-                <a href="{{ route('login') }}" class="tn-btn tn-btn--secondary">{{ __('Se connecter') }}</a>
-                <a href="{{ route('register') }}" class="tn-btn tn-btn--primary">{{ __('Créer mon compte') }}</a>
+                @auth
+                    <a href="{{ Auth::user()->homeUrl() }}" class="tn-btn tn-btn--primary">{{ __('Mon espace') }}</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="tn-btn tn-btn--secondary">{{ __('Log Out') }}</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="tn-btn tn-btn--secondary">{{ __('Se connecter') }}</a>
+                    <a href="{{ route('register') }}" class="tn-btn tn-btn--primary">{{ __('Créer mon compte') }}</a>
+                @endauth
             </div>
         </div>
     </nav>

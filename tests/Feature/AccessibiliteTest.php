@@ -352,9 +352,9 @@ class AccessibiliteTest extends TestCase
 
     public function test_the_current_page_link_is_announced_and_not_only_coloured(): void
     {
-        $html = $this->html(User::factory()->create(), '/services');
+        $html = $this->html(User::factory()->create(), '/mes-donnees');
 
-        $this->assertMatchesRegularExpression('/<a [^>]*href="[^"]*\/services"[^>]*aria-current="page"/', $html);
+        $this->assertMatchesRegularExpression('/<a [^>]*href="[^"]*\/mes-donnees"[^>]*aria-current="page"/', $html);
         $this->assertMatchesRegularExpression('/class="[^"]*nav-lateral[^"]*"[^>]*aria-current="page"/', $html);
         // Un seul lien (barre latérale) ; le fil d'Ariane ajoute son propre <span aria-current="page">.
         $this->assertSame(1, preg_match_all('/<a [^>]*aria-current="page"/', $html));

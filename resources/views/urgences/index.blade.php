@@ -1,4 +1,4 @@
-<x-app-layout :title="__('Urgences et hôpitaux')">
+<x-app-layout :title="__('Urgences et hôpitaux')" public>
     <x-slot name="breadcrumb">
         <x-breadcrumb :items="[
             ['label' => __('Accueil'), 'url' => url('/')],

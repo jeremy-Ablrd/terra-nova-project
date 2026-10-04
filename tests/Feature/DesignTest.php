@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Alerte;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
@@ -65,5 +66,20 @@ class DesignTest extends TestCase
             ->assertSee('id="alertes"', false)
             ->assertDontSee('<aside', false)
             ->assertSee('images/hero-terra-nova.webp', false);
+    }
+
+    public function test_public_pages_keep_the_public_header_after_login(): void
+    {
+        $citoyen = User::factory()->create();
+
+        foreach (['/', '/services', '/urgences', '/alertes'] as $url) {
+            $this->actingAs($citoyen)->get($url)->assertOk()
+                ->assertSee('Mon espace')
+                ->assertDontSee('nav-lateral', false)
+                ->assertSee('Alertes en cours');
+        }
+
+        // Les pages de l'espace gardent la barre latérale.
+        $this->actingAs($citoyen)->get('/espace')->assertOk()->assertSee('nav-lateral', false);
     }
 }

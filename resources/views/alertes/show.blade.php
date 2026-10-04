@@ -1,4 +1,4 @@
-<x-app-layout :title="$alerte->titre">
+<x-app-layout :title="$alerte->titre" public>
     <x-slot name="breadcrumb">
         <x-breadcrumb :items="[
             ['label' => __('Accueil'), 'url' => url('/')],

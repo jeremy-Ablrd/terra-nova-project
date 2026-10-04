@@ -365,13 +365,13 @@ class SuiviDemandesTest extends TestCase
         $autre = Demande::factory()->create(['user_id' => User::factory()->create()->id])->refresh();
         $this->changerStatut($autre, ['statut' => 'nouvelle']); // ne compte pas pour ce citoyen
 
-        $this->actingAs($this->citoyen)->get(route('services.index'))
+        $this->actingAs($this->citoyen)->get(route('dashboard'))
             ->assertSee('2 changements non lus');
 
         $etape = $this->demande->etapes()->get()->last();
         $this->actingAs($this->citoyen)->post(route('demandes.etapes.vu', $etape));
 
-        $this->actingAs($this->citoyen)->get(route('services.index'))
+        $this->actingAs($this->citoyen)->get(route('dashboard'))
             ->assertSee('1 changement non lu')
             ->assertDontSee('2 changements non lus');
     }
