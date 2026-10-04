@@ -20,7 +20,7 @@
             </form>
             <form method="POST" action="{{ route('mes-connexions.pas-moi', $alerte) }}">
                 @csrf
-                <button type="submit" class="btn btn-danger">{{ __('Ce n\'était pas moi') }}</button>
+                <button type="submit" class="tn-btn tn-btn--danger">{{ __('Ce n\'était pas moi') }}</button>
             </form>
         </div>
     </div>

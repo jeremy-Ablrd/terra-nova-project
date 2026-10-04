@@ -18,16 +18,16 @@ class AccessibiliteTest extends TestCase
 
     private function css(): string
     {
-        return File::get(resource_path('css/app.css'));
+        // app.css et la feuille du design qu'il importe (jetons et composants).
+        return File::get(resource_path('css/app.css'))."\n".File::get(resource_path('css/terra-nova.css'));
     }
 
-    /** @return array<string, string> variables CSS déclarées dans le premier bloc dont le sélecteur est $selecteur */
-    /** Variables de couleur d'un bloc ; les alias `var(--autre)` sont résolus comme le ferait le navigateur (sur le même élément). */
+    /** Variables de couleur de tous les blocs de ce sélecteur ; les alias `var(--autre)` sont résolus comme le ferait le navigateur (sur le même élément). */
     private function variables(string $selecteur): array
     {
         $lire = function (string $sel): array {
-            preg_match('/'.preg_quote($sel, '/').'s*{([^}]*)}/', $this->css(), $bloc);
-            preg_match_all('/(--[a-z-]+)s*:s*(#[0-9a-fA-F]{6}|var((--[a-z-]+)))s*;/', $bloc[1] ?? '', $paires, PREG_SET_ORDER);
+            preg_match_all('/'.preg_quote($sel, '/').'\s*\{([^}]*)\}/', $this->css(), $blocs);
+            preg_match_all('/(--[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6}|var\((--[a-z-]+)\))\s*;/', implode("\n", $blocs[1]), $paires, PREG_SET_ORDER);
 
             return collect($paires)->mapWithKeys(fn ($p) => [$p[1] => strtolower($p[2])])->all();
         };
@@ -442,6 +442,23 @@ class AccessibiliteTest extends TestCase
             $this->assertContrast(3, $v["--$nom-bord"], $v["--$nom-bg"], $nom);
             $this->assertContrast(4.5, $v['--texte'], $v["--$nom-bg"], "texte sur fond $nom");
         }
+    }
+
+    public function test_night_theme_tokens_meet_wcag_contrast(): void
+    {
+        $nuit = $this->variables('html[data-theme="nuit"]');
+
+        foreach (['--surface', '--surface-raised', '--surface-sunken'] as $fond) {
+            foreach (['--ink', '--ink-muted', '--brand-text', '--info-text'] as $texte) {
+                $this->assertContrast(4.5, $nuit[$texte], $nuit[$fond], "nuit $texte sur $fond");
+            }
+            $this->assertContrast(3, $nuit['--border-strong'], $nuit[$fond], "nuit bordure sur $fond");
+            $this->assertContrast(3, $nuit['--focus'], $nuit[$fond], "nuit focus sur $fond");
+        }
+        foreach (['info', 'warn', 'danger', 'success'] as $etat) {
+            $this->assertContrast(4.5, $nuit["--$etat-text"], $nuit["--$etat-bg"], "nuit texte $etat");
+        }
+        $this->assertContrast(4.5, $nuit['--on-brand'], $nuit['--brand'], 'nuit texte sur le doré');
     }
 
     public function test_high_contrast_theme_colors_are_at_least_aaa_and_complete(): void

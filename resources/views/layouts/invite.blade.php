@@ -13,8 +13,8 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-            <a href="{{ route('login') }}" class="btn btn-secondary">{{ __('Se connecter') }}</a>
-            <a href="{{ route('register') }}" class="btn btn-primary">{{ __('Créer mon compte') }}</a>
+            <a href="{{ route('login') }}" class="tn-btn tn-btn--secondary">{{ __('Se connecter') }}</a>
+            <a href="{{ route('register') }}" class="tn-btn tn-btn--primary">{{ __('Créer mon compte') }}</a>
         </div>
     </nav>
 </div>

@@ -13,10 +13,11 @@ export default {
 
     theme: {
         extend: {
-            // Polices du système (aucun fichier de police téléchargé, aucune requête vers un site tiers).
+            // Polices du design, hébergées dans resources/fonts (aucune requête vers un site tiers).
             fontFamily: {
-                sans: defaultTheme.fontFamily.sans,
-                display: ['"Trebuchet MS"', ...defaultTheme.fontFamily.sans],
+                sans: ['"IBM Plex Sans"', ...defaultTheme.fontFamily.sans],
+                display: ['"Bricolage Grotesque"', '"Trebuchet MS"', ...defaultTheme.fontFamily.sans],
+                mono: ['"IBM Plex Mono"', ...defaultTheme.fontFamily.mono],
             },
             // Palette du design Terra Nova (docs/design) : les couleurs sont des variables CSS (app.css), ce qui
             // permet le thème « Contraste renforcé ». Les anciennes teintes Tailwind pointent vers ces variables.

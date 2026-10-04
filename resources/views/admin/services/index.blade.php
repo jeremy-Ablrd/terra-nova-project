@@ -56,7 +56,7 @@
                                                         <input id="alternative-{{ $service->id }}" name="alternative" type="text" maxlength="500"
                                                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
                                                     </div>
-                                                    <button type="submit" class="btn btn-danger">{{ __('Désactiver') }}<span class="sr-only"> {{ $service->nom }}</span></button>
+                                                    <button type="submit" class="tn-btn tn-btn--danger">{{ __('Désactiver') }}<span class="sr-only"> {{ $service->nom }}</span></button>
                                                 </form>
                                             </details>
                                         @endif

@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-4">
-                    <button type="submit" class="btn btn-danger">{{ __('Supprimer définitivement mon compte') }}</button>
+                    <button type="submit" class="tn-btn tn-btn--danger">{{ __('Supprimer définitivement mon compte') }}</button>
                     <a href="{{ route('mes-donnees.index') }}" class="underline text-gray-900 text-sm">{{ __('Annuler et revenir') }}</a>
                 </div>
             </form>

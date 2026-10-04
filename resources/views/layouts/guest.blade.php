@@ -26,7 +26,7 @@
                     <span>Terra Nova</span>
                 </a>
 
-                <div class="carte w-full sm:max-w-md mt-6 px-6 py-6">
+                <div class="tn-card w-full sm:max-w-md mt-6 px-6 py-6">
                     {{ $slot }}
                 </div>
             </main>

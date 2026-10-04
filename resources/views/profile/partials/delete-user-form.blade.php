@@ -5,5 +5,5 @@
         <p class="mt-1 text-sm text-gray-600">{{ __('Vous verrez d\'abord ce qui sera supprimé et ce qui sera conservé. Rien n\'est supprimé avant votre confirmation.') }}</p>
     </header>
 
-    <a href="{{ route('mes-donnees.suppression') }}" class="btn btn-danger">{{ __('Supprimer mon compte') }}</a>
+    <a href="{{ route('mes-donnees.suppression') }}" class="tn-btn tn-btn--danger">{{ __('Supprimer mon compte') }}</a>
 </section>

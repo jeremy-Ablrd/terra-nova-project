@@ -81,10 +81,10 @@
             <div class="hidden lg:flex lg:items-center lg:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="btn btn-secondary"
+                        <button class="tn-btn tn-btn--secondary"
                                 aria-haspopup="true" x-bind:aria-expanded="open">
                             <div>{{ Auth::user()->name }}</div>
-                            <span class="ms-2 pastille pastille-info">{{ Auth::user()->role->label() }}</span>
+                            <span class="ms-2 tn-badge tn-badge--info">{{ Auth::user()->role->label() }}</span>
                             <x-compteur-connexions :nombre="$alertesConnexion" />
 
                             <div class="ms-1">
@@ -118,7 +118,7 @@
             <div class="flex items-center lg:hidden">
                 <button type="button" x-ref="burger" @click="open = ! open"
                         aria-controls="menu-mobile" x-bind:aria-expanded="open" aria-label="{{ __('Menu') }}"
-                        class="btn btn-secondary min-w-[2.75rem]">
+                        class="tn-btn tn-btn--secondary min-w-[2.75rem]">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -196,7 +196,7 @@
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                <span class="mt-1 pastille pastille-info">{{ Auth::user()->role->label() }}</span>
+                <span class="mt-1 tn-badge tn-badge--info">{{ Auth::user()->role->label() }}</span>
             </div>
 
             <div class="mt-3 space-y-1">

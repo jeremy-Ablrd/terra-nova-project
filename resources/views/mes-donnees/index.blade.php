@@ -21,7 +21,7 @@
                     <h3 class="font-medium text-gray-900">{{ __('Mes informations') }}</h3>
                     <p>{{ __('Qui vous êtes pour la ville, ce que la ville conserve sur vous, pourquoi et combien de temps, votre activité (nombre de demandes, délai moyen de traitement), vos préférences et ce que vous pouvez faire de vos données.') }}</p>
                     <p class="flex flex-wrap items-center gap-3">
-                        <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="btn btn-primary">{{ __('Télécharger mes informations (version imprimable)') }}</a>
+                        <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="tn-btn tn-btn--primary">{{ __('Télécharger mes informations (version imprimable)') }}</a>
                         <a href="{{ route('mes-donnees.dossier') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Lire et imprimer mes informations') }}</a>
                     </p>
                 </div>
@@ -30,7 +30,7 @@
                     <h3 class="font-medium text-gray-900">{{ __('Récapitulatif de mes demandes') }}</h3>
                     <p>{{ __('Une synthèse en phrases, le tableau de toutes vos demandes avec ce que chaque statut signifie pour vous, puis ce qui s\'est passé pour chacune.') }}</p>
                     <p class="flex flex-wrap items-center gap-3">
-                        <a href="{{ route('demandes.recapitulatif.telecharger') }}" class="btn btn-primary">{{ __('Télécharger le récapitulatif de mes demandes (version imprimable)') }}</a>
+                        <a href="{{ route('demandes.recapitulatif.telecharger') }}" class="tn-btn tn-btn--primary">{{ __('Télécharger le récapitulatif de mes demandes (version imprimable)') }}</a>
                         <a href="{{ route('demandes.recapitulatif') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Lire et imprimer le récapitulatif') }}</a>
                     </p>
                 </div>

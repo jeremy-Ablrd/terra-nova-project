@@ -45,7 +45,7 @@
                     <a href="{{ route('mes-donnees.dossier.telecharger') }}" class="underline">{{ __('mes informations (version imprimable)') }}</a>,
                     <a href="{{ route('demandes.recapitulatif.telecharger') }}" class="underline">{{ __('mes demandes (version imprimable)') }}</a>.</p>
                 <p class="flex flex-wrap items-center gap-4 pt-2">
-                    <a href="{{ route('mes-donnees.suppression.confirmer') }}" class="btn btn-danger">{{ __('Continuer vers la confirmation') }}</a>
+                    <a href="{{ route('mes-donnees.suppression.confirmer') }}" class="tn-btn tn-btn--danger">{{ __('Continuer vers la confirmation') }}</a>
                     <a href="{{ route('mes-donnees.index') }}" class="underline text-gray-900">{{ __('Annuler et revenir') }}</a>
                 </p>
             </section>
