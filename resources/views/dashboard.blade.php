@@ -10,20 +10,20 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-8">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <x-alertes-connexion />
             <x-notifications-demandes />
             @if (Auth::user()->isCitoyen())
                 <x-notifications-contributions />
             @endif
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 <div class="p-6 text-gray-900">
                     <p class="text-lg font-medium">Bienvenue, {{ Auth::user()->name }} !</p>
                     <p class="mt-1 text-sm text-gray-600">
                         Vous êtes connecté à votre espace personnel de Terra Nova en tant que
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">{{ Auth::user()->role->label() }}</span>.
+                        <span class="tn-badge">{{ Auth::user()->role->label() }}</span>.
                     </p>
                 </div>
             </div>
@@ -34,10 +34,10 @@
                     $demandes = Auth::user()->demandes()->latest()->get();
                     $parStatut = $demandes->countBy(fn ($d) => $d->statut->value);
                 @endphp
-                <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+                <div class="tn-card overflow-hidden p-0">
                     <div class="p-6">
                         <div class="flex items-center justify-between">
-                            <h3 class="font-medium text-gray-900">Mes demandes</h3>
+                            <h2 class="text-lg font-semibold text-gray-900">Mes demandes</h2>
                             <a href="{{ route('demandes.index') }}" class="text-sm underline text-gray-600 hover:text-gray-900">Voir tout</a>
                         </div>
 
@@ -54,7 +54,7 @@
                             <ul class="mt-4 divide-y divide-gray-100 text-sm">
                                 @foreach ($demandes->take(3) as $demande)
                                     <li class="py-2 flex items-center justify-between gap-4">
-                                        <a href="{{ route('demandes.show', $demande) }}" class="underline text-gray-900 hover:text-gray-600">{{ $demande->reference }} — {{ $demande->objet }}</a>
+                                        <a href="{{ route('demandes.show', $demande) }}" class="underline text-gray-900 hover:text-gray-600"><span class="tn-code">{{ $demande->reference }}</span> — {{ $demande->objet }}</a>
                                         <x-statut-badge :statut="$demande->statut" />
                                     </li>
                                 @endforeach
@@ -75,19 +75,19 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+                <div class="tn-card overflow-hidden p-0">
                     <div class="p-6">
-                        <h3 class="font-medium text-gray-900">{{ __('Mes données') }}</h3>
+                        <h2 class="text-lg font-semibold text-gray-900">{{ __('Mes données') }}</h2>
                         <p class="mt-1 text-sm text-gray-600">{{ __('Consultez ce que la ville conserve sur vous, téléchargez vos informations et le récapitulatif de vos demandes, ou supprimez votre compte.') }}</p>
                         <p class="mt-3 text-sm"><a href="{{ route('mes-donnees.index') }}" class="underline font-medium text-gray-900 hover:text-gray-600">{{ __('Mes données') }}</a></p>
                     </div>
                 </div>
             @endif
 
-            <div class="bg-white overflow-hidden border border-gray-200 rounded-xl">
+            <div class="tn-card overflow-hidden p-0">
                 <div class="p-6">
                     <div class="flex items-center justify-between">
-                        <h3 class="font-medium text-gray-900">Mes informations</h3>
+                        <h2 class="text-lg font-semibold text-gray-900">Mes informations</h2>
                         <a href="{{ route('profile.edit') }}" class="text-sm underline text-gray-600 hover:text-gray-900">Modifier</a>
                     </div>
                     <dl class="mt-4 grid gap-4 sm:grid-cols-3 text-sm">

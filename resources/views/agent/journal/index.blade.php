@@ -17,7 +17,7 @@
     @endphp
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <p class="text-sm text-gray-700">{{ __('Qui a fait quoi, quand et sur quel objet, pour les agents et les administrateurs. Le journal est en lecture seule : aucune entrée ne peut être modifiée ni supprimée.') }}</p>
 
             <nav aria-label="{{ __('Filtrer par type d\'action') }}">

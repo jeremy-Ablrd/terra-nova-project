@@ -3,7 +3,7 @@
     $theme = \App\Support\Affichage::theme();
     $nuit = $theme === \App\Enums\ThemeAffichage::Nuit;
     $contraste = $theme === \App\Enums\ThemeAffichage::Contraste;
-    $tailleGlyphe = ['normal' => 'text-sm', 'grand' => 'text-lg', 'tres_grand' => 'text-2xl'];
+    $tailleGlyphe = ['normal' => 'text-sm', 'grand' => 'text-lg', 'tres_grand' => 'text-[1.375rem]'];
 @endphp
 
 {{-- Réglages d'affichage : taille du texte (A A A) et thème (jour / nuit, contraste renforcé). Formulaire POST sans
@@ -23,7 +23,7 @@
         @endforeach
     </div>
 
-    <div role="group" aria-labelledby="affichage-theme" class="flex items-center gap-2">
+    <div role="group" aria-labelledby="affichage-theme" class="flex items-center gap-1">
         <span id="affichage-theme" class="sr-only">{{ __('Thème') }} :</span>
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <button type="submit" name="theme" value="{{ $nuit ? 'standard' : 'nuit' }}" role="switch"

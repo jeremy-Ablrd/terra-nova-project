@@ -11,8 +11,8 @@
         <h1 class="font-display font-bold text-2xl sm:text-3xl text-gray-900 leading-tight">{{ $service->nom }}</h1>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if ($service->estIndisponible())
                 {{-- En tête, avant tout bouton : l'état, le motif et la prochaine action. --}}
                 <div role="status" class="space-y-3">
@@ -32,25 +32,25 @@
 
                 @unless ($service->estIndisponible())
                     <section aria-labelledby="disponibilite">
-                        <h2 id="disponibilite" class="font-medium text-gray-900">{{ __('Disponibilité') }}</h2>
+                        <h2 id="disponibilite" class="text-lg font-semibold text-gray-900">{{ __('Disponibilité') }}</h2>
                         <x-disponibilite-service :service="$service" detail class="mt-2" />
                     </section>
                 @endunless
 
                 @if ($service->aHorairesStructures())
                     <section aria-labelledby="horaires-ouverture">
-                        <h2 id="horaires-ouverture" class="font-medium text-gray-900">{{ __('Horaires d\'ouverture') }}</h2>
+                        <h2 id="horaires-ouverture" class="text-lg font-semibold text-gray-900">{{ __('Horaires d\'ouverture') }}</h2>
                         <x-ouverture-service :service="$service" detail class="mt-2" />
                     </section>
                 @endif
 
                 <section aria-labelledby="description">
-                    <h2 id="description" class="font-medium text-gray-900">{{ __('Description') }}</h2>
+                    <h2 id="description" class="text-lg font-semibold text-gray-900">{{ __('Description') }}</h2>
                     <p class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $service->description }}</p>
                 </section>
 
                 <section aria-labelledby="infos-pratiques">
-                    <h2 id="infos-pratiques" class="font-medium text-gray-900">{{ __('Informations pratiques') }}</h2>
+                    <h2 id="infos-pratiques" class="text-lg font-semibold text-gray-900">{{ __('Informations pratiques') }}</h2>
                     <dl class="mt-2 grid gap-4 sm:grid-cols-3 text-sm">
                         <div>
                             <dt class="text-gray-500">{{ __('Horaires') }}</dt>

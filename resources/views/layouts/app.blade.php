@@ -38,13 +38,13 @@
                 <main id="contenu" tabindex="-1" class="flex-1">
                     <!-- Titre de la page (le h1) -->
                     @isset($header)
-                        <div class="max-w-7xl mx-auto pt-8 pb-2 px-4 sm:px-6 lg:px-8">
+                        <div class="max-w-[90rem] mx-auto pt-8 pb-2 px-4 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>
                     @endisset
 
                     @if ($flash && session('success'))
-                        <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
+                        <div class="max-w-[90rem] mx-auto mt-6 px-4 sm:px-6 lg:px-8">
                             <div class="rounded-lg bg-green-50 border-2 border-green-200 p-4 text-sm font-semibold text-green-800" role="status">
                                 {{ session('success') }}
                             </div>

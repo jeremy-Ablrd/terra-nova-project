@@ -27,7 +27,7 @@
     @endphp
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             @if (session('succes'))
                 <p role="status" class="rounded border-2 border-gray-800 bg-white p-3 text-sm font-medium text-gray-900">{{ session('succes') }}</p>
             @endif

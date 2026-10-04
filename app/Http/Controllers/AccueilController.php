@@ -19,6 +19,7 @@ class AccueilController extends Controller
         return view('welcome', [
             'nbServices' => $services->count(),
             'nbDisponibles' => $services->filter(fn (Service $s) => $s->disponibilite === Disponibilite::Disponible)->count(),
+            'alertes' => $alertes->get(),
             'nbAlertes' => $alertes->get()->count(),
             'nbUrgences' => $urgences->count(),
             'interrompus' => $services->filter(fn (Service $s) => $s->disponibilite !== Disponibilite::Disponible)->take(2),

@@ -17,7 +17,7 @@
 
         <div class="min-h-screen flex flex-col bg-gray-50">
             <header class="bg-gray-50 border-b border-gray-200">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-end">
+                <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-end">
                     <x-affichage-controles />
                 </div>
             </header>

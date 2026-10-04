@@ -2,12 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\Models\Alerte;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
 /** Garde-fous du design Terra Nova : les couleurs viennent des jetons, jamais d'une valeur écrite dans une vue. */
 class DesignTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_every_token_of_the_design_is_a_css_variable_for_both_themes(): void
     {
         $tokens = json_decode(File::get(base_path('docs/design/ds/terra-nova/tokens.json')), true);
@@ -48,5 +52,18 @@ class DesignTest extends TestCase
         foreach (File::glob(resource_path('fonts/*.woff2')) as $police) {
             $this->assertStringContainsString(basename($police), $css, basename($police).' n\'est pas déclarée dans terra-nova.css.');
         }
+    }
+
+    public function test_the_home_page_shows_alerts_in_its_own_card_and_not_in_the_global_banner(): void
+    {
+        Alerte::factory()->urgente()->create(['titre' => 'Montée des eaux', 'secteur' => 'Quartier sud']);
+
+        $this->get('/')->assertOk()
+            ->assertSee('Montée des eaux')
+            ->assertSee('Quartier sud')
+            ->assertSee('Toutes les alertes en cours')
+            ->assertSee('id="alertes"', false)
+            ->assertDontSee('<aside', false)
+            ->assertSee('images/hero-terra-nova.webp', false);
     }
 }

@@ -18,7 +18,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
             @if ($alertes->isEmpty())
                 <x-carte class="text-sm text-gray-600">
                     <p>{{ __('Aucune alerte en cours.') }}</p>

@@ -42,7 +42,7 @@ class AlertesTest extends TestCase
     private function pages(): array
     {
         return [
-            'invité (accueil)' => [null, '/'],
+            'invité (services)' => [null, '/services'],
             'invité (connexion)' => [null, '/login'],
             'citoyen' => [User::factory()->create(), '/espace'],
             'agent' => [User::factory()->agent()->create(), '/agent'],
@@ -151,13 +151,13 @@ class AlertesTest extends TestCase
     public function test_role_alert_is_only_used_for_urgent_alerts(): void
     {
         Alerte::factory()->create(['titre' => 'Info seule']);
-        $this->get('/')->assertSee('role="status"', false)->assertDontSee('role="alert"', false);
+        $this->get('/services')->assertSee('role="status"', false)->assertDontSee('role="alert"', false);
 
         Alerte::factory()->vigilance()->create(['titre' => 'Vigilance seule']);
-        $this->get('/')->assertSee('role="status"', false)->assertDontSee('role="alert"', false);
+        $this->get('/services')->assertSee('role="status"', false)->assertDontSee('role="alert"', false);
 
         Alerte::factory()->urgente()->create(['titre' => 'Urgence']);
-        $content = $this->get('/')->getContent();
+        $content = $this->get('/services')->getContent();
 
         $this->assertSame(1, substr_count($content, 'role="alert"'));
         $this->assertSame(2, substr_count($content, 'role="status"'));
@@ -198,7 +198,7 @@ class AlertesTest extends TestCase
     {
         Alerte::factory()->count(5)->create();
 
-        $content = $this->get('/')->getContent();
+        $content = $this->get('/services')->getContent();
         $this->assertSame(3, substr_count($content, 'class="alerte '));
         $this->assertStringContainsString('Voir toutes les alertes', $content);
         $this->assertStringContainsString('(5)', $content);
@@ -208,7 +208,7 @@ class AlertesTest extends TestCase
     {
         Alerte::factory()->avecConsignesVulnerables()->create();
 
-        $this->get('/')->assertSee('Des consignes pour les personnes vulnérables sont disponibles dans le détail.');
+        $this->get('/services')->assertSee('Des consignes pour les personnes vulnérables sont disponibles dans le détail.');
     }
 
     public function test_banner_does_nothing_and_adds_no_markup_without_alerts(): void

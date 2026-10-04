@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             @error('role')
                 <div class="rounded-md bg-red-50 border border-red-200 p-4 text-sm text-red-800" role="alert">{{ $message }}</div>

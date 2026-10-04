@@ -62,7 +62,7 @@ class AlertesOfficiellesTest extends TestCase
             Alerte::factory()->create(['emetteur' => $cle, 'titre' => 'Annonce '.$cle]);
 
             // Invité non connecté : bandeau de l'accueil et d'une page publique, pages /alertes et détail.
-            foreach (['/', '/services', '/alertes'] as $url) {
+            foreach (['/services', '/login', '/alertes'] as $url) {
                 $this->get($url)->assertOk()->assertSee($phrase);
             }
             $this->get(route('alertes.show', Alerte::firstOrFail()))->assertOk()->assertSee($phrase);
@@ -90,7 +90,7 @@ class AlertesOfficiellesTest extends TestCase
         ]);
 
         $this->assertSame(Emetteur::Ville, Alerte::firstOrFail()->emetteur);
-        $this->get('/')->assertSee('Message officiel de la Ville de Terra Nova');
+        $this->get('/services')->assertSee('Message officiel de la Ville de Terra Nova');
     }
 
     public function test_the_admin_form_has_a_labelled_select_with_the_high_council_preselected(): void
@@ -140,12 +140,12 @@ class AlertesOfficiellesTest extends TestCase
 
     public function test_a_published_message_is_visible_to_a_guest_immediately_and_nothing_is_cached(): void
     {
-        $this->get('/')->assertDontSee('Annonce du Haut Conseil');
+        $this->get('/login')->assertDontSee('Annonce du Haut Conseil');
 
         $this->publier(['emetteur' => 'haut_conseil', 'niveau' => 'urgent']);
 
         auth()->logout();
-        $reponse = $this->get('/')->assertOk();
+        $reponse = $this->get('/login')->assertOk();
         $reponse->assertSee('Annonce du Haut Conseil')->assertSee('Message officiel du Haut Conseil');
 
         $cache = $reponse->headers->get('Cache-Control');
@@ -155,7 +155,7 @@ class AlertesOfficiellesTest extends TestCase
         // Fin de validité : « Terminer maintenant » la retire aussitôt.
         $this->actingAs($this->admin)->post(route('admin.alertes.terminer', Alerte::firstOrFail()));
         auth()->logout();
-        $this->get('/')->assertDontSee('Annonce du Haut Conseil');
+        $this->get('/login')->assertDontSee('Annonce du Haut Conseil');
     }
 
     // --- Bandeau : toutes les alertes urgentes, en plus de 3 autres au maximum ---
@@ -169,7 +169,7 @@ class AlertesOfficiellesTest extends TestCase
             Alerte::factory()->create(['titre' => "Info {$i}", 'starts_at' => now()->subHours($i)]);
         }
 
-        $page = $this->get('/')->assertOk()->getContent();
+        $page = $this->get('/services')->assertOk()->getContent();
         preg_match('~<aside.*?</aside>~s', $page, $m);
         $bandeau = $m[0];
 

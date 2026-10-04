@@ -40,6 +40,9 @@
             <If "%{REQUEST_URI} =~ m#^/build/#">
                 Header set Cache-Control "public, max-age=31536000, immutable"
             </If>
+            <If "%{REQUEST_URI} =~ m#^/images/#">
+                Header set Cache-Control "public, max-age=604800"
+            </If>
         </IfModule>
     </IfVersion>
 </IfModule>
