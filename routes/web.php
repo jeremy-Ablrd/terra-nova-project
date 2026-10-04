@@ -13,6 +13,7 @@ use App\Http\Controllers\Agent\DemandeController as AgentDemandeController;
 use App\Http\Controllers\Agent\DonneesApiController;
 use App\Http\Controllers\Agent\JournalController;
 use App\Http\Controllers\AccessibiliteController;
+use App\Http\Controllers\AccuseReceptionController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\ContactController;
@@ -66,7 +67,7 @@ Route::get('/espace', function () {
 // Contacter la mairie : réservé au citoyen (l'agent et l'admin reçoivent un 403).
 Route::middleware(['auth', 'role:citoyen'])->group(function () {
     Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
-    Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
+    Route::post('/contact', [ContactController::class, 'store'])->middleware(['formulaire:reference', 'throttle:5,1'])->name('contact.store');
     Route::get('/contact/confirmation/{demande}', [ContactController::class, 'confirmation'])->name('contact.confirmation');
 });
 
@@ -74,11 +75,11 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
 // Réservé au citoyen (agent et admin : 403, invité : connexion). Envois limités par compte (`contributions`).
 Route::middleware(['auth', 'role:citoyen'])->group(function () {
     Route::get('/projets/{projet:slug}/avis', [ParticipationController::class, 'avisCreate'])->name('projets.avis.create');
-    Route::post('/projets/{projet:slug}/avis', [ParticipationController::class, 'avisStore'])->middleware('throttle:contributions')->name('projets.avis.store');
+    Route::post('/projets/{projet:slug}/avis', [ParticipationController::class, 'avisStore'])->middleware(['formulaire:reference', 'throttle:contributions'])->name('projets.avis.store');
     Route::get('/idees/nouvelle', [ParticipationController::class, 'ideeCreate'])->name('idees.create');
-    Route::post('/idees', [ParticipationController::class, 'ideeStore'])->middleware('throttle:contributions')->name('idees.store');
+    Route::post('/idees', [ParticipationController::class, 'ideeStore'])->middleware(['formulaire:reference', 'throttle:contributions'])->name('idees.store');
     Route::get('/services/{service:slug}/commentaire', [ParticipationController::class, 'commentaireCreate'])->name('services.commentaire.create');
-    Route::post('/services/{service:slug}/commentaire', [ParticipationController::class, 'commentaireStore'])->middleware('throttle:contributions')->name('services.commentaire.store');
+    Route::post('/services/{service:slug}/commentaire', [ParticipationController::class, 'commentaireStore'])->middleware(['formulaire:reference', 'throttle:contributions'])->name('services.commentaire.store');
     Route::get('/mes-contributions', [MesContributionsController::class, 'index'])->name('mes-contributions.index');
     Route::get('/mes-contributions/{contribution}', [MesContributionsController::class, 'show'])->name('mes-contributions.show');
 });
@@ -91,6 +92,9 @@ Route::middleware(['auth', 'role:citoyen'])->group(function () {
     Route::get('/mes-donnees/dossier/telecharger', [MesDonneesController::class, 'dossierTelecharger'])->middleware('throttle:donnees-telechargement')->name('mes-donnees.dossier.telecharger');
     Route::get('/mes-demandes/recapitulatif/telecharger', [RecapitulatifDemandesController::class, 'telecharger'])->middleware('throttle:donnees-telechargement')->name('demandes.recapitulatif.telecharger');
     Route::get('/mes-demandes/recapitulatif', [RecapitulatifDemandesController::class, 'recapitulatif'])->middleware('throttle:donnees-telechargement')->name('demandes.recapitulatif');
+    // Accusé de réception d'une demande (F83) : habitant propriétaire seulement (DemandePolicy::accuserReception).
+    Route::get('/mes-demandes/{demande}/accuse', [AccuseReceptionController::class, 'show'])->name('demandes.accuse');
+    Route::get('/mes-demandes/{demande}/accuse/telecharger', [AccuseReceptionController::class, 'telecharger'])->middleware('throttle:donnees-telechargement')->name('demandes.accuse.telecharger');
     // Suppression du compte en deux étapes, sans JavaScript : information, puis mot de passe et case à cocher.
     Route::get('/mes-donnees/suppression', [SuppressionCompteController::class, 'information'])->name('mes-donnees.suppression');
     Route::get('/mes-donnees/suppression/confirmer', [SuppressionCompteController::class, 'confirmation'])->name('mes-donnees.suppression.confirmer');
@@ -136,7 +140,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/participation', [AdminParticipationController::class, 'index'])->name('admin.participation.index');
     Route::get('/participation/projets', [AdminProjetController::class, 'index'])->name('admin.participation.projets.index');
     Route::get('/participation/projets/nouveau', [AdminProjetController::class, 'create'])->name('admin.participation.projets.create');
-    Route::post('/participation/projets', [AdminProjetController::class, 'store'])->name('admin.participation.projets.store');
+    Route::post('/participation/projets', [AdminProjetController::class, 'store'])->middleware('formulaire')->name('admin.participation.projets.store');
     Route::get('/participation/projets/{projet}/modifier', [AdminProjetController::class, 'edit'])->name('admin.participation.projets.edit');
     Route::put('/participation/projets/{projet}', [AdminProjetController::class, 'update'])->name('admin.participation.projets.update');
     Route::get('/participation/{contribution}', [AdminParticipationController::class, 'show'])->whereNumber('contribution')->name('admin.participation.show');
@@ -146,7 +150,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Publication des alertes : admin seul (role:admin du groupe).
     Route::get('/alertes', [AdminAlerteController::class, 'index'])->name('admin.alertes.index');
     Route::get('/alertes/nouvelle', [AdminAlerteController::class, 'create'])->name('admin.alertes.create');
-    Route::post('/alertes', [AdminAlerteController::class, 'store'])->name('admin.alertes.store');
+    Route::post('/alertes', [AdminAlerteController::class, 'store'])->middleware('formulaire')->name('admin.alertes.store');
     Route::post('/alertes/{alerte}/terminer', [AdminAlerteController::class, 'terminer'])->name('admin.alertes.terminer');
 });
 

@@ -60,6 +60,25 @@ class JournalSecurite
         return $evenement;
     }
 
+    /** Au plus 10 envois suspects enregistrés par adresse IP et par minute. */
+    public const PLAFOND_FORMULAIRES_SUSPECTS = 10;
+
+    /**
+     * Envoi de formulaire refusé (F81) : seulement le motif (un libellé fixe), la route et l'adresse IP ; jamais le contenu
+     * saisi. L'adresse e-mail, quand le formulaire en a une, n'est écrite que masquée.
+     */
+    public function formulaireSuspect(Request $request, string $motif): void
+    {
+        $cle = 'securite:formulaire-suspect:'.$request->ip();
+        if (RateLimiter::tooManyAttempts($cle, self::PLAFOND_FORMULAIRES_SUSPECTS)) {
+            return;
+        }
+        RateLimiter::hit($cle, 60);
+
+        $email = $request->input('email');
+        $this->enregistrer(TypeEvenementSecurite::FormulaireSuspect, $request->user(), is_string($email) ? $email : null, $motif, null, $request);
+    }
+
     /** Accès refusé (403) sur /agent/* ou /admin/* : route, rôle et compte, avec un plafond par utilisateur et par minute. */
     public function accesRefuse(Request $request): void
     {

@@ -9,6 +9,7 @@ enum TypeEvenementSecurite: string
     case Blocage = 'blocage';
     case NouvelAppareil = 'nouvel_appareil';
     case AccesRefuse = 'acces_refuse';
+    case FormulaireSuspect = 'formulaire_suspect';
 
     public function label(): string
     {
@@ -17,6 +18,7 @@ enum TypeEvenementSecurite: string
             self::Blocage => __('Blocage temporaire'),
             self::NouvelAppareil => __('Nouvel appareil'),
             self::AccesRefuse => __('Accès refusé'),
+            self::FormulaireSuspect => __('Formulaire suspect'),
         };
     }
 }

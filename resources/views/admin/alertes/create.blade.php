@@ -24,7 +24,7 @@
                 <form method="POST" action="{{ route('admin.alertes.store') }}" class="mt-6 space-y-6" novalidate
                       x-data="{ envoi: false }" x-on:submit="envoi = true" x-on:pageshow.window="envoi = false">
                     @csrf
-
+                    <x-protection-formulaire />
                     <div>
                         <x-input-label for="titre" :value="__('Titre').' *'" />
                         <x-text-input id="titre" name="titre" class="block mt-1 w-full" type="text" :value="old('titre')" maxlength="150" required aria-required="true"

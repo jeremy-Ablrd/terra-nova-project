@@ -3,7 +3,7 @@
 
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
-
+        <x-protection-formulaire />
         <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 

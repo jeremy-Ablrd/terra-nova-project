@@ -43,6 +43,10 @@
                 <p class="text-sm text-gray-700 mb-3">{{ __('État actuel : :statut', ['statut' => $demande->statut->label()]) }}</p>
                 <x-frise-demande :demande="$demande" />
             </div>
+
+            @can('accuserReception', $demande)
+                <p><a href="{{ route('demandes.accuse', $demande) }}" class="tn-btn tn-btn--secondary">{{ __('Accusé de réception') }}</a></p>
+            @endcan
         </div>
     </div>
 </x-app-layout>

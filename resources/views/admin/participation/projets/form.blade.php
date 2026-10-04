@@ -25,6 +25,7 @@
 
                 <form method="POST" action="{{ $existe ? route('admin.participation.projets.update', $projet) : route('admin.participation.projets.store') }}" class="mt-6 space-y-6" novalidate>
                     @csrf
+                    <x-protection-formulaire />
                     @if ($existe) @method('PUT') @endif
 
                     <div>

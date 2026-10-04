@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\EnTetesSecurite;
+use App\Http\Middleware\ProtegerFormulaire;
 use App\Services\JournalSecurite;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use App\Http\Middleware\SobrieteReponse;
@@ -17,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias(['role' => EnsureUserHasRole::class]);
+        $middleware->alias(['role' => EnsureUserHasRole::class, 'formulaire' => ProtegerFormulaire::class]);
+        // Les refus et les renvois de jeton sont traités AVANT les limites de débit : ils n'en consomment pas.
+        $middleware->prependToPriorityList(before: \Illuminate\Routing\Middleware\ThrottleRequests::class, prepend: ProtegerFormulaire::class);
         $middleware->web(append: [SobrieteReponse::class, EnTetesSecurite::class]);
         $middleware->redirectUsersTo(fn (Request $request) => $request->user()->homeUrl());
     })

@@ -31,6 +31,7 @@
 
             <nav aria-label="{{ __('Suite de votre demande') }}" class="flex flex-wrap items-center gap-4">
                 <x-primary-link href="{{ route('demandes.show', $demande) }}">{{ __('Voir ma demande') }}</x-primary-link>
+                <a href="{{ route('demandes.accuse', $demande) }}" class="tn-btn tn-btn--secondary">{{ __('Accusé de réception') }}</a>
                 <a href="{{ route('demandes.index') }}" class="text-sm underline text-gray-700 hover:text-gray-900">{{ __('Mes demandes') }}</a>
                 <a href="{{ route('contact.create') }}" class="text-sm underline text-gray-700 hover:text-gray-900">{{ __('Envoyer une autre demande') }}</a>
             </nav>

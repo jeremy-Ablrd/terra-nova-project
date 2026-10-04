@@ -31,6 +31,12 @@ class DemandePolicy
         return $demande->user_id !== null && $demande->user_id === $user->id;
     }
 
+    /** F83 : l'accusé de réception n'est remis qu'à l'habitant qui a déposé la demande (user_id strict, jamais pour user_id nul). */
+    public function accuserReception(User $user, Demande $demande): bool
+    {
+        return $user->isCitoyen() && $demande->user_id !== null && $demande->user_id === $user->id;
+    }
+
     /** Seul l'agent peut modifier le statut d'une demande. */
     public function updateStatus(User $user, Demande $demande): bool
     {

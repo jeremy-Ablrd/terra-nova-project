@@ -46,7 +46,7 @@
 
                     <form method="POST" action="{{ $action }}" class="space-y-6" novalidate>
                         @csrf
-
+                        <x-protection-formulaire />
                         @if ($estIdee)
                             <div>
                                 <x-input-label for="titre" :value="__('Titre de l\'idée').' *'" />

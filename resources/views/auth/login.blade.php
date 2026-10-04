@@ -6,7 +6,7 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
+        <x-protection-formulaire />
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

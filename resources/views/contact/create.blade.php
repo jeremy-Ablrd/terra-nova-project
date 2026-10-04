@@ -14,7 +14,7 @@
                 <form method="POST" action="{{ route('contact.store') }}" class="mt-6 space-y-6" novalidate
                       x-data="{ envoi: false }" x-on:submit="envoi = true" x-on:pageshow.window="envoi = false">
                     @csrf
-
+                    <x-protection-formulaire />
                     <div class="grid gap-6 sm:grid-cols-2">
                         <div>
                             <x-input-label for="contact_nom" :value="__('Nom')" />

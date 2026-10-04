@@ -3,7 +3,7 @@
 
     <form method="POST" action="{{ route('register') }}">
         @csrf
-
+        <x-protection-formulaire />
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
