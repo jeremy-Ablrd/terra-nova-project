@@ -6,7 +6,7 @@
     <nav aria-label="{{ __('Navigation principale') }}" class="flex flex-col lg:min-h-full">
         <div class="flex items-center justify-between gap-2 px-4 py-3">
             <a href="{{ Auth::user()->homeUrl() }}" class="flex items-center gap-2 min-h-[2.75rem] font-display font-bold text-xl" aria-label="{{ config('app.name') }} — {{ __('accueil') }}">
-                <x-application-logo class="block h-9 w-9 fill-current text-brand" />
+                <x-application-logo class="block h-9 w-9" />
                 <span>Terra Nova</span>
             </a>
 

@@ -2,7 +2,7 @@
 <div class="bg-white border-b border-gray-200">
     <nav aria-label="{{ __('Navigation principale') }}" class="max-w-[90rem] mx-auto px-6 py-3 min-h-[4.5rem] flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
         <a href="{{ url('/') }}" class="flex items-center gap-2 font-display font-bold text-xl leading-7">
-            <x-application-logo class="h-8 w-8 fill-current text-brand" />
+            <x-application-logo class="h-8 w-8" />
             Terra Nova
         </a>
 

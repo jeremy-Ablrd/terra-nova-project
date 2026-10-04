@@ -6,10 +6,9 @@
 
     <!-- Hero : photo de la ville en pleine largeur, texte centré et encarts autour -->
     <section aria-labelledby="titre-accueil" class="relative w-full bg-gray-100 border-b border-gray-200 overflow-hidden">
-        {{-- Image décorative (alt vide) sous un voile de la couleur du fond : le texte garde son contraste. --}}
+        {{-- Image décorative (alt vide), sans voile. --}}
         <img src="{{ asset('images/hero-terra-nova.webp') }}" alt="" width="1280" height="720" decoding="async" loading="eager" fetchpriority="low"
              class="absolute inset-0 h-full w-full object-cover pointer-events-none">
-        <div aria-hidden="true" class="absolute inset-0 bg-gray-100 opacity-[0.88] pointer-events-none"></div>
 
         <div class="relative max-w-[90rem] mx-auto box-border px-6 pt-8 pb-12 flex flex-wrap items-stretch gap-6">
 
@@ -63,7 +62,7 @@
             </div>
 
             <div class="flex-[2_1_28rem] min-w-0 relative flex flex-col items-center justify-center gap-8 px-4 py-12 text-center">
-                <div class="relative flex flex-col items-center gap-4">
+                <div class="tn-card relative flex flex-col items-center gap-4 px-8 py-8">
                     <span class="tn-badge tn-badge--info"><span aria-hidden="true">◆</span>{{ __('Services numériques de la ville') }}</span>
                     <h1 id="titre-accueil" class="m-0 max-w-[14ch] font-display font-bold text-[3rem] leading-[3.25rem] tracking-[-0.01em]">{{ __('Bienvenue à Terra Nova') }}</h1>
                     <p class="m-0 max-w-[32rem] text-[1.125rem] leading-7 text-gray-600">{{ __('Les services numériques de la ville, accessibles à chaque habitant depuis son espace personnel.') }}</p>

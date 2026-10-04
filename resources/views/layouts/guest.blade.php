@@ -24,7 +24,7 @@
 
             <main id="contenu" tabindex="-1" class="flex-1 flex flex-col items-center justify-center px-4 py-8">
                 <a href="/" class="flex flex-col items-center gap-2 font-display font-bold text-2xl" aria-label="{{ config('app.name') }} — {{ __('accueil') }}">
-                    <x-application-logo class="w-16 aspect-square fill-current text-brand" />
+                    <x-application-logo class="w-16 aspect-square" />
                     <span>Terra Nova</span>
                 </a>
 
