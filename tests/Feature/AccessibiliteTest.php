@@ -99,24 +99,24 @@ class AccessibiliteTest extends TestCase
 
     public function test_default_display_has_no_size_or_theme_class(): void
     {
-        $this->get('/')->assertSee('<html lang="fr" class="">', false);
+        $this->get('/')->assertSee('<html lang="fr" class="" data-theme="jour">', false);
     }
 
     public function test_text_size_control_sets_a_cookie_and_the_root_class_changes(): void
     {
         $this->post(route('preferences.affichage'), ['taille' => 'grand'])->assertRedirect()->assertCookie('affichage_taille', 'grand');
 
-        $this->withCookie('affichage_taille', 'grand')->get('/')->assertSee('<html lang="fr" class="taille-grand">', false);
-        $this->withCookie('affichage_taille', 'tres_grand')->get('/')->assertSee('<html lang="fr" class="taille-tres-grand">', false);
-        $this->withCookie('affichage_taille', 'normal')->get('/')->assertSee('<html lang="fr" class="">', false);
+        $this->withCookie('affichage_taille', 'grand')->get('/')->assertSee('<html lang="fr" class="taille-grand" data-theme="jour">', false);
+        $this->withCookie('affichage_taille', 'tres_grand')->get('/')->assertSee('<html lang="fr" class="taille-tres-grand" data-theme="jour">', false);
+        $this->withCookie('affichage_taille', 'normal')->get('/')->assertSee('<html lang="fr" class="" data-theme="jour">', false);
     }
 
     public function test_theme_control_sets_a_cookie_and_the_root_class_changes(): void
     {
         $this->post(route('preferences.affichage'), ['theme' => 'contraste'])->assertRedirect()->assertCookie('affichage_theme', 'contraste');
 
-        $this->withCookie('affichage_theme', 'contraste')->get('/')->assertSee('<html lang="fr" class="theme-contraste">', false);
-        $this->withCookie('affichage_theme', 'standard')->get('/')->assertSee('<html lang="fr" class="">', false);
+        $this->withCookie('affichage_theme', 'contraste')->get('/')->assertSee('<html lang="fr" class="theme-contraste" data-theme="jour">', false);
+        $this->withCookie('affichage_theme', 'standard')->get('/')->assertSee('<html lang="fr" class="" data-theme="jour">', false);
     }
 
     public function test_size_and_theme_combine_and_apply_on_every_layout(): void
@@ -124,7 +124,7 @@ class AccessibiliteTest extends TestCase
         $cookies = ['affichage_taille' => 'tres_grand', 'affichage_theme' => 'contraste'];
 
         foreach (['/', '/login', '/services', '/accessibilite'] as $url) { // accueil, layout invité, layout commun
-            $this->withCookies($cookies)->get($url)->assertSee('<html lang="fr" class="taille-tres-grand theme-contraste">', false);
+            $this->withCookies($cookies)->get($url)->assertSee('<html lang="fr" class="taille-tres-grand theme-contraste" data-theme="jour">', false);
         }
     }
 
@@ -141,7 +141,7 @@ class AccessibiliteTest extends TestCase
         $this->post(route('preferences.affichage'), ['theme' => 'neon'])->assertSessionHasErrors('theme')->assertCookieMissing('affichage_theme');
 
         $this->withCookies(['affichage_taille' => 'énorme', 'affichage_theme' => '<script>'])->get('/')
-            ->assertSee('<html lang="fr" class="">', false);
+            ->assertSee('<html lang="fr" class="" data-theme="jour">', false);
     }
 
     public function test_the_choice_is_saved_on_the_account_when_logged_in(): void
@@ -157,7 +157,7 @@ class AccessibiliteTest extends TestCase
         $this->assertSame(['taille' => 'grand', 'theme' => 'contraste'], $user->fresh()->preferences);
 
         // Sans aucun cookie (autre appareil) : le compte suffit.
-        $this->actingAs($user->fresh())->get('/espace')->assertSee('<html lang="fr" class="taille-grand theme-contraste">', false);
+        $this->actingAs($user->fresh())->get('/espace')->assertSee('<html lang="fr" class="taille-grand theme-contraste" data-theme="jour">', false);
     }
 
     public function test_the_account_takes_precedence_over_the_cookie_and_other_visitors_are_not_affected(): void
@@ -165,10 +165,10 @@ class AccessibiliteTest extends TestCase
         $user = User::factory()->create(['preferences' => ['taille' => 'tres_grand']]);
 
         $this->actingAs($user)->withCookie('affichage_taille', 'normal')->get('/espace')
-            ->assertSee('<html lang="fr" class="taille-tres-grand">', false);
+            ->assertSee('<html lang="fr" class="taille-tres-grand" data-theme="jour">', false);
 
         auth()->logout();
-        $this->get('/')->assertSee('<html lang="fr" class="">', false);
+        $this->get('/')->assertSee('<html lang="fr" class="" data-theme="jour">', false);
     }
 
     public function test_a_logged_in_user_without_account_preferences_uses_the_cookie(): void
@@ -176,7 +176,7 @@ class AccessibiliteTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)->withCookie('affichage_taille', 'grand')->get('/espace')
-            ->assertSee('<html lang="fr" class="taille-grand">', false);
+            ->assertSee('<html lang="fr" class="taille-grand" data-theme="jour">', false);
     }
 
     public function test_preferences_cannot_be_mass_assigned_through_the_profile(): void
@@ -202,23 +202,34 @@ class AccessibiliteTest extends TestCase
 
         $this->assertStringContainsString('aria-label="Réglages d&#039;affichage"', $html);
 
-        // Chaque groupe est nommé par un texte visible qui existe dans la page.
+        // Chaque groupe est nommé par un texte qui existe dans la page (lu par les lecteurs d'écran).
         foreach (['affichage-taille' => 'Taille du texte', 'affichage-theme' => 'Thème'] as $id => $texte) {
             $this->assertStringContainsString('role="group" aria-labelledby="'.$id.'"', $html);
             $this->assertMatchesRegularExpression('/<span id="'.$id.'"[^>]*>\s*'.preg_quote($texte, '/').'/u', $html);
         }
 
-        // Chaque bouton a un texte, et un seul bouton par groupe est « enfoncé ».
-        preg_match_all('/<button type="submit" name="(taille|theme)" value="([a-z_]+)"\s+aria-pressed="(true|false)"[^>]*>([^<]+)<\/button>/u', $html, $boutons, PREG_SET_ORDER);
-        $this->assertCount(count(TailleTexte::cases()) + count(ThemeAffichage::cases()), $boutons);
-        foreach ($boutons as $b) {
-            $this->assertNotSame('', trim($b[4]), 'Un bouton de réglage n\'a pas de texte.');
-        }
-        $enfonces = collect($boutons)->where(2, '!==', null)->filter(fn ($b) => $b[3] === 'true')->map(fn ($b) => $b[1].'='.$b[2])->sort()->values()->all();
-        $this->assertSame(['taille=grand', 'theme=contraste'], $enfonces);
+        // Taille : trois boutons « A » nommés (aria-label), un seul enfoncé.
+        preg_match_all('/<button type="submit" name="taille" value="([a-z_]+)"\s+aria-pressed="(true|false)"\s+aria-label="Taille du texte : ([^"]+)"/u', $html, $tailles, PREG_SET_ORDER);
+        $this->assertCount(count(TailleTexte::cases()), $tailles);
+        $this->assertSame(['grand'], collect($tailles)->filter(fn ($t) => $t[2] === 'true')->pluck(1)->values()->all());
 
-        // Texte visible de l'état courant : trait et coché en CSS, classe sur le bouton actif.
+        // Thème : interrupteur jour / nuit (role="switch", aria-checked) et bouton « Contraste renforcé » (aria-pressed).
+        $this->assertMatchesRegularExpression('/<button type="submit" name="theme" value="nuit" role="switch"\s+aria-checked="false" aria-label="Thème nuit"/u', $html);
+        $this->assertMatchesRegularExpression('/<button type="submit" name="theme" value="standard"\s+aria-pressed="true"/u', $html);
+        $this->assertStringContainsString('Contraste renforcé', $html);
+
+        // L'état courant ne tient pas à la couleur : cadre épais (aria-pressed / aria-checked en CSS), classe sur le bouton actif.
         $this->assertSame(2, substr_count($html, 'bouton-reglage-actif'));
+    }
+
+    public function test_the_night_theme_is_set_by_the_server_before_the_first_render(): void
+    {
+        $this->get('/')->assertSee('data-theme="jour"', false);
+        $this->post(route('preferences.affichage'), ['theme' => 'nuit'])->assertRedirect()->assertCookie('affichage_theme', 'nuit');
+
+        $this->withCookie('affichage_theme', 'nuit')->get('/')->assertSee('<html lang="fr" class="" data-theme="nuit">', false);
+        $this->withCookie('affichage_theme', 'nuit')->get('/login')->assertSee('data-theme="nuit"', false);
+        $this->withCookie('affichage_theme', 'nuit')->get('/')->assertSee('role="switch"', false)->assertSee('aria-checked="true"', false);
     }
 
     public function test_the_controls_work_without_javascript(): void
@@ -335,9 +346,9 @@ class AccessibiliteTest extends TestCase
         $this->assertStringContainsString('id="menu-mobile"', $html);
         $this->assertStringContainsString('@keydown.escape.window="if (open) { open = false; $refs.burger.focus() }"', $html);
 
-        // Menu du compte : bouton avec aria-haspopup / aria-expanded, fermé par Échap.
-        $this->assertStringContainsString('aria-haspopup="true" x-bind:aria-expanded="open"', $html);
-        $this->assertStringContainsString('@keydown.escape.window="open = false"', $html);
+        // Le compte (profil, déconnexion) est dans la barre latérale : liens et bouton réels, pas de menu déroulant.
+        $this->assertStringContainsString('action="'.route('logout').'"', $html);
+        $this->assertStringContainsString('href="'.route('profile.edit').'"', $html);
 
         // Le logo n'est pas le seul contenu d'un lien sans nom.
         $this->assertStringContainsString('aria-label="Terra Nova — accueil"', $html);
@@ -348,9 +359,9 @@ class AccessibiliteTest extends TestCase
         $html = $this->html(User::factory()->create(), '/services');
 
         $this->assertMatchesRegularExpression('/<a [^>]*href="[^"]*\/services"[^>]*aria-current="page"/', $html);
-        $this->assertMatchesRegularExpression('/class="[^"]*nav-lien[^"]*"[^>]*aria-current="page"/', $html);
-        // Deux liens (bureau + menu mobile) ; le fil d'Ariane ajoute son propre <span aria-current="page">.
-        $this->assertSame(2, preg_match_all('/<a [^>]*aria-current="page"/', $html));
+        $this->assertMatchesRegularExpression('/class="[^"]*nav-lateral[^"]*"[^>]*aria-current="page"/', $html);
+        // Un seul lien (barre latérale) ; le fil d'Ariane ajoute son propre <span aria-current="page">.
+        $this->assertSame(1, preg_match_all('/<a [^>]*aria-current="page"/', $html));
     }
 
     public function test_navigation_does_not_use_fixed_heights_that_clip_text(): void

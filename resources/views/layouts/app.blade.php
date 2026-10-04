@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ \App\Support\Affichage::classes() }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ \App\Support\Affichage::classes() }}" data-theme="{{ \App\Support\Affichage::dataTheme() }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,44 +17,45 @@
             <x-alertes-banniere />
         @endif
 
-        <div class="min-h-screen flex flex-col bg-gray-50">
-            <header>
-                <x-affichage-controles />
+        {{-- Connecté : barre latérale unique (menu selon le rôle). Visiteur : en-tête public. --}}
+        <div class="min-h-screen flex flex-col lg:flex-row">
+            @auth
+                @include('layouts.navigation')
+            @endauth
 
-                @auth
-                    @include('layouts.navigation')
-                @else
-                    @include('layouts.invite')
-                @endauth
-            </header>
+            <div class="flex-1 min-w-0 flex flex-col">
+                @guest
+                    <header>
+                        @include('layouts.invite')
+                    </header>
+                @endguest
 
-            <!-- Fil d'Ariane (optionnel) -->
-            @isset($breadcrumb)
-                {{ $breadcrumb }}
-            @endisset
-
-            <main id="contenu" tabindex="-1" class="flex-1">
-                <!-- Titre de la page (le h1) -->
-                @isset($header)
-                    <div class="bg-white border-b border-gray-200">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </div>
+                <!-- Fil d'Ariane (optionnel) -->
+                @isset($breadcrumb)
+                    {{ $breadcrumb }}
                 @endisset
 
-                @if ($flash && session('success'))
-                    <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
-                        <div class="rounded-lg bg-green-50 border-2 border-green-200 p-4 text-sm font-semibold text-green-800" role="status">
-                            {{ session('success') }}
+                <main id="contenu" tabindex="-1" class="flex-1">
+                    <!-- Titre de la page (le h1) -->
+                    @isset($header)
+                        <div class="max-w-7xl mx-auto pt-8 pb-2 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
                         </div>
-                    </div>
-                @endif
+                    @endisset
 
-                {{ $slot }}
-            </main>
+                    @if ($flash && session('success'))
+                        <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
+                            <div class="rounded-lg bg-green-50 border-2 border-green-200 p-4 text-sm font-semibold text-green-800" role="status">
+                                {{ session('success') }}
+                            </div>
+                        </div>
+                    @endif
 
-            <x-pied-de-page />
+                    {{ $slot }}
+                </main>
+
+                <x-pied-de-page />
+            </div>
         </div>
     </body>
 </html>

@@ -1,5 +1,6 @@
 @props(['statut'])
 
-<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1 px-2 rounded-full border border-current text-sm leading-6 font-semibold '.$statut->badgeClasses()]) }}>
-    {{ $statut->label() }}
+{{-- Badge de statut : texte + glyphe + bordure (jamais la couleur seule). --}}
+<span {{ $attributes->merge(['class' => 'tn-badge '.$statut->badgeClasses()]) }}>
+    <span aria-hidden="true">{{ $statut->glyphe() }}</span>{{ $statut->label() }}
 </span>

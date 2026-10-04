@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ \App\Support\Affichage::classes() }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ \App\Support\Affichage::classes() }}" data-theme="{{ \App\Support\Affichage::dataTheme() }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,8 +16,10 @@
         <x-alertes-banniere />
 
         <div class="min-h-screen flex flex-col bg-gray-50">
-            <header>
-                <x-affichage-controles />
+            <header class="bg-gray-50 border-b border-gray-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-end">
+                    <x-affichage-controles />
+                </div>
             </header>
 
             <main id="contenu" tabindex="-1" class="flex-1 flex flex-col items-center justify-center px-4 py-8">
@@ -26,9 +28,9 @@
                     <span>Terra Nova</span>
                 </a>
 
-                <div class="tn-card w-full sm:max-w-md mt-6 px-6 py-6">
+                <x-carte class="w-full sm:max-w-md mt-6 px-6 py-6">
                     {{ $slot }}
-                </div>
+                </x-carte>
             </main>
 
             <x-pied-de-page />

@@ -778,7 +778,7 @@ class JournalActiviteTest extends TestCase
             ->assertSee($url)
             ->assertSee('Suivi de l&#039;activité', false);
         $this->actingAs($agent)->get('/agent/demandes')->assertSee($url);
-        $this->assertSame(2, preg_match_all('/<a [^>]*href="'.preg_quote($url, '/').'"[^>]*>\s*Journal d&#039;activité/', $this->actingAs($agent)->get('/agent/demandes')->getContent())); // bureau + mobile
+        $this->assertSame(1, preg_match_all('/<a [^>]*href="'.preg_quote($url, '/').'"[^>]*>\s*Journal d&#039;activité/', $this->actingAs($agent)->get('/agent/demandes')->getContent())); // barre latérale (un seul menu)
 
         $this->actingAs($this->admin())->get('/admin')->assertDontSee($url);
         $this->actingAs(User::factory()->create())->get('/espace')->assertDontSee($url);
@@ -790,6 +790,6 @@ class JournalActiviteTest extends TestCase
     {
         $html = $this->actingAs($this->agent())->get('/agent/journal')->getContent();
 
-        $this->assertSame(2, preg_match_all('/<a [^>]*href="[^"]*\/agent\/journal"[^>]*aria-current="page"/', $html));
+        $this->assertSame(1, preg_match_all('/<a [^>]*href="[^"]*\/agent\/journal"[^>]*aria-current="page"/', $html));
     }
 }

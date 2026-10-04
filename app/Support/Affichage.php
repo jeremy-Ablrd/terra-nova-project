@@ -34,6 +34,12 @@ class Affichage
         return trim(self::taille()->classe().' '.self::theme()->classe());
     }
 
+    /** Valeur de <html data-theme>, posée par le serveur : le bon thème est là dès le premier rendu (aucun flash). */
+    public static function dataTheme(): string
+    {
+        return self::theme()->dataTheme();
+    }
+
     private static function valeur(string $cle, string $cookie): string
     {
         $request = request();

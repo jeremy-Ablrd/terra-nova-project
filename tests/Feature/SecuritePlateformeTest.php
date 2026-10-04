@@ -141,7 +141,7 @@ class SecuritePlateformeTest extends TestCase
     {
         $page = $this->actingAs(User::factory()->create())->get('/espace')->getContent();
 
-        $this->assertSame(2, preg_match_all('~<form method="POST" action="[^"]*/logout">\s*<input type="hidden" name="_token"[^>]*>\s*<button type="submit"~', $page)); // bureau et mobile
+        $this->assertSame(1, preg_match_all('~<form method="POST" action="[^"]*/logout">\s*<input type="hidden" name="_token"[^>]*>\s*<button type="submit"~', $page)); // barre latérale
         $this->assertStringNotContainsString('onclick', $page);
     }
 

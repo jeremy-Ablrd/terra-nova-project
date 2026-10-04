@@ -399,7 +399,7 @@ class TableauDeBordAgentTest extends TestCase
         $url = route('agent.donnees-api.index');
 
         $page = $this->actingAs($this->agent)->get('/agent')->assertSee($url)->getContent();
-        $this->assertSame(3, substr_count($page, 'href="'.$url.'"')); // bureau, mobile, bloc synchro
+        $this->assertSame(2, substr_count($page, 'href="'.$url.'"')); // barre latérale, bloc synchro
         $this->actingAs(User::factory()->admin()->create())->get('/admin')->assertDontSee($url);
         $this->actingAs(User::factory()->create())->get('/espace')->assertDontSee($url);
     }

@@ -27,13 +27,23 @@ enum Statut: string
         };
     }
 
+    /** Glyphe du badge : il double la couleur (jamais la couleur seule). */
+    public function glyphe(): string
+    {
+        return match ($this) {
+            self::Nouvelle => '◆',
+            self::EnCours => '▲',
+            self::Traitee => '✓',
+        };
+    }
+
     /** Classes Tailwind du badge (réutilisées côté citoyen et côté agent). */
     public function badgeClasses(): string
     {
         return match ($this) {
-            self::Nouvelle => 'bg-blue-100 text-blue-800',
-            self::EnCours => 'bg-amber-100 text-amber-800',
-            self::Traitee => 'bg-green-100 text-green-800',
+            self::Nouvelle => 'tn-badge--info',
+            self::EnCours => 'tn-badge--warn',
+            self::Traitee => 'tn-badge--success',
         };
     }
 }
